@@ -1,0 +1,223 @@
+html,body {
+  margin:0;
+  padding:0;
+  width:969px;
+}
+.ad-container {
+  width:969px;
+  position:relative;
+  cursor:pointer;
+  overflow-y:hidden;
+}
+
+.mode-img {
+  height:90px;
+  display:block;
+
+  .banner-img {
+    width:100%;
+    height:100%;
+    a {
+      width:100%;
+      height:100%;
+    }
+    img {
+      width:100%;
+      height:100%;
+      display: block;
+    }
+  }
+
+  .unfold-sign {
+    position:absolute;
+    z-index:20;
+    top:2px;
+    right:2px;
+    width:53px;
+    height:20px;
+  }
+
+}
+
+
+.mode-video {
+  height:90px;
+  display:none;
+  
+ 
+
+  .video {
+    width:100%;
+    height:100%;
+    overflow-y:hidden;
+   
+    video {
+      display: block;
+      width:969px;
+      height:400px;
+    }
+  }
+
+  .post-pic {
+      position:absolute;
+      top:0px;
+      left:0px;
+      width:100%;
+      height:100%;
+      overflow-y:hidden;
+      img{
+        display: none;
+        width:969px;
+        height:400px;
+      }
+      
+  }
+
+  a {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    z-index:10;
+    display:block;
+  }
+  .pause-play-btn {
+    position:absolute;
+    width:25px;
+    height:25px;
+    top:342px;
+    left:15px;
+    z-index:20;
+    img {
+      width:100%;
+      height:100%;
+    }
+  }
+
+  .close-btn {
+    position:absolute;
+    z-index:20;
+    width: 53px;
+    height: 20px;
+    top:2px;
+    right:2px; 
+  }
+}
+
+.show{
+  display:block;
+}
+.hide{
+  display:none;
+}
+/*
+.close {
+  -webkit-animation:shrinkToClose 2s ease;
+  -moz-animation: shrinkToClose 2s ease;
+  -o-animation: shrinkToClose 2s ease;
+  animation:shrinkToClose 2s ease;
+}
+
+.open {
+  -webkit-animation:pushdownToOpen 2s ease;
+  -moz-animation: pushdownToOpen 2s ease;
+  -o-animation: pushdownToOpen 2s ease;
+  animation:pushdownToOpen 2s ease;
+}
+*/
+.pullup-close {
+  -webkit-animation:shrinkToClose 1s linear;
+  -moz-animation: shrinkToClose 1s linear;
+  -o-animation: shrinkToClose 1s linear;
+  animation:shrinkToClose 1s linear;
+}
+
+.pushdown-open {
+  -webkit-animation:pushdownToOpen 1s linear;
+  -moz-animation: pushdownToOpen 1s linear;
+  -o-animation: pushdownToOpen 1s linear;
+  animation:pushdownToOpen 1s linear;
+}
+@-webkit-keyframes shrinkToClose {
+  from {
+    width:969px;
+    height:400px;
+  }
+  to {
+    width:969px;
+    height:90px;
+  }
+}
+@-moz-keyframes shrinkToClose {
+  from {
+    width:969px;
+    height:400px;
+  }
+  to {
+    width:969px;
+    height:90px;
+  }
+}
+@-o-keyframes shrinkToClose {
+  from {
+    width:969px;
+    height:400px;
+  }
+  to {
+    width:969px;
+    height:90px;
+  }
+}
+@keyframes shrinkToClose {
+  from {
+    width:969px;
+    height:400px;
+  }
+  to {
+    width:969px;
+    height:90px;
+  }
+}
+
+
+@-webkit-keyframes pushdownToOpen {
+  from {
+    width:969px;
+    height:90px;
+  }
+  to {
+    width:969px;
+    height:400px;
+  }
+}
+@-moz-keyframes pushdownToOpen {
+  from {
+    width:969px;
+    height:90px;
+  }
+  to {
+    width:969px;
+    height:400px;
+  }
+}
+@-o-keyframes pushdownToOpen {
+  from {
+    width:969px;
+    height:90px;
+  }
+  to {
+    width:969px;
+    height:400px;
+  }
+}
+@keyframes pushdownToOpen {
+  from {
+    width:969px;
+    height:90px;
+  }
+  to {
+    width:969px;
+    height:400px;
+  }
+}

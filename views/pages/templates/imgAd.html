@@ -1,0 +1,22 @@
+<script>
+var ImgWidth = '[[name=图片宽度,width=250,type=textfield,allowblank=false]]';
+var ImgHeight = '[[name=图片高度,width=250,type=textfield,allowblank=false]]';
+var ImgSrc = '[[name=图片链接,width=250,type=textfield,allowblank=false]]';
+var Click = '[URL]';
+var Imp = '[[name=第三方监测,width=250,type=textfield,allowblank=true]]';
+var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
+var AssID = '[ASSID]';
+
+if (Imp !== '') {
+var gaServerTracker = new Image();
+gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+if (typeof window.parent.sendImpToThirdParty === 'function') {
+window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+} else {
+sendImpToThirdParty(Imp, AdName, AssID);
+}
+}
+
+document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;padding:0px;margin:0px;overflow:hidden;"><a href="' + Click + '" target="_blank"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;" /></a></div>');
+
+</script>

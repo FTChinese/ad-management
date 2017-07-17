@@ -1,0 +1,19 @@
+{
+  "adTitle":"Hennessy",
+
+  "bannerImg":"http://i.ftimg.net/picture/2/000071402_piclink.jpg",
+  "detailPage":"https://www.hennessy.com/zh-cn/hennessyparadisimperial/",
+  "unfoldSign":"http://i.ftimg.net/picture/5/000071405_piclink.jpg",
+
+  "videoPoster":"http://i.ftimg.net/picture/3/000071403_piclink.jpg",
+  "videoSources":[
+    {
+      "url":"http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4",
+      "type":"video/mp4"
+    }
+  ],
+  "pauseBtn":"http://i.ftimg.net/picture/7/000071407_piclink.jpg",
+  "playBtn":"http://i.ftimg.net/picture/6/000071406_piclink.jpg",
+  "closeBtn":"http://i.ftimg.net/picture/4/000071404_piclink.jpg"
+
+}
