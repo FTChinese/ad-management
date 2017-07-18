@@ -1,0 +1,357 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hennessy</title><style>body,html{margin:0;padding:0;width:969px}.ad-container{width:969px;position:relative;cursor:pointer;overflow-y:hidden}.mode-img{height:90px;display:block}.mode-img .banner-img{width:100%;height:100%}.mode-img .banner-img a{width:100%;height:100%}.mode-img .banner-img img{width:100%;height:100%;display:block}.mode-img .unfold-sign{position:absolute;z-index:20;top:2px;right:2px;width:53px;height:20px}.mode-video{height:90px;display:none}.mode-video .video{width:100%;height:100%;overflow-y:hidden}.mode-video .video video{display:block;width:969px;height:400px}.mode-video .post-pic{position:absolute;top:0;left:0;width:100%;height:100%;overflow-y:hidden}.mode-video .post-pic img{display:none;width:969px;height:400px}.mode-video a{position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;display:block}.mode-video .pause-play-btn{position:absolute;width:25px;height:25px;top:342px;left:15px;z-index:20}.mode-video .pause-play-btn img{width:100%;height:100%}.mode-video .close-btn{position:absolute;z-index:20;width:53px;height:20px;top:2px;right:2px}.show{display:block}.hide{display:none}.pullup-close{-webkit-animation:shrinkToClose 1s linear;-moz-animation:shrinkToClose 1s linear;-o-animation:shrinkToClose 1s linear;animation:shrinkToClose 1s linear}.pushdown-open{-webkit-animation:pushdownToOpen 1s linear;-moz-animation:pushdownToOpen 1s linear;-o-animation:pushdownToOpen 1s linear;animation:pushdownToOpen 1s linear}@-webkit-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-moz-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-o-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-webkit-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@-moz-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@-o-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}</style></head><body><div id="imgSection" class="ad-container mode-img"><div class="banner-img"><a id="bannerA" href="https://www.hennessy.com/zh-cn/hennessyparadisimperial/" target="_blank"><img id="bannerImg" src="http://i.ftimg.net/picture/2/000071402_piclink.jpg" alt="banner img"></a></div><div id="openBtn" class="unfold-sign"><img src="http://i.ftimg.net/picture/5/000071405_piclink.jpg" alt="unfold sign"></div></div><div id="videoSection" class="ad-container mode-video"><div class="video"><video id="adVideo" preload="auto" webkit-playsinline="webkit-playsinline" playsinline="playsinline" poster="http://i.ftimg.net/picture/3/000071403_piclink.jpg"><source src="http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4" type="video/mp4"></video></div><div class="post-pic"><img id="postPic" src="http://i.ftimg.net/picture/3/000071403_piclink.jpg" alt="post img"></div><a id="videoA" href="https://www.hennessy.com/zh-cn/hennessyparadisimperial/" target="_blank"></a><div id="pauseBtn" class="pause-play-btn show"><img src="http://i.ftimg.net/picture/7/000071407_piclink.jpg" alt="pause"></div><div id="playBtn" class="pause-play-btn hide"><img src="http://i.ftimg.net/picture/6/000071406_piclink.jpg" alt="play"></div><div id="closeBtn" class="close-btn"><img src="http://i.ftimg.net/picture/4/000071404_piclink.jpg" alt="close"></div></div><script>(function () {
+'use strict';
+
+class Adimg {
+  constructor(root, mode) {
+    /**
+     * @param root: TYPE Object. The root div of a Ad Banner Pic, concluding all components of it.
+     */
+    if (root instanceof HTMLElement) {
+      this.root = root;
+    } else {
+      this.root = document.getElementById(root);
+      console.log(this.root);
+    }
+
+    if (mode !== "prod") {
+      mode = "dev";
+    }
+
+    if (this.root.querySelector("#openBtn") instanceof HTMLElement) {
+      this.open = this.root.querySelector("#openBtn");
+    }
+    if (this.root.querySelector("#bannerImg") instanceof HTMLElement) {
+      this.img = this.root.querySelector("#bannerImg");
+    }
+
+    if (this.root.querySelector("#bannerA") instanceof HTMLElement) {
+      this.a = this.root.querySelector("#bannerA");
+    }
+    if (mode === "prod") {
+      this.dynamicGetHTMLData();
+    }
+  }
+
+  dynamicGetHTMLData() {
+    if (window.parent && window.parent.detailPage && window.parent.bannerImg && this.img && this.a) {
+      this.a.href = window.parent.detailPage;
+      this.img.src = window.parent.bannerImg;
+    }
+  }
+}
+
+class Advideo {
+  constructor(root, mode) {
+    /**
+     * @param elems: TYPE Object. The root div of a video, concluding all components for one ad video.
+     */
+    if (root instanceof HTMLElement) {
+      this.root = root;
+    } else {
+      this.root = document.getElementById(root);
+      console.log(this.root);
+    }
+
+    if (mode !== "prod") {
+      mode = "dev";
+    }
+
+    if (this.root.querySelector("#adVideo") instanceof HTMLElement) {
+      this.video = this.root.querySelector("#adVideo");
+    }
+
+    if (this.root.querySelector("#postPic") instanceof HTMLElement) {
+      this.postPic = this.root.querySelector("#postPic");
+    }
+    if (this.root.querySelector("#pauseBtn") instanceof HTMLElement) {
+      this.pause = this.root.querySelector("#pauseBtn");
+    }
+
+    if (this.root.querySelector("#playBtn") instanceof HTMLElement) {
+      this.play = this.root.querySelector("#playBtn");
+    }
+
+    if (this.root.querySelector("#closeBtn") instanceof HTMLElement) {
+      this.close = this.root.querySelector("#closeBtn");
+    }
+    if (this.root.querySelector("#adVideo source") instanceof HTMLElement) {
+      this.videoSource = this.root.querySelector("#adVideo source");
+    }
+    if (this.root.querySelector("#videoA") instanceof HTMLElement) {
+      this.videoA = this.root.querySelector("#videoA");
+    }
+
+    this.clickToPause();
+    this.clickToPlay();
+
+    if (mode === "prod") {
+      console.log("prod");
+      this.dynamicGetHTMLData();
+    }
+  }
+
+  clickToPause() {
+    this.pause.addEventListener("click", () => {
+      this.video.pause();
+      this.pause.style.display = "none";
+      this.play.style.display = "block";
+    }, false);
+  }
+
+  clickToPlay() {
+    this.play.addEventListener("click", () => {
+      this.video.play();
+      this.play.style.display = "none";
+      this.pause.style.display = "block";
+    }, false);
+  }
+
+  dynamicGetHTMLData() {
+    const pWin = window.parent;
+    if (pWin && pWin.detailPage && pWin.videoPoster && pWin.sourceUrl && pWin.sourceType && pWin.detailPage && this.video && this.videoSource && this.postPic && this.videoA) {
+      console.log('aaaaaaa');
+      this.video.poster = pWin.videoPoster;
+      this.videoSource.src = pWin.sourceUrl;
+      this.videoSource.type = pWin.sourceType;
+      this.videoA.href = pWin.detailPage;
+      this.postPic.src = pWin.videoPoster;
+    }
+  }
+}
+
+const docCookies = {
+  getItem: function (sKey) {
+    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+  },
+  setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+    if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
+      return false;
+    }
+    var sExpires = "";
+    if (vEnd) {
+      switch (vEnd.constructor) {
+        case Number:
+          sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
+          break;
+        case String:
+          sExpires = "; expires=" + vEnd;
+          break;
+        case Date:
+          sExpires = "; expires=" + vEnd.toUTCString();
+          break;
+      }
+    }
+    document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
+    return true;
+  },
+  removeItem: function (sKey, sPath, sDomain) {
+    if (!sKey || !this.hasItem(sKey)) {
+      return false;
+    }
+    document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
+    return true;
+  },
+  hasItem: function (sKey) {
+    return new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=").test(document.cookie);
+  },
+  keys: /* optional method: you can safely remove it! */function () {
+    var aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
+    for (var nIdx = 0; nIdx < aKeys.length; nIdx++) {
+      aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
+    }
+    return aKeys;
+  }
+};
+
+class Switch {
+  constructor(imgObj, videoObj, mode) {
+    this.imgObj = imgObj;
+    this.videoObj = videoObj;
+
+    let innerIframeId = "";
+    let outerIframeId = "";
+    if (window.parent && window.parent.parent) {
+      if (mode != "prod") {
+        mode = "dev";
+        innerIframeId = "banner0Inner";
+        outerIframeId = "banner0";
+      } else {
+        innerIframeId = window.parent.innerFrameId;
+        outerIframeId = window.parent.parentId;
+      }
+
+      var innerIframe = window.parent.document.getElementById(innerIframeId);
+      var outerIframe = window.parent.parent.document.getElementById(outerIframeId);
+      if (innerIframe && outerIframe) {
+        this.innerIframeId = innerIframeId;
+        this.outerIframeId = outerIframeId;
+        this.innerIframe = innerIframe;
+        this.outerIframe = outerIframe;
+
+        this.innerIframe.style.height = "90px";
+        this.outerIframe.style.height = "90px";
+
+        //注入parent和parent.parent所需的css
+        this.injectCssToParents();
+
+        //处理outerIframe的ancestor元素
+        this.dealwithAncestors();
+      }
+    }
+
+    this.pushDownToOpen = this.pushDownToOpen.bind(this);
+    this.pullUpToClose = this.pullUpToClose.bind(this);
+
+    this.autoOpen();
+    this.clickToOpen();
+    this.autoClose();
+    this.clickToClose();
+  }
+  injectCssToParents() {
+    if (!(window.parent && window.parent.parent)) {
+      return;
+    }
+    const innerIframeWindowHead = window.parent.document.getElementsByTagName("head")[0];
+    console.log(innerIframeWindowHead);
+    const outerIframeWindowHead = window.parent.parent.document.getElementsByTagName("head")[0];
+    console.log(outerIframeWindowHead);
+    const switchStyle = document.createElement("style");
+    switchStyle.innerHTML = ".pullup-close{-webkit-animation:shrinkToClose 1s linear;-moz-animation:shrinkToClose 1s linear;-o-animation:shrinkToClose 1s linear;animation:shrinkToClose 1s linear}.pushdown-open{-webkit-animation:pushdownToOpen 1s linear;-moz-animation:pushdownToOpen 1s linear;-o-animation:pushdownToOpen 1s linear;animation:pushdownToOpen 1s linear}@-webkit-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-moz-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-o-keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@keyframes shrinkToClose{from{width:969px;height:400px}to{width:969px;height:90px}}@-webkit-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@-moz-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@-o-keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}@keyframes pushdownToOpen{from{width:969px;height:90px}to{width:969px;height:400px}}";
+    const switchStyleCopy = switchStyle.cloneNode(true);
+
+    innerIframeWindowHead.appendChild(switchStyle);
+    outerIframeWindowHead.appendChild(switchStyleCopy);
+    console.log(innerIframeWindowHead);
+    console.log(outerIframeWindowHead);
+  }
+
+  dealwithAncestors() {
+    if (!(this.outerIframeId && this.outerIframe && this.outerIframe.parentNode)) {
+      return;
+    }
+
+    // 将位于outerIframe的父元素上的“广告”字样移动到左上角
+    const contentDivId = this.outerIframeId + 'content';
+    const contentDiv = this.outerIframe.parentNode; //outerIframe的父元素class="banner-content"  
+    contentDiv.id = contentDivId;
+    if (window.parent.parent.document.styleSheets[0]) {
+      window.parent.parent.document.styleSheets[0].insertRule('#' + contentDivId + ':before { right: auto; left:0;}', 0);
+    }
+
+    //将outerIframe的一系列层级的祖先元素高度都设置为"auto"
+    let ancestorDiv = contentDiv;
+    const ancestorBody = window.parent.parent.document.body;
+    while (ancestorDiv != ancestorBody) {
+      ancestorDiv.style.height = "auto";
+      if (ancestorDiv.parentNode) {
+        ancestorDiv = ancestorDiv.parentNode;
+      }
+    }
+  }
+
+  pushDownToOpen() {
+    const videoSection = this.videoObj.root;
+    const videoPostPic = this.videoObj.postPic;
+    const video = this.videoObj.video;
+    const imgSection = this.imgObj.root;
+    videoSection.classList.remove("pullup-close");
+    videoSection.classList.add("pushdown-open");
+    videoSection.style.height = "90px";
+    videoSection.style.display = "block";
+    videoPostPic.style.display = "block";
+
+    if (this.innerIframe && this.outerIframe) {
+      this.innerIframe.style.height = "90px";
+      this.outerIframe.style.height = "90px";
+      this.innerIframe.classList.remove("pullup-close");
+      this.innerIframe.classList.add("pushdown-open");
+      this.outerIframe.classList.remove("pullup-close");
+      this.outerIframe.classList.add("pushdown-open");
+    }
+
+    imgSection.style.display = "none";
+    setTimeout(() => {
+      videoPostPic.style.display = "none";
+      videoSection.classList.remove("pushdown-open");
+      videoSection.style.height = "400px";
+
+      if (this.innerIframe && this.outerIframe) {
+        this.innerIframe.style.height = "400px";
+        this.outerIframe.style.height = "400px";
+        this.innerIframe.classList.remove("pushdown-open");
+        this.outerIframe.classList.remove("pushdown-open");
+      }
+
+      if (video instanceof HTMLElement) {
+        video.play();
+      }
+    }, 1000);
+  }
+
+  pullUpToClose() {
+    this.videoObj.root.classList.add("pullup-close");
+    if (this.innerIframe && this.outerIframe) {
+      this.innerIframe.style.height = "400px";
+      this.outerIframe.style.height = "400px";
+      this.innerIframe.classList.remove("pushdown-open");
+      this.innerIframe.classList.add("pullup-close");
+      this.outerIframe.classList.remove("pushdown-open");
+      this.outerIframe.classList.add("pullup-close");
+    }
+
+    setTimeout(() => {
+      this.videoObj.root.style.display = "none";
+      this.videoObj.root.classList.remove("pullup-close");
+      this.videoObj.video.currentTime = 0;
+      this.videoObj.play.style.display = "none";
+      this.videoObj.pause.style.display = "block";
+
+      this.imgObj.root.style.display = "block";
+
+      if (this.innerIframe && this.outerIframe) {
+        this.innerIframe.style.height = "90px";
+        this.outerIframe.style.height = "90px";
+        this.innerIframe.classList.remove("pullup-close");
+        this.outerIframe.classList.remove("pullup-close");
+      }
+    }, 1000);
+  }
+
+  autoOpen() {
+    let userCookie = docCookies.getItem("pushdownAd");
+    console.log("pushdownAd=" + userCookie);
+    if (!userCookie) {
+      window.addEventListener("load", this.pushDownToOpen, false);
+
+      //自动播放后设置cookie
+      let expiredTime = new Date();
+      expiredTime.setTime(expiredTime.getTime() + 24 * 60 * 60 * 1000);
+      docCookies.setItem("pushdownAd", "hasLoaded", expiredTime);
+    }
+  }
+
+  clickToOpen() {
+    this.imgObj.open.addEventListener("click", this.pushDownToOpen, false);
+  }
+
+  clickToClose() {
+    const close = this.videoObj.close;
+
+    close.addEventListener("click", this.pullUpToClose, false);
+  }
+
+  autoClose() {
+    const video = this.videoObj.video;
+    video.addEventListener("ended", this.pullUpToClose, false);
+  }
+}
+
+const mode = "prod";
+
+const imgObj = new Adimg("imgSection", mode);
+const videoObj = new Advideo("videoSection", mode);
+
+new Switch(imgObj, videoObj, mode);
+
+}());
+//# sourceMappingURL=main.js.map</script></body></html>

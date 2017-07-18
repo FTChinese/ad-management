@@ -7,6 +7,7 @@ const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const del = require('del');
+const merge = require('merge-stream');
 
 var cache;
 const env = new nunjucks.Environment(
@@ -31,6 +32,7 @@ function render(template, context) {
   });
 }
 
+// TODO: Simplify this task
 gulp.task('html',async function() {
   const destDir = '.tmp';
   let dataForRender;
@@ -46,6 +48,10 @@ gulp.task('html',async function() {
   dataForRender = await fs.readAsync('data/imgAd.json','json');//await 可以获取promise中resolve的值
   renderResult = await render('show-pushdown.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-pushdown.html`,renderResult);
+
+  dataForRender = await fs.readAsync('data/html5Ad.json','json');//await 可以获取promise中resolve的值
+  renderResult = await render('show-html5Ad.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-html5Ad.html`,renderResult);
 
 
   browserSync.reload('*.html');
@@ -96,13 +102,22 @@ gulp.task('style',() => {
     .pipe(browserSync.stream({once:true}));
 });
 
-gulp.task('serve',gulp.parallel('html','style','script',function() {
+gulp.task('copysource', () => {
+  const complexpagesDir = '.tmp/complex_pages';
+  const templatesDir = '.tmp/templates';
+
+  const complexpagesStream = gulp.src('complex_pages/**.html')
+    .pipe(gulp.dest(complexpagesDir));
+  const templatesStream = gulp.src('views/templates/**.html')
+    .pipe(gulp.dest(templatesDir));
+  return merge(complexpagesStream,templatesStream);
+});
+gulp.task('serve',gulp.parallel('html','style','script','copysource',function() {
   browserSync.init({
     server:{
-      baseDir: ['.tmp', 'data'],
+      baseDir: ['.tmp'],
       //directory:true,
       routes: {
-        '/static':'staic',
         '/bower_components':'bower_components',
         '/node_modules':'node_modules'
       }
@@ -112,6 +127,7 @@ gulp.task('serve',gulp.parallel('html','style','script',function() {
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/*.js',gulp.parallel('script'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
+  gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
 
 gulp.task('del', (done) => {

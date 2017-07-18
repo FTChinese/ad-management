@@ -1,0 +1,29 @@
+/*
+ * @copy from NEXT/app/styles/variables.scss
+*/
+
+$bannerBG: #F6E9D8;
+
+
+// width, height and padding
+$defaultPadding: 30px;
+$textPadding: 5px;
+$maxAdWidth: 1200px;
+$maxWidth: 2*$defaultPadding + $maxAdWidth;
+$maxAdWidthIE: $maxAdWidth;
+$maxWidthIE: 2*$defaultPadding + $maxAdWidthIE;
+$maxWidthL: 969px;
+$mastheadHeight: 36px;
+$headerHeight: 57px;//$mastheadHeight*1.4;
+$headerContainerHeight: 57px;
+$navHeight: 44px;
+$buttonHeight: 36px;
+$subNavHeight: 30px;
+$iconWidth: 24px;
+$headshotWidth: 60px;
+
+$listTitleHeight: 20px;
+$bannerHeight: 90px;
+$sideInnerWidth: 300px;
+$sideWidth: 2*$defaultPadding + $sideInnerWidth;
+$beltHeight: 30px;

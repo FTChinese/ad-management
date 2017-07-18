@@ -1,0 +1,27 @@
+#story_main_mpu, .story_main_mpu_vw {
+  &:before {
+    content: "广告";
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    text-align: center;
+    color: #505050;
+  }
+  width: 100%;
+  padding: 30px 0;
+  margin-bottom: 30px;
+  border-width: 1px 0;
+  border-color: #cec6b9;
+  border-style: solid;
+  clear: both;
+  position: relative;
+
+  .banner-iframe {
+    margin: auto;
+    display: block;
+  }
+}
+
+
+

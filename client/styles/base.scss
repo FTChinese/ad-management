@@ -1,0 +1,23 @@
+html,body {
+  margin:0;
+  padding:0;
+  @include oColorsFor("page" "body" "link");
+  font-family: oFontsGetFontFamilyWithFallbacks(MetricWeb);
+}
+section {
+  padding:30px;
+}
+.show-container {
+    padding: 30px;
+    margin: auto;
+
+    &.show-imgad {
+      max-width: 700px;
+    }
+
+    &.show-html5ad {
+      .banner-iframe {
+        display:block;
+      }
+    }
+}

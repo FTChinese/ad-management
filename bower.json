@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "o-colors": "^4.0.5"
+    "o-colors": "^4.0.5",
+    "o-fonts": "^3.0.1"
   }
 }
