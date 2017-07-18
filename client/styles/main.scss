@@ -1,0 +1,15 @@
+@import "o-colors/main.scss";
+html,body {
+  margin:0;
+  padding:0;
+  @include oColorsFor("page" "body" "link");
+  
+}
+.ad-show {
+  width:100%;
+}
+.ad-container {
+  width:300px;
+  height:250px;
+  margin:10px auto;
+}

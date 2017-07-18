@@ -33,9 +33,21 @@ function render(template, context) {
 
 gulp.task('html',async function() {
   const destDir = '.tmp';
-  const dataForRender = await fs.readAsync('data/demo.json','json');//await 可以获取promise中resolve的值
-  const renderResult = await render('index.html',dataForRender);
+  let dataForRender;
+  let renderResult;
+  dataForRender = await fs.readAsync('data/index.json','json');//await 可以获取promise中resolve的值
+  renderResult = await render('index.html',dataForRender);
   await fs.writeAsync(`${destDir}/index.html`,renderResult);
+
+  dataForRender = await fs.readAsync('data/imgAd.json','json');//await 可以获取promise中resolve的值
+  renderResult = await render('show-imgAd.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-imgAd.html`,renderResult);
+
+  dataForRender = await fs.readAsync('data/imgAd.json','json');//await 可以获取promise中resolve的值
+  renderResult = await render('show-pushdown.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-pushdown.html`,renderResult);
+
+
   browserSync.reload('*.html');
 });
 
@@ -99,7 +111,7 @@ gulp.task('serve',gulp.parallel('html','style','script',function() {
   });
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/*.js',gulp.parallel('script'));
-  gulp.watch(['views/**/*.html','data/*.json'],gulp.parallel('html'));
+  gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
 }));
 
 gulp.task('del', (done) => {

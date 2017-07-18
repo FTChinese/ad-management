@@ -1,0 +1,20 @@
+{
+  "name": "ad-management",
+  "description": "Unified management for ad templates' building, updating and publishing.",
+  "main": "gulpfile.js",
+  "authors": [
+    "Yichen Wang"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/FTChinese/ad-management",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "o-colors": "^4.0.5"
+  }
+}

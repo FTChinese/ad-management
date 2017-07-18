@@ -1,7 +1,7 @@
 {
-  "name": "d3-for-ga",
+  "name": "ad-management",
   "version": "1.0.0",
-  "description": "Drawing charts for FTC data in Google Analytics by d3",
+  "description": "Unified management for ad templates' building, updating and publishing.",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -37,5 +37,8 @@
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^3.0.0"
+  },
+  "dependencies": {
+    "bower": "^1.8.0"
   }
 }
