@@ -1,3 +1,11 @@
 {
-  "pageTitle":"Template Show:HTML5 Ad"
+  "pageTitle":"Template Show:HTML5 Ad",
+
+  "showContainerType":"show-html5ad",
+  "deviceType":"type-pc",
+
+  "templateHeadline":"TEMPLATE: HTML5 Ad",
+  "description":"This template will quote customer's h5 page by an iframe element, so there are 2-layer iframes at all. ",
+  "suitedEnds":"PC Web",
+  "otherNotes":"There are some other words........."
 }

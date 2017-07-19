@@ -11,7 +11,7 @@ const merge = require('merge-stream');
 
 var cache;
 const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(['views'],{
+  new nunjucks.FileSystemLoader(['views','views/showpages'],{
     watch:false,//MARK:如果为true，则会导致html任务挂在那儿
     noCache:true
   }),
@@ -41,18 +41,21 @@ gulp.task('html',async function() {
   renderResult = await render('index.html',dataForRender);
   await fs.writeAsync(`${destDir}/index.html`,renderResult);
 
-  dataForRender = await fs.readAsync('data/imgAd.json','json');//await 可以获取promise中resolve的值
+  dataForRender = await fs.readAsync('data/imgAd.json','json');
   renderResult = await render('show-imgAd.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-imgAd.html`,renderResult);
 
-  dataForRender = await fs.readAsync('data/imgAd.json','json');//await 可以获取promise中resolve的值
+  dataForRender = await fs.readAsync('data/pushdown.json','json');
   renderResult = await render('show-pushdown.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-pushdown.html`,renderResult);
 
-  dataForRender = await fs.readAsync('data/html5Ad.json','json');//await 可以获取promise中resolve的值
+  dataForRender = await fs.readAsync('data/html5Ad.json','json');
   renderResult = await render('show-html5Ad.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-html5Ad.html`,renderResult);
 
+  dataForRender = await fs.readAsync('data/fullWidthTopBanner.json','json');
+  renderResult = await render('show-fullWidthTopBanner.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-fullWidthTopBanner.html`,renderResult);
 
   browserSync.reload('*.html');
 });

@@ -1,0 +1,79 @@
+<script>
+var hitTracker = new Image();
+hitTracker.src = 'http://www.ftchinese.com/index.php/ft/hit';
+
+(function() {
+var fullScreenImage = {
+    'imageUrl': 'https://creatives.ftimg.net/ads/beijing/201706/840-210.gif',
+    //https%3A%2F%2Fcreatives.ftimg.net%2Fads%2Fbeijing%2F201706%2F840-210.gif
+    'link': 'http://dolphin.ftimg.net/c?z=ft&la=0&si=600&cg=2022&c=20220114&ci=611&or=3791&l=605298&bg=8952&b=30374&u=http://www.ftchinese.com/interactive/9517',//QUEST:后面有把dolphin.替换为dolphin1.，但是真正的链接看到的是dolphin4，这些dolphin/1/4有啥区别和意义？
+    'widthByHeight': '4'
+};
+var isRetinaDevice = (window.devicePixelRatio > 1);
+var w;
+var h;
+var imageWidth;
+var imageHeight;
+var mod = 50;
+var imageUrl;
+var fitType = 'cover';
+var htmlCode;
+var parentDom;
+var parentFrameDom;
+var parentLink;
+var imageServiceBase = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
+var Imp = '';
+var AdName = 'Full Width Top Banner';
+var AssID = '';
+
+if (Imp !== '') {
+    var gaServerTracker = new Image();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+    if (typeof Imp === 'string' && Imp !== '') {
+        if (typeof window.parent.sendImpToThirdParty === 'function') {
+            window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+        } else {
+            sendImpToThirdParty(Imp, AdName, AssID);
+        }
+    }
+}
+
+if (window.parent) {
+    w = window.parent.innerWidth || window.parent.document.documentElement.clientWidth || window.parent.document.body.clientWidth;
+} else {
+    w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+}
+if (w === 360 || w === 375 || w === 320 || w === 414 || w === 768 || w === 1024 || w > 1220) {
+    imageWidth = w;
+} else {
+    imageWidth = Math.ceil(w / mod) * mod;
+}
+h = Math.round(w / parseInt(fullScreenImage.widthByHeight));
+if (isRetinaDevice === true) {
+    imageWidth = imageWidth * 2;
+}
+imageHeight = imageWidth / parseInt(fullScreenImage.widthByHeight);
+imageHeight = Math.round(imageHeight);
+imageUrl = imageServiceBase + encodeURIComponent(fullScreenImage.imageUrl) + '?source=ftchinese&width=' + imageWidth + '&height=' + imageHeight + '&fit=' + fitType;
+htmlCode = '<a href="' + fullScreenImage.link.replace('dolphin.', 'dolphin1.') + '" target=_blank><image src="' + imageUrl + '" style="width:100%;"></a>';
+window.forceLink = fullScreenImage.link.replace('dolphin.', 'dolphin1.');
+window.forceHeight = h;
+document.write(htmlCode);
+
+if (window.parent && typeof adId === 'string') {
+    parentDom = parent.document.getElementById('ad-' + adId);
+    if (parentDom) {
+        parentFrameDom = parent.document.getElementById(adId);
+        parentLink = parentDom.getElementsByTagName("a")[0];
+        parentDom.style.width = '100%';
+        parentDom.style.height = h + 'px';
+        parentFrameDom.style.width = '100%';
+    }
+} else if (window.isWeChat === true) {
+    console.log(adType);
+    parentDom = document.querySelectorAll('.bn-ph')[adCount[adType] - 1];
+    parentDom.className += ' full-width';
+    parentDom.querySelector('.banner-content').style.height = h + 'px';
+}
+})();
+</script>

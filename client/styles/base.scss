@@ -5,14 +5,36 @@ html,body {
   font-family: oFontsGetFontFamilyWithFallbacks(MetricWeb);
 }
 section {
-  padding:30px;
+  margin:20px;
 }
+
+.section-showdevice {
+  position:relative;
+  background:#ffe1d0;
+  &.type-pc {
+    margin:30px;
+    min-width:980px;
+  }
+  &.type-mobile {
+      width:375px;
+      height: 400px;
+      padding: 0;
+      margin:30px auto;
+      
+  }
+}
+.other-contents {
+  height:50px;
+}
+
 .show-container {
-    padding: 30px;
-    margin: auto;
+    /*padding: 30px;*/
+    margin: 0 auto;
 
     &.show-imgad {
       max-width: 700px;
+      
+
     }
 
     &.show-html5ad {
@@ -20,4 +42,12 @@ section {
         display:block;
       }
     }
+
+    &.show-fullwidthtopbanner {
+      /*position:absolute;
+      width: 100%;
+      top:50px;
+      */
+    }
 }
+

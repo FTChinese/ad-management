@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <h1>{{templateHeadline}}</h1>
+</section>
+
+<section class = "section-demo">
+    <h2>Demo</h2>
+    <div class = "section-showdevice {{deviceType}}">
+
+        <div class="other-contents">
+        </div>
+
+      
+        <div class = "show-container {{showContainerType}}">
+        {% block realCodeSeg %}
+        {% endblock %}
+        </div>
+            
+       
+        <div class="other-contents">
+        </div>
+    </div>
+</section>
+
+<section class = "section-description">
+    <h2>Description</h2>
+    <p>{{description}}</p>
+    <h3>Suited Ends:</h3>
+    <p>{{suitedEnds}}</p>
+    <h3>Other Notes:</h3>
+    <p>{{otherNotes}}</p>
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+- CC视频： App
+- Full Width Top Banner: App、非App移动端
+- Html5广告页模板:PC端
+- Mobile信息流：App、非App移动端
+- 图片广告： App、非App移动端、PC端
+- 移动端全屏广告： 非App移动端
+- pushdown:PC端

@@ -1,3 +1,11 @@
 {
-  "pageTitle":"Template Show:Push Down"
+  "pageTitle":"Template Show:Push Down",
+
+  "showContainerType":"show-pushdown",
+  "deviceType":"type-pc",
+
+  "templateHeadline":"TEMPLATE: Push Down",
+  "description":"A pull down template with a banner img and a video",
+  "suitedEnds":"PC Web",
+  "otherNotes":"There are some other words........."
 }

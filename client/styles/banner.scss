@@ -119,3 +119,34 @@
 		}
 	}
 }
+
+
+
+.show-fullwidthtopbanner {
+
+	.bn-ph {
+		width: 100%;
+		padding-top: 25%;
+		position: relative;
+		background: $bannerBG;
+		height: 0;
+		margin-bottom: $defaultPadding/2;
+
+		.banner-content {
+			margin: auto;
+			position: absolute;
+			display: block;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			width: 100%;
+			height:100%;
+			padding:0;
+		}
+		.banner-iframe {
+			margin: 0;
+			height: 100% !important;
+		}
+	}
+}
