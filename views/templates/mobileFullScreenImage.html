@@ -1,10 +1,11 @@
 <script>
-var ImgPortrait = '[[name=竖屏图片,width=250,type=textfield,allowblank=true]]';
-var ImgLandscape = '[[name=横屏图片,width=250,type=textfield,allowblank=true]]';
+var ImgPortrait = 'https://creatives.ftimg.net/ads/shanghai/201705/VW3-828-0509.jpg';
+var ImgLandscape = 'https://creatives.ftimg.net/ads/shanghai/201705/VW3-828-0509.jpg';
 var Imp = '';
 var AdName = 'Web App Full Screen AD';
 var AssID = '';
 
+// MARK:第三方追踪
 if (Imp !== '') {
     var gaServerTracker = new Image();
     gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();

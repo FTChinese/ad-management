@@ -32,7 +32,7 @@ function render(template, context) {
   });
 }
 
-// TODO: Simplify this task
+// TODO: Simplify this task By Promise.All()
 gulp.task('html',async function() {
   const destDir = '.tmp';
   let dataForRender;
@@ -56,6 +56,10 @@ gulp.task('html',async function() {
   dataForRender = await fs.readAsync('data/fullWidthTopBanner.json','json');
   renderResult = await render('show-fullWidthTopBanner.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-fullWidthTopBanner.html`,renderResult);
+
+  dataForRender = await fs.readAsync('data/ccVideo.json','json');
+  renderResult = await render('show-ccVideo.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-ccVideo.html`,renderResult);
 
   browserSync.reload('*.html');
 });

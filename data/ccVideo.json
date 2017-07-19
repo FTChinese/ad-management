@@ -1,0 +1,11 @@
+{
+  "pageTitle":"Template Show:CC Video",
+
+  "showContainerType":"show-ccvideo",
+  "deviceType":"type-mobile",
+
+  "templateHeadline":"TEMPLATE: CC Video",
+  "description":"A video ad. ",
+  "suitedEnds":"App",
+  "otherNotes":"There are some other words........."
+}

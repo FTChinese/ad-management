@@ -1,0 +1,22 @@
+/*
+* Copy from androidapp.html
+*/
+.mpu-phone {
+    width: 300px;
+    height: 250px;
+    margin: 0 auto 14px;
+}
+
+.adiframe {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 25px;
+    background-color: #f7e8d7;
+}
+
+.adiframe iframe {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+}

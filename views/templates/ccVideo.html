@@ -1,0 +1,60 @@
+<script type="text/javascript">
+var useragent;
+var opacity = 0;
+var siteid = '922662811F1A49E9';
+var vid = 'D5D65D383C5CEC0F9C33DC5901307461';
+var v_width = '300';
+var v_height = '250';
+var Imp = '';
+var AdName = '';
+var AssID = '';
+var link = "https://www.siemens.com/cn/zh/home.html";//即[URL]
+
+if (typeof uaString === 'string') {
+    if (/iphone/i.test(uaString)) {
+        useragent = 'iPhone';
+    } else if (/ipad/i.test(uaString)) {
+        useragent = 'iPad';
+    } else if (/android/i.test(uaString)) {
+        useragent = 'Android';
+    } else {
+        useragent = 'iPhone';
+    }
+} else {
+    useragent = 'iPhone';
+}
+
+if (Imp !== '') {
+    var gaServerTracker = new Image();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+    if (typeof window.parent.sendImpToThirdParty === 'function') {
+        window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+    } else {
+        sendImpToThirdParty(Imp, AdName, AssID);
+    }
+}
+
+
+
+document.write('<div style="width:' + v_width + 'px; height:' + v_height + 'px; display:block; overflow:hidden">');
+document.write('<div id="video"></div>');
+
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href='+link+' target="_blank"><div style="width:300px; height:70px; position:relative; top:-250px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href='+link+' target="_blank"><div style="width:300px; height:70px; position:relative; top:-100px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href='+link+' target="_blank"><div style="width:100px; height:220px; position:relative; top:-250px; left:0px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+document.write('<a style="cursor:pointer; width:1px; height:1px; display:block;" href='+link+' target="_blank"><div style="width:100px; height:220px; position:relative; top:-250px; left:200px; z-index:10; background-color:#FFF; filter:alpha(opacity=' + opacity + '); -moz-opacity:' + opacity + '; opacity:' + opacity + '; cursor:pointer; border:none; padding:0px; margin:0px"></div></a></div>');
+
+var JSONP = document.createElement('script');
+JSONP.type = 'text/javascript';
+JSONP.src = 'http://p.bokecc.com/servlet/getvideofile?vid=' + vid + '&siteid=' + siteid + '&divid=&callback=video&useragent=' + useragent;
+document.getElementsByTagName('head')[0].appendChild(JSONP);
+
+function video(obj) {
+    document.getElementById('video').innerHTML = '<video src="' + obj.copies[0].playurl + '" width="' + v_width + '" height="' + v_height + '" airplay="deny" x-webkit-airplay="deny" playsinline webkit-playsinline>Your browser does not support the <code>video</code> element.</video>';
+    var v = document.getElementsByTagName('video')[0];
+    v.controls = true;
+    v.volume = 0;
+    v.muted = true;
+    v.poster = obj.img;
+}
+</script>
