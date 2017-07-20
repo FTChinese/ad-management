@@ -61,10 +61,14 @@ gulp.task('html',async function() {
   renderResult = await render('show-ccVideo.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-ccVideo.html`,renderResult);
 
+  dataForRender = await fs.readAsync('data/mobileFullScreenImage.json','json');
+  renderResult = await render('show-mobileFullScreenImage.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-mobileFullScreenImage.html`,renderResult);
+
   browserSync.reload('*.html');
 });
 
-
+/*
 gulp.task('script',() => {
   // TODO:关于rollup需要再认真学习一下
    return rollup({
@@ -91,7 +95,12 @@ gulp.task('script',() => {
      console.log(err);
    });
 });
-
+*/
+gulp.task('script', () => {
+  const destDir = '.tmp/scripts';
+  return gulp.src('client/js/*.js')
+  .pipe(gulp.dest(destDir));
+})
 
 gulp.task('style',() => {
   const destDir = '.tmp/styles';

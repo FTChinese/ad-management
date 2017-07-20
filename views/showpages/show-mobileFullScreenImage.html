@@ -1,9 +1,18 @@
 {% extends "page.html" %}
 
-{% block content %} 
+{% block realCodeSeg %} 
 
 {# 原层级关系 start #}
-    <iframe class="banner-iframe" width="100%" height="50" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="templates/mobileFullScreenImage.html">
-    </iframe>
+    
+
+
+    <div id="adview">
+        <div>
+            <iframe id="adiframe" src="templates/mobileFullScreenImage.html">
+            </iframe>
+        </div>
+    </div>
+
+    <div id="pop-ad" class="overlay"></div>
 {# 原层级关系 end #}
 {% endblock %}

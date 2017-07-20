@@ -1,0 +1,11 @@
+{
+  "pageTitle":"Template Show:Mobile Full Screen Image",
+
+  "showContainerType":"show-mobilefullscreenimage",
+  "deviceType":"type-mobile",
+
+  "templateHeadline":"TEMPLATE: Mobile Full Screen Image",
+  "description":"It is for an ad which needs a full screen image.",
+  "suitedEnds":"Mobile App / Mobile Web",
+  "otherNotes":"There are some other words........."
+}

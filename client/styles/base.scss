@@ -17,7 +17,7 @@ section {
   }
   &.type-mobile {
       width:375px;
-      height: 400px;
+      height: 667px;
       padding: 0;
       margin:30px auto;
       
@@ -52,6 +52,10 @@ section {
 
     &.show-ccvideo {
       
+    }
+    &.show-mobilefullscreenimage {
+      min-height:100%;
+      margin: 0 auto;
     }
 }
 

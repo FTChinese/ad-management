@@ -1,0 +1,179 @@
+/*
+* E:\FT\webapp\app\styles\bourbon\settings\_prefixer.scss
+*/
+// Global variables to enable or disable vendor prefixes
+$prefix-for-webkit:    true !default;
+$prefix-for-mozilla:   true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera:     true !default;
+$prefix-for-spec:      true !default;
+
+
+/*
+* E:\FT\webapp\app\styles\bourbon\addons\_prefixer.scss
+*/
+@mixin prefixer($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    @if $prefix == webkit {
+      @if $prefix-for-webkit {
+        -webkit-#{$property}: $value;
+      }
+    } @else if $prefix == moz {
+      @if $prefix-for-mozilla {
+        -moz-#{$property}: $value;
+      }
+    } @else if $prefix == ms {
+      @if $prefix-for-microsoft {
+        -ms-#{$property}: $value;
+      }
+    } @else if $prefix == o {
+      @if $prefix-for-opera {
+        -o-#{$property}: $value;
+      }
+    } @else if $prefix == spec {
+      @if $prefix-for-spec {
+        #{$property}: $value;
+      }
+    } @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+/*
+* Copy from E:\FT\webapp\app\styles\bourbon\css3\_transition.scss
+*/
+@mixin transition($properties...) {
+  // Fix for vendor-prefix transform property
+  $needs-prefixes: false;
+  $webkit: ();
+  $moz: ();
+  $spec: ();
+
+  // Create lists for vendor-prefixed transform
+  @each $list in $properties {
+    @if nth($list, 1) == "transform" {
+      $needs-prefixes: true;
+      $list1: -webkit-transform;
+      $list2: -moz-transform;
+      $list3: ();
+
+      @each $var in $list {
+        $list3: join($list3, $var);
+
+        @if $var != "transform" {
+          $list1: join($list1, $var);
+          $list2: join($list2, $var);
+        }
+      }
+
+      $webkit: append($webkit, $list1);
+      $moz:    append($moz,    $list2);
+      $spec:   append($spec,   $list3);
+    } @else {
+      $webkit: append($webkit, $list, comma);
+      $moz:    append($moz,    $list, comma);
+      $spec:   append($spec,   $list, comma);
+    }
+  }
+
+  @if $needs-prefixes {
+    -webkit-transition: $webkit;
+       -moz-transition: $moz;
+            transition: $spec;
+  } @else {
+    @if length($properties) >= 1 {
+      @include prefixer(transition, $properties, webkit moz spec);
+    } @else {
+      $properties: all 0.15s ease-out 0s;
+      @include prefixer(transition, $properties, webkit moz spec);
+    }
+  }
+}
+/*
+* Copy from Webapp/app/styles/s.scss
+*/
+#adview {
+  display: none;
+}
+#adiframe {width: 100%;height: 100%;border: medium none;overflow: hidden;}
+
+.overlay,.overlayBG {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	@include transition (opacity 0.5s linear);
+}
+.overlay {display: none;z-index:6000;}
+.overlayBG{opacity:0.7;background:#54534d;z-index:6001}
+.overlay.on {display:block;color:#333;background:transparent;}
+.overlay .inner{width: 100%;height: 100%;position: absolute;top: 0;left: 0;background:transparent;z-index:6002;display:table;}
+.overlay .inner .cell{display:table-cell;text-align:center;vertical-align:middle;}
+
+#pop-ad .o-overlay__close {
+padding: 10px;
+position:absolute;
+right:-23px;
+top:-25px;
+}
+
+#pop-ad .o-overlay__close-icon {
+width: 24px;
+height: 24px;
+font-size: 12px;
+line-height: 15px;
+font-family: "ft-icons";
+display: inline-block;
+vertical-align: middle;
+font-weight: 400!important;
+font-style: normal!important;
+text-decoration: inherit;
+text-transform: none;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+border: 1px solid;
+//-webkit-border-radius: 13px;
+border-radius: 50%;
+background-color: #2e6e9e;
+color: #fff;
+border-color: #2e6e9e;
+
+-webkit-background-clip: padding-box; 
+-moz-background-clip:    padding; 
+background-clip:         padding-box;
+}
+#pop-ad .o-overlay__close-icon:before {
+content: "x";
+font-size: 28px;
+width: 24px;
+height: 32px;
+text-align: center;
+line-height: 32px;
+display: block;
+font-style: normal;
+padding-top: 0;
+margin-top: -6px;
+}
+
+.overlay_close-btn {
+	position:relative;
+}
+.overlay_close-btn:after{
+	content: "×";
+	font-size: 43px;
+	position:absolute;
+	font-family: 'Arial';
+	font-weight:normal;
+	color:white;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	display:block;
+	margin:auto;
+	text-align: center;
+}
+
+.mobile-landscape{display:none;}
+
