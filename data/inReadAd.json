@@ -1,0 +1,11 @@
+{
+  "pageTitle":"Template Show:In Read Ad",
+
+  "showContainerType":"show-inreadad",
+  "deviceType":"type-pc",
+
+  "templateHeadline":"TEMPLATE: In Read Ad",
+  "description":"A section of ad in story page which will automatically push down and play the video in it",
+  "suitedEnds":"PC Web",
+  "otherNotes":"There are some other words........."
+}

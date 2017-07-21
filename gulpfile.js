@@ -65,6 +65,10 @@ gulp.task('html',async function() {
   renderResult = await render('show-mobileFullScreenImage.html',dataForRender);
   await fs.writeAsync(`${destDir}/show-mobileFullScreenImage.html`,renderResult);
 
+  dataForRender = await fs.readAsync('data/inReadAd.json','json');
+  renderResult = await render('show-inReadAd.html',dataForRender);
+  await fs.writeAsync(`${destDir}/show-inReadAd.html`,renderResult);
+
   browserSync.reload('*.html');
 });
 

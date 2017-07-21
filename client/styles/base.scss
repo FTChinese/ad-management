@@ -4,16 +4,27 @@ html,body {
   @include oColorsFor("page" "body" "link");
   font-family: oFontsGetFontFamilyWithFallbacks(MetricWeb);
 }
-section {
+*{
+  box-sizing: border-box;
+}
+h1,h2,h3,p {
   margin:20px;
 }
 
+@include oGridAddLayout($layout-name: "Min", $layout-width: 0px);
+@include oGridAddLayout($layout-name: "PushdownW", $layout-width:1045px);
 .section-showdevice {
   position:relative;
   background:#ffe1d0;
   &.type-pc {
     margin:30px;
-    min-width:980px;
+    /*min-width:740px;*/
+    @include oGridRespondTo($from:"Min",$until:"M") {/*0~740px*/
+      width:100%;
+      margin:30px 0px;
+     
+   	}
+
   }
   &.type-mobile {
       width:375px;
@@ -33,8 +44,21 @@ section {
 
     &.show-imgad {
       max-width: 700px;
-      
+      padding:0 15px;
 
+    }
+
+    &.show-pushdown {
+       @include oGridRespondTo($from:"Min",$until:"PushdownW") {/*0~740px*/
+          overflow-x:scroll;
+          /*
+          iframe {
+            width:100%;
+            
+          }
+          */
+        }
+      
     }
 
     &.show-html5ad {

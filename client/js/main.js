@@ -1,4 +1,18 @@
 /**
+ * Copy from E:\FT\NEXT\app\scripts\main.js
+ */
+function findTop(obj) {
+  var curtop = 0;
+  if (obj && obj.offsetParent) {
+    do {
+      curtop += obj.offsetTop;
+    } while ((obj = obj.offsetParent));
+    return curtop;
+  }
+}
+
+
+/**
  * Modify from the E:\FT\webapp\app\scripts\main.js 
  * Simplify the function closeOverlay()
  */
@@ -120,3 +134,4 @@ function sendImpToThirdParty(Imp, AdName, AssID) {
         sendEvent(AdName + ' (' + AssID + ')', 'Request', Imp);
     }
 }
+
