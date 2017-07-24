@@ -1,8 +1,13 @@
 {
   "pageTitle":"Template Show:CC Video",
+  "pageStyle":"showpage-style",
+  "viewport":"width=device-width,initial-scale=1",
 
   "showContainerType":"show-ccvideo",
   "deviceType":"type-mobile",
+
+  "preText":"This is the viewport of the FTC App on a phone",
+  "postText":"获得更加效果，请使用mobile端查看",
 
   "templateHeadline":"TEMPLATE: CC Video",
   "description":"A video ad. ",

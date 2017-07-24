@@ -10,16 +10,19 @@
     <div class = "section-showdevice {{deviceType}}">
 
         <div class="other-contents">
+            <p>{{preText}}</p>
         </div>
 
       
         <div class = "show-container {{showContainerType}}">
         {% block realCodeSeg %}
         {% endblock %}
+        
         </div>
             
        
         <div class="other-contents">
+            <p>{{postText}}</p>
         </div>
     </div>
 </section>

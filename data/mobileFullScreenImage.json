@@ -1,8 +1,13 @@
 {
   "pageTitle":"Template Show:Mobile Full Screen Image",
-
+  "pageStyle":"showpage-style",
+  "viewport":"width=device-width,initial-scale=1",
+  
   "showContainerType":"show-mobilefullscreenimage",
   "deviceType":"type-mobile",
+
+  "preText":"This is the viewport of the FTC App or a browser on a phone",
+  "postText":"获得更加效果，请使用mobile端查看",
 
   "templateHeadline":"TEMPLATE: Mobile Full Screen Image",
   "description":"It is for an ad which needs a full screen image.",

@@ -1,8 +1,13 @@
 {
   "pageTitle":"Template Show:Full Width Top Banner",
+  "pageStyle":"showpage-style",
+  "viewport":"width=device-width,initial-scale=1",
 
   "showContainerType":"show-fullwidthtopbanner",
   "deviceType":"type-mobile",
+
+  "preText":"This is the viewport of the FTC App or a browser on a phone",
+  "postText":"获得更加效果，请使用mobile端查看",
 
   "templateHeadline":"TEMPLATE: Full Width Top Banner",
   "description":"It is a banner for mobile. ",

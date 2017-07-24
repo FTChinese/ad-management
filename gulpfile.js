@@ -33,6 +33,11 @@ function render(template, context) {
 }
 
 // TODO: Simplify this task By Promise.All()
+
+gulp.task('html',function() {
+
+});
+/*
 gulp.task('html',async function() {
   const destDir = '.tmp';
   let dataForRender;
@@ -71,6 +76,7 @@ gulp.task('html',async function() {
 
   browserSync.reload('*.html');
 });
+*/
 
 /*
 gulp.task('script',() => {

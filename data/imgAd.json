@@ -1,8 +1,13 @@
 {
   "pageTitle":"Template Show:Img Ad",
+  "pageStyle":"showpage-style",
+  "viewport":"width=device-width,initial-scale=1",
 
   "showContainerType":"show-imgad",
   "deviceType":"type-pc",
+
+  "preText":"This is the viewport of a browser on PC",
+  "postText":"",
 
   "templateHeadline":"TEMPLATE: Img Ad",
   "description":"This template is for an ad concluding only a picture and a link.",

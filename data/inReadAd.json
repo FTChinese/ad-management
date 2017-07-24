@@ -1,8 +1,13 @@
 {
   "pageTitle":"Template Show:In Read Ad",
+  "pageStyle":"showpage-style",
+  "viewport":"user-scalable=yes",
 
   "showContainerType":"show-inreadad",
   "deviceType":"type-pc",
+
+  "preText":"This is the viewport of a browser on PC",
+  "postText":"获得更加效果，请使用PC端查看",
 
   "templateHeadline":"TEMPLATE: In Read Ad",
   "description":"A section of ad in story page which will automatically push down and play the video in it",

@@ -4,27 +4,46 @@
 html,body {
   margin:0;
   padding:0;
-  @include oColorsFor("page" "body" "link");
   font-family: oFontsGetFontFamilyWithFallbacks(MetricWeb);
   overflow-x:scroll;
-    
+}
+body{
+  &.indexpage-style {
+    @include oColorsFor("page" "body" );
+  }
+  &.showpage-style {
+    background-color:#FFF;
+  }
 }
 *{
   box-sizing: border-box;
 }
-h1,h2,h3,p,a {
+h1,h2,h3 {
   margin:20px;
 }
+p {
+  margin:5px 20px;
+}
+li>p {
+  margin-left: 0px;
+}
 
-
+.note {
+  color: oColorsGetPaletteColor("crimson");
+}
+a {
+  text-decoration: underline;
+  @include oColorsFor("link");
+}
 .section-showdevice {
   position:relative;
-  background:#ffe1d0;
+  overflow: hidden;
+  @include oColorsFor("page" "body");
+  /*background:#ffe1d0;*/
   &.type-pc {
-    margin:30px;
+    margin:30p 0;
     /*min-width:740px;*/
-    @include oGridRespondTo($from:"Min",$until:"M") {/*0~740px*/
-      width:100%;
+    @include oGridRespondTo($from:"Min",$until:"S") {/*0~740px*/
       margin:30px 0px;
      
    	}
@@ -54,32 +73,27 @@ h1,h2,h3,p,a {
 
     &.show-pushdown {
       
-       overflow-x:scroll;
-       height:500px !important;
-       /*
-       @include oGridRespondTo($from:"Min",$until:"PushdownW") {/*0~740px*/
-          /*overflow-x:hidden;
-          overflow-x:scroll;
-          /*
-          iframe {
-            width:100% !important;
-            overflow-x:scroll;
-            
+       
+       /* height:500px !important;
+       
+       @include oGridRespondTo($from:"Min",$until:"PushdownW") {/*0~740px
+           overflow-x:scroll;
+           overflow-y:visible;
+           &::-webkit-scrollbar {
+            width:8px;
+            height:10px;
+
+            background:#aaa;
           }
+          &::-webkit-scrollbar-thumb {
           
+            background:#000;
+          }
    
         }
         */
-      &::-webkit-scrollbar {
-         width:8px;
-         height:10px;
-
-         background:#aaa;
-      }
-      &::-webkit-scrollbar-thumb {
-       
-        background:#000;
-      }
+        
+     
 
     
     }
@@ -103,6 +117,10 @@ h1,h2,h3,p,a {
     &.show-mobilefullscreenimage {
       min-height:100%;
       margin: 0 auto;
+    }
+
+    &.show-inreadad {
+      overflow-x:hidden;
     }
 }
 
