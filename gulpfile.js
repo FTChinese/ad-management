@@ -1,3 +1,4 @@
+const path = require('path');
 const nunjucks = require('nunjucks');
 const gulp = require('gulp');
 const fs = require('fs-jetpack');
@@ -34,49 +35,112 @@ function render(template, context) {
 
 // TODO: Simplify this task By Promise.All()
 
-gulp.task('html',function() {
-
+gulp.task('html1',function() {
+  const destDir = '.tmp';
+  const dataFileArr = fs.find('data',{
+    matching:'*.json',
+    files:true,
+    directories:false,
+    recursive:false
+  });//得到data目录下所有json文件路径(包含'data'这一层)
+  function renderOneView(item) {
+    return new Promise(
+      async function(resolve, reject) {
+        const dataForRender = await fs.readAsync(item, 'json');
+        const baseName = path.basename(item,'.json');
+        let renderFile = '';
+        if(baseName === 'index') {
+          renderFile = `${baseName}.html`;
+        } else {
+          renderFile = `show-${baseName}.html`;
+        }
+        const result = {
+          dataForRender,
+          renderFile
+        }
+        resolve(result);
+        //reject(error);
+      }
+    )
+    .then(async result => {
+      const renderResult = await render(result.renderFile, result.dataForRender);
+      return {
+        renderResult,
+        renderFile: result.renderFile
+      }; 
+    })
+    .then(result => {
+      const destFile = path.resolve(destDir, result.renderFile);
+      fs.writeAsync(destFile, result.renderResult);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  function renderViews(dataFileArr) {
+    return dataFileArr.map((item) => { //返回一个Promise数组
+     return renderOneView(item);
+    });
+  }
+   
+  return Promise.all(renderViews(dataFileArr))
+    .then(() => {
+      browserSync.reload('*.html');
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
-/*
+
 gulp.task('html',async function() {
   const destDir = '.tmp';
-  let dataForRender;
-  let renderResult;
-  dataForRender = await fs.readAsync('data/index.json','json');//await 可以获取promise中resolve的值
-  renderResult = await render('index.html',dataForRender);
-  await fs.writeAsync(`${destDir}/index.html`,renderResult);
+  const dataFileArr = fs.find('data',{
+    matching:'*.json',
+    files:true,
+    directories:false,
+    recursive:false
+  });//得到data目录下所有json文件路径(包含'data'这一层)
+  function renderOneView(item) {
+    return new Promise (
+      async function(resolve, reject) {
+        const dataForRender = await fs.readAsync(item, 'json');
+        const baseName = path.basename(item,'.json');
+        let renderFile = '';
+        if(baseName === 'index') {
+          renderFile = `${baseName}.html`;
+        } else {
+          renderFile = `show-${baseName}.html`;
+        }
+        const renderResult = await render(renderFile, dataForRender);
+        const destFile = path.resolve(destDir, renderFile);
+        const result = {
+          renderResult,
+          destFile
+        };
+        resolve(result);
+      }
+    )
+    .then(result => {
+      fs.writeAsync(result.destFile, result.renderResult);
+    })
+    .catch(error => {
 
-  dataForRender = await fs.readAsync('data/imgAd.json','json');
-  renderResult = await render('show-imgAd.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-imgAd.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/pushdown.json','json');
-  renderResult = await render('show-pushdown.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-pushdown.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/html5Ad.json','json');
-  renderResult = await render('show-html5Ad.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-html5Ad.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/fullWidthTopBanner.json','json');
-  renderResult = await render('show-fullWidthTopBanner.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-fullWidthTopBanner.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/ccVideo.json','json');
-  renderResult = await render('show-ccVideo.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-ccVideo.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/mobileFullScreenImage.json','json');
-  renderResult = await render('show-mobileFullScreenImage.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-mobileFullScreenImage.html`,renderResult);
-
-  dataForRender = await fs.readAsync('data/inReadAd.json','json');
-  renderResult = await render('show-inReadAd.html',dataForRender);
-  await fs.writeAsync(`${destDir}/show-inReadAd.html`,renderResult);
-
-  browserSync.reload('*.html');
+    })
+  }
+  function renderViews(dataFileArr) {
+    return dataFileArr.map((item) => { //返回一个Promise数组
+     return renderOneView(item);
+    });
+  }
+  return Promise.all(renderViews(dataFileArr))
+    .then(() => {
+      browserSync.reload('*.html');
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
-*/
+
 
 /*
 gulp.task('script',() => {
@@ -163,19 +227,13 @@ gulp.task('del', (done) => {
   });
 });
 
-gulp.task('smoosh',() => {
+gulp.task('build:pages',() => {
   const destDir = 'dist';
 	return gulp.src('.tmp/*.html')
 		.pipe($.smoosher({
 			ignoreFilesNotFound:true
 		}))
-		.pipe(gulp.dest(destDir));
-});
-
-gulp.task('minify', function() {	
-	const destDir = 'deploy';
-	return gulp.src('dist/*.html')
-		.pipe($.useref())
+    .pipe($.useref())
 		.pipe($.if('*.js',$.uglify()))
 		.pipe($.if('*.css',$.minify()))
 		.pipe($.htmlmin({
@@ -193,10 +251,27 @@ gulp.task('minify', function() {
 		.pipe(gulp.dest(destDir));
 });
 
+gulp.task('build:copysource', () => {
+  const complexpagesDir = 'dist/complex_pages';
+  const templatesDir = 'dist/templates';
 
+  const complexpagesStream = gulp.src('complex_pages/**.html')
+    .pipe(gulp.dest(complexpagesDir));
+  const templatesStream = gulp.src('views/templates/**.html')
+    .pipe(gulp.dest(templatesDir));
+  return merge(complexpagesStream,templatesStream);
+});
 
-gulp.task('deploy', gulp.series('html','style','script','smoosh','minify',()=>{
-  const destDir = '../NEXT/app/m/marketing/testAd';
-  return gulp.src('deploy/*.html')
-    .pipe(gulp.dest(destDir));
+gulp.task('publish', gulp.series('del','html','style','script','build:pages','build:copysource',()=>{
+  const pagesDir = '../cms/ad-management';
+  const complexpagesDir = `${pagesDir}/complex_pages`;
+  const templatesDir = `${pagesDir}/templates`;
+
+  const pagesStream = gulp.src('dist/**.html')
+    .pipe(gulp.dest(pagesDir));
+  const complexpagesStream = gulp.src('dist/complex_pages/**.html')
+    .pipe(gulp.dest(complexpagesDir));
+  const templatesStream = gulp.src('dist/templates/**.html')
+    .pipe(gulp.dest(templatesDir));
+  return merge(pagesStream, complexpagesStream, templatesStream);
 }));
