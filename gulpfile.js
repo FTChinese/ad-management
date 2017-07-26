@@ -263,7 +263,7 @@ gulp.task('build:copysource', () => {
 });
 
 gulp.task('publish', gulp.series('del','html','style','script','build:pages','build:copysource',()=>{
-  const pagesDir = '../cms/ad-management';
+  const pagesDir = '../dev_cms/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;
 
