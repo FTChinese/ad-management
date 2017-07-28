@@ -35,9 +35,12 @@
     "gulp-useref": "^3.1.2",
     "merge-stream": "^1.0.1",
     "nunjucks": "^3.0.0",
+    "pump": "^1.0.2",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-es": "^3.0.26"
   },
   "dependencies": {
     "bower": "^1.8.0"

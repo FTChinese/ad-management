@@ -1,0 +1,16 @@
+{
+  "pageTitle":"Template Show:Mobile Info Flow",
+  "pageStyle":"showpage-style",
+  "viewport":"width=device-width,initial-scale=1",
+
+  "showContainerType":"show-mobileinfoflow",
+  "deviceType":"type-mobile",
+
+  "preText":"This is the viewport of the FTC App on a phone",
+  "postText":"获得更加效果，请使用mobile端查看",
+
+  "templateHeadline":"TEMPLATE: Mobile Info Flow",
+  "description":"A mobile info flow ad, which is just look like a normal story in the home of App",
+  "suitedEnds":"Mobile App",
+  "otherNotes":"There are some other words........."
+}

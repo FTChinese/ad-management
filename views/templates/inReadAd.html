@@ -71,7 +71,7 @@ var inreadAd = {
 
         inreadAd.htmlCode = '<div style="width:100%;height:'+ inreadAdHeight +'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:'+ inreadAdWidth +'px;height:'+ inreadAdHeight +'px;position:absolute;" src="' + iframeSrc + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
         inreadAdSlot.parentNode.insertBefore(inreadAdContainer, inreadAdSlot);
-        inreadAd.t = findTop(inreadAdContainer);
+        inreadAd.t = myJsModule.findTop(inreadAdContainer);
     }
 
     function showInreadAd(forcePlay) {

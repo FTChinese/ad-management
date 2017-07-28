@@ -122,5 +122,17 @@ a {
     &.show-inreadad {
       overflow-x:hidden;
     }
+    
+    &.show-mobileinfoflow {
+      div {
+        line-height: 161.8%;
+        text-align:left;
+      }
+      a:active, a:link, a:visited {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
 }
 

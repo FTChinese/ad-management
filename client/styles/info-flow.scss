@@ -1,0 +1,33 @@
+.oneStory, a.oneStory {
+    border-top: 1px solid #e9decf;
+    padding: 14px 0;
+    color: #777;
+    display: block;
+    clear: both;
+}
+.headline {
+    font-size: 1.2em;
+    color: #000;
+    font-weight: 700;
+    line-height: 140%;
+    margin-bottom: 5px;
+}
+
+.leftimage {
+    float: left;
+    margin: 6px 10px 0 0;
+    max-width: 50%;
+}
+
+img {
+    max-width: 100%;
+    border: medium none;
+}
+
+.lead {
+    font-size: 1em;
+    line-height: 161.8%;
+}
+.clearfloat {
+  clear:both;
+}

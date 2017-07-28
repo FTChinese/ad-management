@@ -7,8 +7,11 @@ const $ = require('gulp-load-plugins')();
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
 const nodeResolve = require('rollup-plugin-node-resolve');
+const rollupUglify = require('rollup-plugin-uglify');
+const minifyEs6 = require('uglify-es').minify;
 const del = require('del');
 const merge = require('merge-stream');
+const pump = require('pump');
 
 var cache;
 const env = new nunjucks.Environment(
@@ -33,64 +36,6 @@ function render(template, context) {
   });
 }
 
-// TODO: Simplify this task By Promise.All()
-
-gulp.task('html1',function() {
-  const destDir = '.tmp';
-  const dataFileArr = fs.find('data',{
-    matching:'*.json',
-    files:true,
-    directories:false,
-    recursive:false
-  });//得到data目录下所有json文件路径(包含'data'这一层)
-  function renderOneView(item) {
-    return new Promise(
-      async function(resolve, reject) {
-        const dataForRender = await fs.readAsync(item, 'json');
-        const baseName = path.basename(item,'.json');
-        let renderFile = '';
-        if(baseName === 'index') {
-          renderFile = `${baseName}.html`;
-        } else {
-          renderFile = `show-${baseName}.html`;
-        }
-        const result = {
-          dataForRender,
-          renderFile
-        }
-        resolve(result);
-        //reject(error);
-      }
-    )
-    .then(async result => {
-      const renderResult = await render(result.renderFile, result.dataForRender);
-      return {
-        renderResult,
-        renderFile: result.renderFile
-      }; 
-    })
-    .then(result => {
-      const destFile = path.resolve(destDir, result.renderFile);
-      fs.writeAsync(destFile, result.renderResult);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
-  function renderViews(dataFileArr) {
-    return dataFileArr.map((item) => { //返回一个Promise数组
-     return renderOneView(item);
-    });
-  }
-   
-  return Promise.all(renderViews(dataFileArr))
-    .then(() => {
-      browserSync.reload('*.html');
-    })
-    .catch(error => {
-      console.log(error);
-    });
-});
 
 gulp.task('html',async function() {
   const destDir = '.tmp';
@@ -142,7 +87,7 @@ gulp.task('html',async function() {
 });
 
 
-/*
+
 gulp.task('script',() => {
   // TODO:关于rollup需要再认真学习一下
    return rollup({
@@ -154,7 +99,8 @@ gulp.task('script',() => {
        }),
        nodeResolve({
          jsnext:true,
-       })
+       }),
+       rollupUglify({}, minifyEs6)
      ]
    }).then(function(bundle) {
      cache = bundle;//Cache for later use
@@ -162,6 +108,7 @@ gulp.task('script',() => {
        dest: '.tmp/scripts/main.js',
        format: 'iife',
        sourceMap: true,
+       moduleName:'myJsModule',
      });
    }).then(() => {
      browserSync.reload();
@@ -169,12 +116,15 @@ gulp.task('script',() => {
      console.log(err);
    });
 });
-*/
+
+
+/*
 gulp.task('script', () => {
   const destDir = '.tmp/scripts';
   return gulp.src('client/js/*.js')
   .pipe(gulp.dest(destDir));
 })
+*/
 
 gulp.task('style',() => {
   const destDir = '.tmp/styles';
@@ -227,21 +177,23 @@ gulp.task('del', (done) => {
   });
 });
 
+
+
 gulp.task('build:pages',() => {
   const destDir = 'dist';
 	return gulp.src('.tmp/*.html')
 		.pipe($.smoosher({
 			ignoreFilesNotFound:true
 		}))
-    .pipe($.useref())
-		.pipe($.if('*.js',$.uglify()))
-		.pipe($.if('*.css',$.minify()))
+    //.pipe($.useref())
+		//.pipe($.if('*.js',$.uglify()))
+		//.pipe($.if('*.css',$.minify()))
 		.pipe($.htmlmin({
 			collapseWhitespace:true,
 			removeComments:true,
 			//removeAttributeQuotes:false,
-			minifyJS:true,
-			minifyCSS:true,
+      minifyCSS:true,
+      minifyJS:true,//对es6无效,故在rollup里面用插件实现
 		}))
 		.pipe($.size({
 			gzip:true,
@@ -275,3 +227,14 @@ gulp.task('publish', gulp.series('del','html','style','script','build:pages','bu
     .pipe(gulp.dest(templatesDir));
   return merge(pagesStream, complexpagesStream, templatesStream);
 }));
+
+// TODO:专门压缩es5的func，如sendImpToThirdParty
+gulp.task('uglify-onefunc',() => {
+
+});
+
+// TODO:通过views/templates下的展示版模板，生成最终模板
+gulp.task('prodtemplate',() => {
+
+});
+
