@@ -12,10 +12,10 @@ const minifyEs6 = require('uglify-es').minify;
 const del = require('del');
 const merge = require('merge-stream');
 const pump = require('pump');
-
+process.env.MYENV = 'show';
 var cache;
 const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(['views','views/showpages'],{
+  new nunjucks.FileSystemLoader(['views','views/showpages','templates/dev'],{
     watch:false,//MARK:如果为true，则会导致html任务挂在那儿
     noCache:true
   }),
@@ -36,7 +36,98 @@ function render(template, context) {
   });
 }
 
+/******* For templates: Start *********/
+gulp.task('forShow',(done) => {
+  Promise.resolve(process.env.MYENV = 'show');
+  done();
+});
 
+gulp.task('funcForProd', (done) => {
+  pump([
+    gulp.src('client/js/func_sendImpToThirdParty.js'),
+    $.uglify(),
+    gulp.dest('templates/func')
+  ],done);
+});
+gulp.task('dataForProd', async () => {
+   const funcString = await fs.readAsync('templates/func/func_sendImpToThirdParty.js','utf8');
+   const dataForDev = {
+     defineSendImpfunc: funcString
+   }
+   fs.writeAsync('templates/data/forProd.json',dataForDev);
+});
+gulp.task('forProd',gulp.series('funcForProd','dataForProd', () => {
+  return Promise.resolve(process.env.MYENV = 'prod');// Promise.resolve返回一个resovle后的promise对象
+}));
+
+
+gulp.task('template', async () => {
+  console.log(process.env.MYENV);
+  let dataForRender;
+  let destDir;
+  if (process.env.MYENV === 'prod') {
+    console.log(process.env.MYENV);
+    dataForRender = await fs.readAsync('templates/data/forProd.json', 'json');
+    destDir = 'templates/forProd';
+  } else {
+    dataForRender = await fs.readAsync('templates/data/forShow.json', 'json');
+    destDir = 'templates/forShow';
+  }
+  let templateFileArr = fs.find('templates/dev', {
+    matching:'*.html'
+  });
+  console.log(templateFileArr);
+  templateFileArr = templateFileArr.map((item) => {
+    return path.basename(item);
+  })
+  function renderOneTemplate(oneTemplate) {
+    return new Promise(
+      async function(resolve, reject) {
+        const renderResult = await render(oneTemplate, dataForRender);
+        const baseName = path.basename(oneTemplate, '.html');
+        const renderFile = `${baseName}.html`;
+        const destFile = path.resolve(destDir, renderFile);
+        const result = {
+          renderResult,
+          destFile
+        };
+        resolve(result)
+      }
+    ).then(result => {
+      fs.writeAsync(result.destFile, result.renderResult);
+    }).catch(error => {
+
+    })
+    
+  }
+
+  function renderTemplates(templateFileArr) {
+    return templateFileArr.map((item) => { //返回一个Promise数组
+      return renderOneTemplate(item);
+    });
+  }
+
+  return Promise.all(renderTemplates(templateFileArr))
+    .then(() => {
+      browserSync.reload();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+)
+gulp.task('template:del', (done) => {
+ del(['templates/forProd','templates/forShow']).then( paths => {
+    console.log('Deleted files:\n',paths.join('\n'));
+    done();
+  });
+});
+gulp.task('template:forProd', gulp.series('template:del','forProd','template'));
+gulp.task('template:forShow', gulp.series('template:del','forShow','template'));
+/***** For templates: End ********/
+
+
+/***** For Show At Local: start ******/
 gulp.task('html',async function() {
   const destDir = '.tmp';
   const dataFileArr = fs.find('data',{
@@ -118,13 +209,6 @@ gulp.task('script',() => {
 });
 
 
-/*
-gulp.task('script', () => {
-  const destDir = '.tmp/scripts';
-  return gulp.src('client/js/*.js')
-  .pipe(gulp.dest(destDir));
-})
-*/
 
 gulp.task('style',() => {
   const destDir = '.tmp/styles';
@@ -148,11 +232,11 @@ gulp.task('copysource', () => {
 
   const complexpagesStream = gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
-  const templatesStream = gulp.src('views/templates/**.html')
+  const templatesStream = gulp.src('templates/forShow/**.html')
     .pipe(gulp.dest(templatesDir));
   return merge(complexpagesStream,templatesStream);
 });
-gulp.task('serve',gulp.parallel('html','style','script','copysource',function() {
+gulp.task('serve',gulp.series('template:forShow','copysource','html','style','script',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp'],
@@ -169,15 +253,16 @@ gulp.task('serve',gulp.parallel('html','style','script','copysource',function() 
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
   gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
+/***** For Show at Local: End ******/
 
+
+/****** For Publish the Show Online: Start ********/
 gulp.task('del', (done) => {
  del(['.tmp','dist','deploy']).then( paths => {
     console.log('Deleted files:\n',paths.join('\n'));
     done();
   });
 });
-
-
 
 gulp.task('build:pages',() => {
   const destDir = 'dist';
@@ -227,14 +312,21 @@ gulp.task('publish', gulp.series('del','html','style','script','build:pages','bu
     .pipe(gulp.dest(templatesDir));
   return merge(pagesStream, complexpagesStream, templatesStream);
 }));
+/****** For Publish the Show Online: Start ********/
 
-// TODO:专门压缩es5的func，如sendImpToThirdParty
-gulp.task('uglify-onefunc',() => {
 
-});
 
 // TODO:通过views/templates下的展示版模板，生成最终模板
-gulp.task('prodtemplate',() => {
 
+
+gulp.task('prodtemplate', async() => {
+  
+   let funcForRender = await fs.readAsync('./client/js/func_sendImpToThirdParty.js');
+   
+   const dataForRender = await fs.readAsync('./data-prod/imgAd-prod.json', 'json');
+   const renderFile = "imgAd.html"
+   const renderResult = await render(renderFile, dataForRender);
+   await fs.writeAsync('./templates/imgAd.html', renderResult);
+   return;
 });
 
