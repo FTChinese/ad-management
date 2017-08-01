@@ -1,0 +1,110 @@
+<script>
+/**
+ * Copy from E:\FT\NEXT\app\story.html
+*/
+var inreadAd = {
+        'minSlot': 7,//在文章页正文(即class为story-body的div）内的第8个自然段（即第8个p）前插入该广告
+        'slot': '.story-body p', 
+        'displayTime': 2000000, //从开始播放到自动收缩之间的时间
+        'played': false,
+        'vid': 'FBE98EB5D743B4649C33DC5901307461',
+        'h': 0,
+        't':0,
+        'htmlCode': '',
+        'iframeSrc':'complex_pages/cartier-in-read.html',//正式环境为： '/m/marketing/cartier-in-read.html',
+        'id': 'inread-ad-container',
+        'displayed': false,
+        'sound': 'off',
+        'impression': '',
+        'click': 'http://www.ft.com',
+        'forceWidth': 590,
+        'forceHeight': 400
+    };
+
+
+    function initInreadAd() {
+        //find the slot to insert inread ad
+        var inreadAdSlot = document.querySelectorAll(inreadAd.slot)[inreadAd.minSlot];
+        var inreadAdContainer = document.createElement('div');
+        var inreadAdWidth = inreadAdSlot.parentNode.offsetWidth;
+        var inreadAdHeight = Math.round(inreadAdWidth * 9 / 16);
+        var hostForVideo = '';
+        var s = inreadAdContainer.style;
+        var clickTag = '';
+        var clickTagHeight;
+        var iframeSrc;
+
+        if (inreadAd.forceWidth && inreadAd.forceWidth > 0) {
+            inreadAdWidth = inreadAd.forceWidth;
+        }
+
+        if (inreadAd.forceHeight && inreadAd.forceHeight > 0) {
+            inreadAdHeight = inreadAd.forceHeight;
+        }
+
+        inreadAd.h = inreadAdHeight + 30;
+        if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+            hostForVideo = 'http://www.ftchinese.com';
+        }
+        inreadAdContainer.id = inreadAd.id;
+        s.width = inreadAdWidth + 'px';
+        s.height = '0px';
+        s.webkitTransition = 'height 500ms linear';
+        s.transition = 'height 500ms linear';
+        s.mozTransition = 'height 500ms linear';
+        s.position = 'relative';
+        s.overflow = 'hidden';
+        s.marginLeft = 'auto';
+        s.marginRight = 'auto';
+        //inreadAdContainer.style.backgroundColor = 'black';
+
+        if (inreadAd.click !== '') {
+            clickTagHeight = inreadAdHeight - 30;
+            clickTag = '<a target="_blank" href="'+ inreadAd.click +'" style="top:0;left:0;cursor:pointer;display:block;width:100%;position:absolute;height:'+clickTagHeight+'px"></a>';
+        }
+       
+       if (inreadAd.iframeSrc && inreadAd.iframeSrc !== '') {
+        iframeSrc =  inreadAd.iframeSrc;
+       } else {
+        iframeSrc =  hostForVideo + '/m/corp/video.html?vid='+ inreadAd.vid +'&w='+inreadAdWidth+'&h='+inreadAdHeight+'&autostart=true&sound=' + inreadAd.sound +'&003';
+       }
+
+        inreadAd.htmlCode = '<div style="width:100%;height:'+ inreadAdHeight +'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:'+ inreadAdWidth +'px;height:'+ inreadAdHeight +'px;position:absolute;" src="' + iframeSrc + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
+        inreadAdSlot.parentNode.insertBefore(inreadAdContainer, inreadAdSlot);
+        inreadAd.t = myJsModule.findTop(inreadAdContainer);
+    }
+
+    function showInreadAd(forcePlay) {
+        var ele;
+        if (forcePlay === true) {
+            inreadAd.displayed = false;
+        }
+        if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.displayed === false) {
+            ele = document.getElementById(inreadAd.id);
+            ele.innerHTML = inreadAd.htmlCode;
+            ele.style.height = inreadAd.h + 'px';
+            inreadAd.displayed = true;
+            setTimeout(function() {
+                ele.style.height = '0';
+                ele.innerHTML = '';
+            }, inreadAd.displayTime);
+            if (inreadAd.impression !== '') {
+                var img = document.createElement('img');
+                img.src = inreadAd.impression;
+            }
+        }
+    }
+
+    initInreadAd();
+
+  /**
+   * Copy and modify from E:\FT\NEXT\app\scripts\main.js
+   */
+  // in read ad in view
+  if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.t >0 && inreadAd.displayed === false) {
+      //if (scrollTop + bodyHeight > inreadAd.t + inreadAd.h) {
+        //MARK:正式环境中，当 页面垂直方向滚过的距离 + 页面当前高度 > 该广告顶部高度 + 该广告高度 时，显示广告。
+        showInreadAd();
+     // }
+  }
+</script>

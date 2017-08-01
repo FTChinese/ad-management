@@ -14,8 +14,8 @@ const merge = require('merge-stream');
 const pump = require('pump');
 process.env.MYENV = 'show';
 var cache;
-const env = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(['views','views/showpages','templates/dev'],{
+const envForView = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(['views','views/showpages','views/includeTemplates'],{
     watch:false,//MARK:如果为true，则会导致html任务挂在那儿
     noCache:true
   }),
@@ -24,9 +24,9 @@ const env = new nunjucks.Environment(
   }
 );
 
-function render(template, context) {
+function renderForView(template, context) {
   return new Promise(function(resolve, reject) {
-      env.render(template,context,function(err,res) {
+      envForView.render(template,context,function(err,res) {
         if(err) {
           reject(err);
         } else {
@@ -36,6 +36,27 @@ function render(template, context) {
   });
 }
 
+const envForTemplate = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(['templates/dev'],{
+    watch:false,//MARK:如果为true，则会导致html任务挂在那儿
+    noCache:true
+  }),
+  {
+    autoescape:false
+  }
+);
+
+function renderForTemplate(template, context) {
+  return new Promise(function(resolve, reject) {
+      envForTemplate.render(template,context,function(err,res) {
+        if(err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+  });
+}
 /******* For templates: Start *********/
 gulp.task('forShow',(done) => {
   Promise.resolve(process.env.MYENV = 'show');
@@ -79,11 +100,11 @@ gulp.task('template', async () => {
   console.log(templateFileArr);
   templateFileArr = templateFileArr.map((item) => {
     return path.basename(item);
-  })
+  });
   function renderOneTemplate(oneTemplate) {
     return new Promise(
       async function(resolve, reject) {
-        const renderResult = await render(oneTemplate, dataForRender);
+        const renderResult = await renderForTemplate(oneTemplate, dataForRender);
         const baseName = path.basename(oneTemplate, '.html');
         const renderFile = `${baseName}.html`;
         const destFile = path.resolve(destDir, renderFile);
@@ -116,19 +137,30 @@ gulp.task('template', async () => {
     });
   }
 )
-gulp.task('template:del', (done) => {
- del(['templates/forProd','templates/forShow']).then( paths => {
+gulp.task('del:prodTemplate', (done) => {
+ del(['templates/forProd']).then( paths => {
     console.log('Deleted files:\n',paths.join('\n'));
     done();
   });
 });
-gulp.task('template:forProd', gulp.series('template:del','forProd','template'));
-gulp.task('template:forShow', gulp.series('template:del','forShow','template'));
+gulp.task('del:showTemplate', (done) => {
+ del(['templates/forShow']).then( paths => {
+    console.log('Deleted files:\n',paths.join('\n'));
+    done();
+  });
+});
+gulp.task('template:forProd', gulp.series('del:prodTemplate','forProd','template'));
+gulp.task('template:forShow', gulp.series('del:showTemplate','forShow','template'));
 /***** For templates: End ********/
 
 
 /***** For Show At Local: start ******/
-gulp.task('html',async function() {
+gulp.task('copy:includeTemplate', () => {
+  const srcPath = 'templates/forShow/';
+  return gulp.src(`${srcPath}inReadAd.html`)
+    .pipe(gulp.dest('views/includeTemplates'));
+});
+gulp.task('html', gulp.series('copy:includeTemplate', async function() {
   const destDir = '.tmp';
   const dataFileArr = fs.find('data',{
     matching:'*.json',
@@ -147,7 +179,7 @@ gulp.task('html',async function() {
         } else {
           renderFile = `show-${baseName}.html`;
         }
-        const renderResult = await render(renderFile, dataForRender);
+        const renderResult = await renderForView(renderFile, dataForRender);
         const destFile = path.resolve(destDir, renderFile);
         const result = {
           renderResult,
@@ -175,7 +207,7 @@ gulp.task('html',async function() {
     .catch(error => {
       console.log(error);
     });
-});
+}));
 
 
 
@@ -317,8 +349,6 @@ gulp.task('publish', gulp.series('del','html','style','script','build:pages','bu
 
 
 // TODO:通过views/templates下的展示版模板，生成最终模板
-
-
 gulp.task('prodtemplate', async() => {
   
    let funcForRender = await fs.readAsync('./client/js/func_sendImpToThirdParty.js');
