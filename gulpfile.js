@@ -435,7 +435,7 @@ gulp.task('build:copysource', () => {
 
   const complexpagesStream = gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
-  const templatesStream = gulp.src('views/templates/**.html')
+  const templatesStream = gulp.src('templates/forShow/**.html')
     .pipe(gulp.dest(templatesDir));
   return merge(complexpagesStream,templatesStream);
 });
@@ -445,8 +445,8 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del','html','style','script','build:pages','build:copysource',()=>{
-  const pagesDir = '../dev_cms/ad-management';
+gulp.task('publish', gulp.series('del','template:forShow','copysource','html','style','script','build:pages','build:copysource',()=>{
+  const pagesDir = '../www3app/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;
 
