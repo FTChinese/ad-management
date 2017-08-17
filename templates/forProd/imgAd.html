@@ -1,0 +1,27 @@
+<script>
+var ImgWidth = 300;
+var ImgHeight = 250;
+var ImgSrc = "https://creatives.ftimg.net/ads/beijing/201707/20170703housead300250.gif";
+var Click = "https://item.taobao.com/item.htm?id=551026037819";
+
+var Imp = '';
+var AdName = '';
+var AssID = '';
+
+
+if (Imp !== '') {
+var gaServerTracker = new Image();
+gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+if (typeof window.parent.sendImpToThirdParty === 'function') {
+window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+} else {
+sendImpToThirdParty(Imp, AdName, AssID);
+}
+}
+
+function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(i){(new Image).src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+n+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(h=0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net")).replace("https://v.admaster.com.cn","http://v.admaster.com.cn"):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net")).replace("http://v.admaster.com.cn","https://v.admaster.com.cn")),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(!1===i&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
+
+
+document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;padding:0px;margin:0px;overflow:hidden;"><a href="' + Click + '" target="_blank"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;" /></a></div>');
+
+</script>
