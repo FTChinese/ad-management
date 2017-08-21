@@ -10,6 +10,7 @@ var Imp = '';
 var AdName = '';
 var AssID = '';
 
+
 if (Imp !== '') {
     var gaServerTracker = new Image();
     gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
@@ -19,6 +20,7 @@ if (Imp !== '') {
         sendImpToThirdParty(Imp, AdName, AssID);
     }
 }
+
 
 
 if (typeof Click === 'string') {

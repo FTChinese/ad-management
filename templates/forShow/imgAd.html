@@ -7,7 +7,13 @@ var Click = "https://item.taobao.com/item.htm?id=551026037819";
 var Imp = '';
 var AdName = '';
 var AssID = '';
+var HouseAd = 'Y';
 
+if (HouseAd === 'Y') {
+isHouseAd = true;
+} else {
+isHouseAd = false;
+}
 
 if (Imp !== '') {
 var gaServerTracker = new Image();

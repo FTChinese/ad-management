@@ -15,6 +15,11 @@ const pump = require('pump');
 process.env.MYENV = 'show';
 var cache;
 
+/*****定义两个全局变量，用于存储渲染模板使用的数据*****/
+var dataForProd;//存储用于渲染生产模式模板的数据对象
+var dataForShow;//存储用于渲染展示模式模板的数据对象
+
+
 /**********Nunjucks渲染环境配置：start*********/
 /**
  * 两种渲染环境：
@@ -69,6 +74,39 @@ function renderForTemplate(template, context) {
 
 /******* For templates: Start *********/
 /**
+ * 任务'dataForProd':
+ * @purpose:生成展示模式模板所需Object数据。
+ * @description:将templates/data/forShow下的相关js文件内容读取整合至全局变量dataForShow
+ */
+gulp.task('dataForShow', async () => {
+  const jsSourcePath = 'templates/data/forShow/';
+  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/func_sendImpToThirdParty.js`,'utf8');
+  const ccVideo = await fs.readAsync(`${jsSourcePath}var_ccVideo.js`,'utf8');
+  const fullWidthTopBanner = await fs.readAsync(`${jsSourcePath}var_fullWidthTopBanner.js`,'utf8');
+  const html5Ad = await fs.readAsync(`${jsSourcePath}var_html5Ad.js`,'utf8');
+  const imgAd = await fs.readAsync(`${jsSourcePath}var_imgAd.js`,'utf8');
+  const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
+  const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
+  const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
+  const pushDown = await fs.readAsync(`${jsSourcePath}var_pushDown.js`,'utf8');
+  
+  dataForShow = {
+     defineSendImpfunc,
+     defineVar:{
+       ccVideo,
+       fullWidthTopBanner,
+       html5Ad,
+       imgAd,
+       inReadAd,
+       mobileFullScreenImage,
+       mobileInfoFlow,
+       pushDown
+     }
+   }
+   //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
+});
+
+/**
  * 任务'forShow'：
  *  @Purpose:标记模板用于展示模式。主要就是设置process对象的属性为'show'。
  */
@@ -78,37 +116,56 @@ gulp.task('forShow',(done) => {
 });
 
 /**
- * 任务'funcForProd'：
+ * 任务'compressFunc'：
  * @purpose:将开发环境下的函数sendImpToThirdParty从开发目录client下压缩、复制到templates目录下。该函数用于广告第三方数据追踪，如需修改，请在client/js/func_sendImpToThirdParty.js文件中完成。
  */
-gulp.task('funcForProd', (done) => {
+gulp.task('compressFunc', (done) => {
   
   pump([
-    gulp.src('client/js/func_sendImpToThirdParty.js'),
+    gulp.src('templates/data/forProd/func_sendImpToThirdParty.js'),
     $.uglify(),
-    gulp.dest('templates/func')
+    gulp.dest('templates/data/forProd/compressedFunc')
   ],done);
 });
 
 /**
  * 任务'dataForProd':
- * @purpose:生成生产环境模板所需json数据。
- * @description:将funcForProd任务准备好的templates/func/func_sendImpToThirdParty.js写入templates/forProd.json的字段"defineSendImpfunc"。
+ * @purpose:生成生产环境模板所需Object数据。
+ * @description:将templates/data/forProd下的相关js文件内容读取整合至全局变量dataForProd
  */
 gulp.task('dataForProd', async () => {
- 
-   const funcString = await fs.readAsync('templates/func/func_sendImpToThirdParty.js','utf8');
-   const dataForDev = {
-     defineSendImpfunc: funcString
+  const jsSourcePath = 'templates/data/forProd/';
+  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/func_sendImpToThirdParty.js`,'utf8');
+  const ccVideo = await fs.readAsync(`${jsSourcePath}var_ccVideo.js`,'utf8');
+  const fullWidthTopBanner = await fs.readAsync(`${jsSourcePath}var_fullWidthTopBanner.js`,'utf8');
+  const html5Ad = await fs.readAsync(`${jsSourcePath}var_html5Ad.js`,'utf8');
+  const imgAd = await fs.readAsync(`${jsSourcePath}var_imgAd.js`,'utf8');
+  const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
+  const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
+  const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
+  const pushDown = await fs.readAsync(`${jsSourcePath}var_pushDown.js`,'utf8');
+  
+  dataForProd = {
+     defineSendImpfunc,
+     defineVar:{
+       ccVideo,
+       fullWidthTopBanner,
+       html5Ad,
+       imgAd,
+       inReadAd,
+       mobileFullScreenImage,
+       mobileInfoFlow,
+       pushDown
+     }
    }
-   fs.writeAsync('templates/data/forProd.json',dataForDev);
+   //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
 });
 
 /**
  * 任务：'forProd'
  *  @Purpose:标记模板用于生产模式。主要就是设置process对象的属性为'prod'。
  */
-gulp.task('forProd',gulp.series('funcForProd','dataForProd', () => {
+gulp.task('forProd',gulp.series(() => {
 
   return Promise.resolve(process.env.MYENV = 'prod');// Promise.resolve返回一个resovle后的promise对象
 }));
@@ -127,10 +184,12 @@ gulp.task('template', async () => {
   let destDir;
   if (process.env.MYENV === 'prod') {
     console.log(process.env.MYENV);
-    dataForRender = await fs.readAsync('templates/data/forProd.json', 'json');
+    //dataForRender = await fs.readAsync('templates/data/forProd.json', 'json');
+    dataForRender = dataForProd;
     destDir = 'templates/forProd';
   } else {
-    dataForRender = await fs.readAsync('templates/data/forShow.json', 'json');
+    //dataForRender = await fs.readAsync('templates/data/forShow.json', 'json');
+    dataForRender = dataForShow;
     destDir = 'templates/forShow';
   }
   let templateFileArr = fs.find('templates/dev', {
@@ -207,13 +266,13 @@ gulp.task('del:showTemplate', (done) => {
  * @purpose: 构建生产模式的广告模板。
  * @description: 依次执行任务'del:prodTemplate','forProd','template'
  */
-gulp.task('template:forProd', gulp.series('del:prodTemplate','forProd','template'));
+gulp.task('template:forProd', gulp.series('del:prodTemplate','compressFunc','dataForProd','forProd','template'));
 
 /**任务'template:forShow':
  * @purpose: 构建展示模式的广告模板。
  * @description: 依次执行任务'del:showTemplate','forShow','template'
  */
-gulp.task('template:forShow', gulp.series('del:showTemplate','forShow','template'));
+gulp.task('template:forShow', gulp.series('del:showTemplate','dataForShow','forShow','template'));
 /***** For templates: End ********/
 
 

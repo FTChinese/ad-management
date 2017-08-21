@@ -1,14 +1,13 @@
 <script>
-var i_width = '300';
-var i_height = '600';
-var a_width = '300';
-var a_height = '600';
-var url = 'http://creatives1.ftimg.net/ads/beijing/201706/Accenture_Technology_Trends_2017/';
-var Click = 'www.ftchinese.com';
-
-var Imp = '';
-var AdName = '';
-var AssID = '';
+var i_width = '[[name=广告宽度,type=textfield,allowblank=false,width=50]]';
+var i_height = '[[name=广告高度,type=textfield,allowblank=false,width=50]]';
+var a_width = '[[name=链接宽度,type=textfield,allowblank=false,width=50]]';
+var a_height = '[[name=链接高度,type=textfield,allowblank=false,width=50]]';
+var url = '[[name=H5页链接,type=textfield,allowblank=false,width=250]]';
+var Click = '[URL]';
+var Imp = '[[name=第三方监测,type=textfield,allowblank=true,width=250]]';
+var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
+var AssID = '[ASSID]';
 
 if (Imp !== '') {
     var gaServerTracker = new Image();
@@ -19,6 +18,7 @@ if (Imp !== '') {
         sendImpToThirdParty(Imp, AdName, AssID);
     }
 }
+
 function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(i){(new Image).src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+n+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(h=0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net")).replace("https://v.admaster.com.cn","http://v.admaster.com.cn"):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net")).replace("http://v.admaster.com.cn","https://v.admaster.com.cn")),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(!1===i&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
 
 if (typeof Click === 'string') {
