@@ -88,8 +88,8 @@ gulp.task('dataForShow', async () => {
   const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
   const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
   const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
-  const pushDown = await fs.readAsync(`${jsSourcePath}var_pushDown.js`,'utf8');
-  
+  const pushDownVideo = await fs.readAsync(`${jsSourcePath}var_pushDownVideo.js`,'utf8');
+  const pushDownPic = await fs.readAsync(`${jsSourcePath}var_pushDownPic.js`,'utf8');
   dataForShow = {
      defineSendImpfunc,
      defineVar:{
@@ -100,7 +100,8 @@ gulp.task('dataForShow', async () => {
        inReadAd,
        mobileFullScreenImage,
        mobileInfoFlow,
-       pushDown
+       pushDownVideo,
+       pushDownPic
      }
    }
    //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
@@ -143,7 +144,8 @@ gulp.task('dataForProd', async () => {
   const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
   const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
   const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
-  const pushDown = await fs.readAsync(`${jsSourcePath}var_pushDown.js`,'utf8');
+  const pushDownVideo = await fs.readAsync(`${jsSourcePath}var_pushDownVideo.js`,'utf8');
+  const pushDownPic = await fs.readAsync(`${jsSourcePath}var_pushDownPic.js`,'utf8');
   
   dataForProd = {
      defineSendImpfunc,
@@ -155,7 +157,8 @@ gulp.task('dataForProd', async () => {
        inReadAd,
        mobileFullScreenImage,
        mobileInfoFlow,
-       pushDown
+       pushDownVideo,
+       pushDownPic
      }
    }
    //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
@@ -416,11 +419,23 @@ gulp.task('copysource', () => {
 });
 
 /**
+ * 任务 'del'：
+ * @purpose:删除展示页面本地预览及发布相关文件目录及内容
+ * @description：删除.tmp、dist、deploy目录，用以重新生成这些目录的内容
+ */
+gulp.task('del', (done) => {
+ del(['.tmp','dist','deploy']).then( paths => {
+    console.log('Deleted files:\n',paths.join('\n'));
+    done();
+  });
+});
+
+/**
  * 任务 'serve'：
  * @purpose:开启本地服务器，用浏览器打开广告展示页面
  * @description:依次执行任务'template:forShow','copysource','html','style','script'，服务器开启及代码更新后自动刷新
  */
-gulp.task('serve',gulp.series('template:forShow','copysource','html','style','script',function() {
+gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp'],
@@ -442,17 +457,7 @@ gulp.task('serve',gulp.series('template:forShow','copysource','html','style','sc
 
 
 /****** For Publish the Show Online: Start ********/
-/**
- * 任务 'del'：
- * @purpose:删除展示页面发布相关文件目录及内容
- * @description：删除.tmp、dist、deploy目录，用以重新生成这些目录的内容
- */
-gulp.task('del', (done) => {
- del(['.tmp','dist','deploy']).then( paths => {
-    console.log('Deleted files:\n',paths.join('\n'));
-    done();
-  });
-});
+
 
 /**
  * 任务 'build:pages'：
