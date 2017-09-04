@@ -1,26 +1,31 @@
-<!--
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="user-scalable=yes">
-  </head>
-  <body>
--->
-    <script>
-      if(!parentId) {
-        var parentId = "banner0";
-      }
-      var detailPage = "https://www.hennessy.com/zh-cn/hennessyparadisimperial/";
-      var bannerImg = "http://i.ftimg.net/picture/2/000071402_piclink.jpg";
-      var videoPoster = "http://i.ftimg.net/picture/3/000071403_piclink.jpg";
-      var sourceUrl = "http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4";
-      var sourceType = "video/mp4";
-      var innerFrameId=parentId + 'Inner';
-      
+<script>
+  if(!parentId) {
+    var parentId = "banner0";
+  }
+  var detailPage = '[URL]';
+var bannerImg = '[[name=图片链接,width=250,type=textfield,allowblank=false]]';
+var imgWidth = '[[name=图片宽度,width=250,type=textfield,allowblank=false,default=969]]';
+var imgHeight = '[[name=图片高度,width=250,type=textfield,allowblank=false,default=90]]';
+var videoPoster = '[[name=视频底图,width=250,type=textfield,allowblank=false]]';
+var sourceUrl = '[[name=视频链接,width=250,type=textfield,allowblank=false]]';
+var sourceType = "video/mp4";
 
-      document.write('<iframe class="banner-iframe" data-adch="1000" data-adposition="0001" id="'+innerFrameId+'" width="969" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="../complex_pages/ad-pushdownDemo.html"></iframe>');
-    </script>
-<!--
-  </body>
-</html>
--->
+var innerFrameId=parentId + 'Inner';
+
+
+var Imp = '[[name=第三方监测,type = textfield,allowblank = true,width=250]]';
+var AdName = 'BMW Pushdown'; 
+var AssID = '[ASCID]';
+
+var adch = ascid.substr(0,4);
+var adposition = ascid.substr(-4);
+
+  if (typeof window.parent.sendImpToThirdParty === 'function') {
+      window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+  } else {
+      sendImpToThirdParty(Imp, AdName, AssID);
+  }
+  function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(i){(new Image).src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+n+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(h=0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net")).replace("https://v.admaster.com.cn","http://v.admaster.com.cn"):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net")).replace("http://v.admaster.com.cn","https://v.admaster.com.cn")),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(!1===i&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
+  
+  document.write('<iframe class="banner-iframe" data-adch="1000" data-adposition="0001" id="'+innerFrameId+'" width="969" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="../complex_pages/pushdown.html"></iframe>');
+</script>
