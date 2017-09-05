@@ -59,7 +59,7 @@ templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。�
 
 - 打开templates/forProd/func_sendImpToThirdParty.js，进行修改。
 
-#### （4）编译生成最终线上可使用模板
+#### (4)编译生成最终线上可使用模板
 具体步骤为：
 
 - 执行 gulp template:forProd
