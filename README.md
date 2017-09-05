@@ -66,9 +66,9 @@ templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。�
 - 得到templates/forProd/pushdownPic.html，即为最终模板，传到传漾系统即可
 
 ### 2. 广告呈现管理人员使用办法：
-#### （1）生成展示模式的模板
+#### (1)生成展示模式的模板
 - 修改templates/data/forShow/var_pushDownPic.js
 - 执行 gulp template: forShow
 
-####  (2) 修改呈现页面相关文件
+#### (2)修改呈现页面相关文件
 - 修改views、data、client
