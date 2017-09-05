@@ -37,7 +37,7 @@ templates/dev下存储广告模板主体部分，即不包括传漾变量设置�
 ...
 {{defineSendImpfunc}}
 ```
-其中，defineSendImpfunc为压缩处理后的sendImpToThridParty函数内容，详见**(3)修改imp广告追踪函数**；defineVar.pushdownPic为pushdownPic.html模板的变量设置部分，详见**(2)修改广告模板变量设置部分**。
+其中，defineSendImpfunc为压缩处理后的sendImpToThridParty函数内容，详见 **(3)修改imp广告追踪函数** ；defineVar.pushdownPic为pushdownPic.html模板的变量设置部分，详见 **(2)修改广告模板变量设置部分** 。
 
 具体步骤为：
 
@@ -75,7 +75,7 @@ templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。�
 - 执行 gulp template:forProd
 - 得到templates/forProd/pushdownPic.html，即为最终模板，传到传漾系统即可
 
-### 2. 广告呈现管理人员使用办法：
+### 2. 广告呈现开发人员使用办法：
 #### (0)构建本地项目
 同1.(0)
 
