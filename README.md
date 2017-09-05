@@ -1,23 +1,23 @@
 # ad-management
 一个综合的广告模板管理、展示工具。
 
-## 目录划分简单介绍
+## 一、目录划分简单介绍
 ### 1. 模板部分：templates、complex_pages
 #### templates: 开发、构建模板。
 
 其中构建模板有两种模式：（1）生产模式（构建线上传漾系统中实际应用的模板）；（2）展示模式（用于构建销售部给客户展示Demo中用到的模板）两种模式。
 
 #### complex_pages: 复杂模板通过iframe将引入的h5页面
-与线上dev_www\frontend\tpl\marketing\complex_pages目录内容(线上路径为http://www.ftchinese.com/m/marketing/complex_pages/pushdownPic.html)保持一致，是一些复杂h5页面，用于被相应模板通过iframe调用。
+与线上dev_www\frontend\tpl\marketing\complex_pages目录内容(线上路径为 <http://www.ftchinese.com/m/marketing/complex_pages/pushdownPic.html> )保持一致，是一些复杂h5页面，用于被相应模板通过iframe调用。
 
-这里需要说明的是，有些模板自身很简单，不需要再调用复杂界面，如imgAd、mobileFullScreenImage；有些模板较复杂，需要在模板中用iframe引用上述h5页面，如html5Ad、pushdownPic、pushdownVideo。
+这里需要说明的是，有些模板自身很简单，不需要再调用外部复杂页面，如imgAd、mobileFullScreenImage；有些模板较复杂，需要在模板中用iframe引用complex_pages目录下的h5页面（或广告商直接提供的h5页面），如html5Ad、pushdownPic、pushdownVideo。
 
-另外，h5页面本身一般不要直接在complex_pages下修改，它们都是由各自项目编译、压缩生成的。例如，complex_pages/pushdownPic.html是由https://github.com/FTChinese/ad-pushdownPic项目生成， complex_pages/pushdownVideo是由https://github.com/FTChinese/ad-pushdownVideo项目生成。
+**注意：** h5页面本身请尽量不要直接在complex_pages下修改，它们都是由各自项目编译、压缩生成的。例如，complex_pages/pushdownPic.html是由<https://github.com/FTChinese/ad-pushdownPic> 项目生成， complex_pages/pushdownVideo是由<https://github.com/FTChinese/ad-pushdownVideo> 项目生成。
 
 ### 2. 展示部分：views、data、client
 用于构建销售部给客户展示Demo的相关页面。
 
-## 使用方法（以pushdownPic.html模板为例）
+## 二、使用方法（以pushdownPic.html模板为例）
 
 ### 1. 广告模板管理人员使用办法：
 #### (1) 修改广告模板主体部分
@@ -59,16 +59,16 @@ templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。�
 
 - 打开templates/forProd/func_sendImpToThirdParty.js，进行修改。
 
-####（4）编译生成最终线上可使用模板
+#### （4）编译生成最终线上可使用模板
 具体步骤为：
 
-- gulp template:forProd
+- 执行 gulp template:forProd
 - 得到templates/forProd/pushdownPic.html，即为最终模板，传到传漾系统即可
 
-### 4. 广告呈现管理人员使用办法：
-####（1）生成展示模式的模板
+### 2. 广告呈现管理人员使用办法：
+#### （1）生成展示模式的模板
 - 修改templates/data/forShow/var_pushDownPic.js
-- gulp template: forShow
+- 执行 gulp template: forShow
 
-#### (2) 修改呈现页面相关文件
+####  (2) 修改呈现页面相关文件
 - 修改views、data、client
