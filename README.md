@@ -20,6 +20,16 @@
 ## 二、使用方法（以pushdownPic.html模板为例）
 
 ### 1. 广告模板管理人员使用办法：
+#### (0) 本地构建项目
+clone远程仓库的ad-management项目到本地，并安装所需依赖包。
+
+具体步骤为:
+
+- git clone https://github.com/FTChinese/ad-management.git
+- npm install
+- npm rm gulp
+- npm install "github:gulpjs/gulp#4.0"
+
 #### (1) 修改广告模板主体部分
 templates/dev下存储广告模板主体部分，即不包括传漾变量设置部分、imp追踪部分。为了方便引入变量设置部分和imp追踪部分，每个html都含有：
 ```
@@ -66,9 +76,18 @@ templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。�
 - 得到templates/forProd/pushdownPic.html，即为最终模板，传到传漾系统即可
 
 ### 2. 广告呈现管理人员使用办法：
+#### (0)构建本地项目
+同1.(0)
+
 #### (1)生成展示模式的模板
 - 修改templates/data/forShow/var_pushDownPic.js
 - 执行 gulp template: forShow
 
 #### (2)修改呈现页面相关文件
 - 修改views、data、client
+
+#### (3)本地预览页面呈现效果
+- gulp serve
+
+#### (4)发布呈现页面
+- gulp publish
