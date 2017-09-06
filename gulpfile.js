@@ -123,7 +123,7 @@ gulp.task('forShow',(done) => {
 gulp.task('compressFunc', (done) => {
   
   pump([
-    gulp.src('templates/data/forProd/func_sendImpToThirdParty.js'),
+    gulp.src('../NEXT/app/scripts/ad-third-party-impression.js'),
     $.uglify(),
     gulp.dest('templates/data/forProd/compressedFunc')
   ],done);
@@ -136,7 +136,7 @@ gulp.task('compressFunc', (done) => {
  */
 gulp.task('dataForProd', async () => {
   const jsSourcePath = 'templates/data/forProd/';
-  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/func_sendImpToThirdParty.js`,'utf8');
+  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/ad-third-party-impression.js`,'utf8');
   const ccVideo = await fs.readAsync(`${jsSourcePath}var_ccVideo.js`,'utf8');
   const fullWidthTopBanner = await fs.readAsync(`${jsSourcePath}var_fullWidthTopBanner.js`,'utf8');
   const html5Ad = await fs.readAsync(`${jsSourcePath}var_html5Ad.js`,'utf8');

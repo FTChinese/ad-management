@@ -63,11 +63,11 @@ templates/data下存储广告模板所需的数据。具有forProd和forShow两�
   }
 ```
 #### (3)修改imp广告追踪函数
-templates/forProd/func_sendImpToThirdParty.js存储sendImpToThirdParty函数。如需修改，请在这里修改。
+广告追踪函数sendImpToThirdParty定义于NEXT\app\scripts\ad-third-party-impression.js，此处默认本项目和NEXT共处一个父级目录。如需修改，请在这里修改。
 
 具体步骤为：
 
-- 打开templates/forProd/func_sendImpToThirdParty.js，进行修改。
+- 打开NEXT\app\scripts\ad-third-party-impression.js，进行修改。
 
 #### (4)编译生成最终线上可使用模板
 具体步骤为：
