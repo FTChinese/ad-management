@@ -27,7 +27,7 @@ var dataForShow;//存储用于渲染展示模式模板的数据对象
  * 2. 模板渲染环境：渲染的是模板开发文件，被渲染文件在templates/dev目录下。
  */
 const envForView = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(['views','views/showpages','views/includeTemplates'],{
+  new nunjucks.FileSystemLoader(['views','views/showpages','templates/forShow'],{
     watch:false,//MARK:如果为true，则会导致html任务挂在那儿
     noCache:true
   }),
@@ -286,18 +286,21 @@ gulp.task('template:forShow', gulp.series('del:showTemplate','dataForShow','forS
  * @purpose: 为特殊广告形式inReadAd准备nunjucks子模板。
  * @description: 由于该广告和其他广告不同，该广告不是以iframe调用dolphine的方式展现，而是以嵌入的html片段的形式直接呈现。故需要将该片段从templates/forShow/inReadAd.html拷贝到views/includeTemplates/inReadAd.html
  */
+
+ /*
 gulp.task('copy:includeTemplate', () => {
   const srcPath = 'templates/forShow/';
   return gulp.src(`${srcPath}inReadAd.html`)
     .pipe(gulp.dest('views/includeTemplates'));
 });
+*/
 
 /**
  * 任务 'html'：
  * @purpose:Nunjucks渲染展示页面
  * @description:使用data目录下的展示页面json文件的数据分别渲染主页面html(views目录下的index.html)和各个广告展示页面html(views/showpages下的html),得到渲染后的页面拷贝到.tmp目录的根目录下
  */
-gulp.task('html', gulp.series('copy:includeTemplate', async function() {
+gulp.task('html', async function() {
   const destDir = '.tmp';
   const dataFileArr = fs.find('data',{
     matching:'*.json',
@@ -344,7 +347,7 @@ gulp.task('html', gulp.series('copy:includeTemplate', async function() {
     .catch(error => {
       console.log(error);
     });
-}));
+});
 
 
 /**
@@ -407,14 +410,18 @@ gulp.task('style',() => {
  * @purpose:为本地服务器目录.tmp准备所需的模板资源
  * @description:将广告模板html资源(展示模式)从templates/forShow下拷贝到.tmp/templates目录下；将广告模板所引用的复杂外部HTML资源从complex_pages目录拷贝到.tmp/complex_pages目录下
  */
-gulp.task('copysource', () => {
-  const complexpagesDir = '.tmp/complex_pages';
-  const templatesDir = '.tmp/templates';
 
-  const complexpagesStream = gulp.src('complex_pages/**.html')
+gulp.task('copysource', () => {
+  const complexpagesDir = '.tmp/complex_pages'; //NOTE:这些h5不能直接用线上绝对路径，因为那样的话www.ftchinese.com会导致iframe引入的h5和父页面不同源；也不能直接使用本地complex_pages，在serve任务里多设置一个服务器basedir，那样的话引入的h5不能下推父页面元素————原因待查？？？
+  
+  //const templatesDir = '.tmp/templates';
+
+  return gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
-  const templatesStream = gulp.src('templates/forShow/**.html')
-    .pipe(gulp.dest(templatesDir));
+  
+  //const templatesStream = gulp.src('templates/forShow/**.html')
+    //.pipe(gulp.dest(templatesDir));
+ 
   return merge(complexpagesStream,templatesStream);
 });
 
@@ -438,7 +445,7 @@ gulp.task('del', (done) => {
 gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script',function() {
   browserSync.init({
     server:{
-      baseDir: ['.tmp'],
+      baseDir: ['.tmp','templates/forShow'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
       //directory:true,
       routes: {
         '/bower_components':'bower_components',
@@ -450,7 +457,7 @@ gulp.task('serve',gulp.series('del','template:forShow','copysource','html','styl
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/*.js',gulp.parallel('script'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
-  gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
+ // gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
 
 /***** For Show at Local: End ******/
@@ -493,6 +500,7 @@ gulp.task('build:pages',() => {
  * @purpose:把广告模板等其他资源拷贝到dist目录
  * @description：把本地展示页面用到的其他资源 —— 1. 广告模板用到的复杂页面资源，即complex_pages目录下的html；2.展示模式广告模板，即views/templates下的html —— 拷贝到dist目录下，为发布展示页面到正式服务器环境做准备
  */
+
 gulp.task('build:copysource', () => {
   const complexpagesDir = 'dist/complex_pages';
   const templatesDir = 'dist/templates';
@@ -509,7 +517,7 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del','template:forShow','copysource','html','style','script','build:pages','build:copysource',()=>{
+gulp.task('publish', gulp.series('del','template:forShow','html','style','script','build:pages','build:copysource',()=>{
   const pagesDir = '../www3app/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;

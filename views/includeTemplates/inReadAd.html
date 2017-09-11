@@ -2,6 +2,7 @@
 /**
  * Copy from E:\FT\NEXT\app\story.html
 */
+/*
 var inreadAd = {
     'minSlot': 7,//在文章页正文(即class为story-body的div）内的第8个自然段（即第8个p）前插入该广告
     'slot': '.story-body p', 
@@ -9,7 +10,7 @@ var inreadAd = {
     'played': false,
     'vid': 'FBE98EB5D743B4649C33DC5901307461',
    
-    'iframeSrc':'complex_pages/cartier-in-read.html',//正式环境为： '/m/marketing/cartier-in-read.html',
+    'iframeSrc':'cartier-in-read.html',//正式环境为： '/m/marketing/cartier-in-read.html',
     'forceWidth': 590,
     'forceHeight': 400,
     'h': 0,
@@ -103,22 +104,12 @@ initInreadAd();
  * Copy and modify from E:\FT\NEXT\app\scripts\main.js
  */
 // in read ad in view
+/*
 if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.t >0 && inreadAd.displayed === false) {
     //if (scrollTop + bodyHeight > inreadAd.t + inreadAd.h) {
     //MARK:正式环境中，当 页面垂直方向滚过的距离 + 页面当前高度 > 该广告顶部高度 + 该广告高度 时，显示广告。
     showInreadAd();
     // }
 }
-
-if (Imp !== '') {
-    var gaServerTracker = new Image();
-    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();
-    if (typeof window.parent.sendImpToThirdParty === 'function') {
-        window.parent.sendImpToThirdParty(Imp, AdName, AssID);
-    } else {
-        sendImpToThirdParty(Imp, AdName, AssID);
-    }
-}
-
-
+*/
 </script>

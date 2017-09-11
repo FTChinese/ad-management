@@ -12,5 +12,5 @@
   "templateHeadline":"TEMPLATE: HTML5 Ad",
   "description":"This template will quote customer's h5 page by an iframe element, so there are 2-layer iframes at all. ",
   "suitedEnds":"PC Web",
-  "otherNotes":"There are some other words........."
+  "developerNotes":"该广告形式对应传漾模板会有一层蒙层a，a的href值——即该模板的Click变量值即为点击跳转地址及客户统计点击计数的地址（这是同一个地址，由客户提供），而传漾系统的统计点击的方式是由这个Click变量值（传漾会向dolphine发出请求，而Click变量值为dolphine地址后面的某一个参数的值）和a蒙层的大小决定（即传漾统计的是点击蒙层的次数，而该dolphine地址的参数中包含客户点击统计地址，故点击的同时点击次数也会被客户统计下来）。所以，如果不使用蒙层a(即蒙层a的宽高a_width、a_height为0），则传漾无法统计点击次数；可以在h5内部具体点击跳转地址处采用客户的统计点击地址，这样虽然传漾无法统计点击次数，但客户可以统计点击次数。"
 }

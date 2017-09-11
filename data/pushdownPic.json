@@ -1,0 +1,16 @@
+{
+  "pageTitle":"Template Show:Push Down Pic",
+  "pageStyle":"showpage-style",
+  "viewport":"user-scalable=yes",
+
+  "showContainerType":"show-pushdown",
+  "deviceType":"type-pc",
+
+  "preText":"This is the viewport of a browser on PC",
+  "postText":"获得更加效果，请使用PC端查看",
+
+  "templateHeadline":"TEMPLATE: Push Down",
+  "description":"A pull down template with a banner img and a video",
+  "suitedEnds":"PC Web",
+  "otherNotes":"There are some other words........."
+}

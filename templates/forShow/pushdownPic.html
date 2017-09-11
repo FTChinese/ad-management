@@ -1,17 +1,23 @@
 <script>
 
-  var detailPage = "https://www.hennessy.com/zh-cn/hennessyparadisimperial/";
+  if(!parentId) {
+  var parentId = "banner0";
+}
+var detailPage = "https://www.hennessy.com/zh-cn/hennessyparadisimperial/";
 var bannerImg = "http://i.ftimg.net/picture/2/000071402_piclink.jpg";
 var bigPic = "https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201709/Mobile-information_960x540_50k.jpg";
-
-var complexPagePath = "../complex_pages/pushdownPic.html";
+var imgWidth = '969';
+var imgHeight = '90';
+var complexPagePath = "complex_pages/pushdownPic.html";
 var innerFrameId=parentId + 'Inner';
 
-var Imp = 'https://g.cn.miaozhen.com/x/k=2055283&p=782Lt&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&o=';
-var AdName = 'BMW Pushdown';
+// MARK:forShow模式不需调用sendImpToThirdParty(Imp, AdName, AssID)，故不用定义Imp, AdName
+
 var AssID = '000000';
+var adch = AssID.substr(0,4);
+var adposition = AssID.substr(-4);
   
   
   
-  document.write('<iframe class="banner-iframe" data-adch="1000" data-adposition="0001" id="'+innerFrameId+'" width="969" height="90" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+complexPagePath + '"></iframe>');
+  document.write('<iframe class="banner-iframe" data-adch="' + adch + '" data-adposition="' + adposition + '" id="'+innerFrameId+'" width="'+ imgWidth +'" height="' + imgHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ complexPagePath +'"></iframe>');
 </script>
