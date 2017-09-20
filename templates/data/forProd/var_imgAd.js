@@ -7,4 +7,4 @@ var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
 var AssID = '[ASSID]';
 var HouseAd = '[[name=打底广告(Y/N),width=250,type=textfield,allowblank=false,default=N]]';
 
-var hideAdSign = '';
+var hideAdSign = '[[name=是否隐藏广告标志,type = textfield,allowblank = false,width=250,default=N]]';
