@@ -7,3 +7,5 @@ var Click = '[URL]';
 var Imp = '[[name=第三方监测,type=textfield,allowblank=true,width=250]]';
 var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
 var AssID = '[ASSID]';
+
+var hideAdSign = '';

@@ -3,3 +3,5 @@ var fullScreenImage = {
     'link': '[URL]',
     'widthByHeight': '[[name=宽高比例,width=250,type=textfield,allowblank=false,default=4]]'
 };
+
+var hideAdSign = '';

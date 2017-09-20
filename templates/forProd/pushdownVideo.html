@@ -16,6 +16,8 @@ var AssID = '[ASCID]';
 var adch = AssID.substr(0,4);
 var adposition = AssID.substr(-4);
 
+var hideAdSign = '';
+
 if (typeof window.parent.sendImpToThirdParty === 'function') {
     window.parent.sendImpToThirdParty(Imp, AdName, AssID);
 } else {

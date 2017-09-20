@@ -7,3 +7,5 @@ var AutoPlay = '[[name=自动播放(Y/N),width=250,type=textfield,allowblank=fal
 var videoUrl = '[[name=视频URL（选填）,width=250,type=textfield,allowblank=true]]';
 var AssID = '[ASSID]';
 var Click = '[URL]';
+
+var hideAdSign = '';
