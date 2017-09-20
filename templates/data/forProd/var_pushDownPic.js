@@ -12,7 +12,13 @@ var AssID = '[ASCID]';
 var adch = AssID.substr(0,4);
 var adposition = AssID.substr(-4);
 
-var hideAdSign = '[[name=是否隐藏广告标志,type = textfield,allowblank = false,width=250,default=N]]';
+var ifHideAdSign = '[[name=是否隐藏广告标志(Y/N),type = textfield,allowblank = false,width=250,default=N]]';
+var hideAdSign = "";
+if(ifHideAdSign == "Y") {
+  hideAdSign = "yes";
+} else {
+  hideAdSign = "";
+}
 
 if (typeof window.parent.sendImpToThirdParty === 'function') {
     window.parent.sendImpToThirdParty(Imp, AdName, AssID);

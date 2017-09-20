@@ -18,13 +18,15 @@ var parentDom;
 var parentFrameDom;
 var parentLink;
 var imageServiceBase = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
-var Imp = '';
-var AdName = 'Full Width Top Banner';
-var AssID = '';
 
+if (HouseAd === 'Y') {
+    isHouseAd = true;
+} else {
+    isHouseAd = false;
+}
 if (Imp !== '') {
     var gaServerTracker = new Image();
-    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();
     if (typeof Imp === 'string' && Imp !== '') {
         if (typeof window.parent.sendImpToThirdParty === 'function') {
             window.parent.sendImpToThirdParty(Imp, AdName, AssID);

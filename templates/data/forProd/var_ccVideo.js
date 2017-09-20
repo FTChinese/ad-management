@@ -8,4 +8,10 @@ var videoUrl = '[[name=视频URL（选填）,width=250,type=textfield,allowblank
 var AssID = '[ASSID]';
 var Click = '[URL]';
 
-var hideAdSign = '[[name=是否隐藏广告标志,type = textfield,allowblank = false,width=250,default=N]]';
+var ifHideAdSign = '[[name=是否隐藏广告标志(Y/N),type = textfield,allowblank = false,width=250,default=N]]';
+var hideAdSign = "";
+if(ifHideAdSign == "Y") {
+  hideAdSign = "yes";
+} else {
+  hideAdSign = "";
+}
