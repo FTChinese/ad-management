@@ -314,7 +314,7 @@ gulp.task('html', async function() {
         const dataForRender = await fs.readAsync(item, 'json');
         const baseName = path.basename(item,'.json');
         let renderFile = '';
-        if(baseName === 'index') {
+        if(baseName === 'index' || baseName === 'adTable') {
           renderFile = `${baseName}.html`;
         } else {
           renderFile = `show-${baseName}.html`;
@@ -384,6 +384,34 @@ gulp.task('script',() => {
    });
 });
 
+gulp.task('scriptForAdtable',() => {
+  // TODO:关于rollup需要再认真学习一下
+   return rollup({
+     entry:'client/js/main-adtable.js',
+     cache: cache,
+     plugins:[
+       babel({//这里需要配置文件.babelrc
+         exclude:'node_modules/**'
+       }),
+       nodeResolve({
+         jsnext:true,
+       }),
+       rollupUglify({}, minifyEs6)//压缩es6代码
+     ]
+   }).then(function(bundle) {
+     cache = bundle;//Cache for later use
+     return bundle.write({//返回promise，以便下一步then()
+       dest: '.tmp/scripts/main-adtable.js',
+       format: 'iife',
+       sourceMap: true
+      // moduleName:'myJsModule',
+     });
+   }).then(() => {
+     browserSync.reload();
+   }).catch(err => {
+     console.log(err);
+   });
+});
 /**
  * 任务 'style'：
  * @purpose:编译展示页面的sass代码
@@ -442,7 +470,7 @@ gulp.task('del', (done) => {
  * @purpose:开启本地服务器，用浏览器打开广告展示页面
  * @description:依次执行任务'template:forShow','copysource','html','style','script'，服务器开启及代码更新后自动刷新
  */
-gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script',function() {
+gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp','templates/forShow'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
@@ -455,7 +483,7 @@ gulp.task('serve',gulp.series('del','template:forShow','copysource','html','styl
     port:8080
   });
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
-  gulp.watch('client/js/**/*.js',gulp.parallel('script'));
+  gulp.watch('client/js/**/*.js',gulp.parallel('script','scriptForAdtable'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
  // gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
@@ -517,7 +545,7 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del','template:forShow','html','style','script','build:pages','build:copysource',()=>{
+gulp.task('publish', gulp.series('del','template:forShow','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
   const pagesDir = '../www3app/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;
@@ -532,5 +560,11 @@ gulp.task('publish', gulp.series('del','template:forShow','html','style','script
 }));
 /****** For Publish the Show Online: Start ********/
 
+
+gulp.task('copyAdData', () => {
+  const destDir = 'client/js/adData';
+  return gulp.src(['../NEXT/app/scripts/adDevice.js','../NEXT/app/scripts/adChannel.js','../NEXT/app/scripts/adPattern.js'])
+  .pipe(gulp.dest(destDir));
+});
 
 

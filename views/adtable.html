@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <header>
+    <h2>
+      新广告位码编码规则
+    </h2>
+  </header>
+  <section>
+    <ul>
+      <li>
+        每个广告位编码为12位数字
+      </li>
+      <li>
+        前4位：表征设备号，共有5种：PC、iPhoneApp、iPhoneWeb、AndroidApp、AndroidWeb、PadApp、PadWeb。
+      </li>
+      <li>
+        中间4位：表征频道号，其中前两位表征一级频道，后两位表征二级频道。
+      </li>
+      <li>
+        最后4位：表征广告形式和位置，其中前两位表征广告形式，后两位表征该广告形式可以出现的广告位置。
+      </li>
+  </section>
+</section>
+
+<section>
+  <header>
+    <h2>
+      新广告位数据表
+    </h2>
+  </header>
+  <section>
+    <div class = "table-section">
+      <table class="table-rowstripes" id="pc"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="iPhoneApp"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="iPhoneWeb"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="androidApp"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="androidWeb"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="padApp"></table>
+    </div>
+
+    <div class = "table-section">
+      <table class="table-rowstripes" id="padWeb"></table>
+    </div>
+  </section>
+</section>
+<!-- smoosh -->
+<script src="./scripts/main-adtable.js"></script>
+<!-- endsmoosh -->
+
+{% endblock %}

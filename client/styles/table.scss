@@ -1,0 +1,41 @@
+@mixin tableRowStripes {
+	background-color: #fff1e5;
+  
+  max-width:700px;
+ 
+	caption {
+    background-color: #fff1e5;
+    font-size:24px;
+    font-weight: bold;
+    text-align: left;
+    padding-left:50px;
+  }
+  thead tr {
+   /* font-weight: bold;*/
+    &:nth-child(even) {
+      background-color: #f2dfce;
+    }
+  }
+	tbody tr {
+    &:nth-child(even) {
+      background-color: #f2dfce;
+    }
+  }
+  
+  th,td {
+    text-align: right;
+    padding:10px;
+  }
+
+}
+.table-section {
+  
+  margin-top:40px;
+  /*
+  overflow-x: scroll;
+  max-width: 1400px;
+  */
+}
+.table-rowstripes {
+  @include tableRowStripes;
+}

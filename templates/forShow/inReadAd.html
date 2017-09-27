@@ -35,15 +35,12 @@ function initInreadAd() {
     var clickTag = '';
     var clickTagHeight;
     var iframeSrc;
-
     if (inreadAd.forceWidth && inreadAd.forceWidth > 0) {
         inreadAdWidth = inreadAd.forceWidth;
     }
-
     if (inreadAd.forceHeight && inreadAd.forceHeight > 0) {
         inreadAdHeight = inreadAd.forceHeight;
     }
-
     inreadAd.h = inreadAdHeight + 30;
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
         hostForVideo = 'http://www.ftchinese.com';
@@ -59,29 +56,27 @@ function initInreadAd() {
     s.marginLeft = 'auto';
     s.marginRight = 'auto';
     //inreadAdContainer.style.backgroundColor = 'black';
-
     if (inreadAd.click !== '') {
         clickTagHeight = inreadAdHeight - 30;
-        clickTag = '<a target="_blank" href="'+ inreadAd.click +'" style="top:0;left:0;cursor:pointer;display:block;width:100%;position:absolute;height:'+clickTagHeight+'px"></a>';
-    }
-    
-    if (inreadAd.iframeSrc && inreadAd.iframeSrc !== '') {
-    iframeSrc =  inreadAd.iframeSrc;
-    } else {
-    iframeSrc =  hostForVideo + '/m/corp/video.html?vid='+ inreadAd.vid +'&w='+inreadAdWidth+'&h='+inreadAdHeight+'&autostart=true&sound=' + inreadAd.sound +'&003';
+        clickTag = '<a target="_blank" href="[URL]" style="top:0;left:0;cursor:pointer;display:block;width:100%;position:absolute;height:' + clickTagHeight + 'px"></a>';
     }
 
-    inreadAd.htmlCode = '<div style="width:100%;height:'+ inreadAdHeight +'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:'+ inreadAdWidth +'px;height:'+ inreadAdHeight +'px;position:absolute;" src="' + iframeSrc + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
+    if (inreadAd.iframeSrc && inreadAd.iframeSrc !== '') {
+        iframeSrc = inreadAd.iframeSrc;
+    } else {
+        iframeSrc = hostForVideo + '/m/corp/video.html?vid=' + inreadAd.vid + '&w=' + inreadAdWidth + '&h=' + inreadAdHeight + '&autostart=true&sound=' + inreadAd.sound + '&003';
+    }
+    inreadAd.htmlCode = '<div style="width:100%;height:' + inreadAdHeight + 'px;position:relative;background:black;"><iframe name="inread-frame" id="inread-frame" style="width:' + inreadAdWidth + 'px;height:' + inreadAdHeight + 'px;position:absolute;" src="' + iframeSrc + '" scrolling="no" frameborder="0" allowfullscreen=true></iframe></div>' + clickTag;
     inreadAdSlot.parentNode.insertBefore(inreadAdContainer, inreadAdSlot);
-    inreadAd.t = myJsModule.findTop(inreadAdContainer);
+    inreadAd.t = findTop(inreadAdContainer);
 }
 
-function showInreadAd(forcePlay) {
+ function showInreadAd(forcePlay) {
     var ele;
     if (forcePlay === true) {
         inreadAd.displayed = false;
     }
-    if (typeof inreadAd === 'object' && inreadAd.h >0 && inreadAd.displayed === false) {
+    if (typeof inreadAd === 'object' && inreadAd.h > 0 && inreadAd.displayed === false) {
         ele = document.getElementById(inreadAd.id);
         ele.innerHTML = inreadAd.htmlCode;
         ele.style.height = inreadAd.h + 'px';
@@ -90,15 +85,19 @@ function showInreadAd(forcePlay) {
             ele.style.height = '0';
             ele.innerHTML = '';
         }, inreadAd.displayTime);
-        if (inreadAd.impression !== '') {
-            var img = document.createElement('img');
-            img.src = inreadAd.impression;
-        }
     }
 }
-
 initInreadAd();
 
+if (Imp !== '') {
+    var gaServerTracker = new Image();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();
+    if (typeof window.parent.sendImpToThirdParty === 'function') {
+    window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+    } else {
+    sendImpToThirdParty(Imp, AdName, AssID);
+    }
+}
 /**
  * Copy and modify from E:\FT\NEXT\app\scripts\main.js
  */

@@ -17,6 +17,7 @@
   "dependencies": {
     "o-colors": "^4.0.5",
     "o-fonts": "^3.0.1",
-    "o-grid": "^4.3.3"
+    "o-grid": "^4.3.3",
+    "o-table": "^6.2.1"
   }
 }

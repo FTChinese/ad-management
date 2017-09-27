@@ -1,7 +1,8 @@
 //import sendImpToThirdParty from './func_sendImpToThirdParty.js';
 import {findTop,closeOverlay} from './func_webappmain.js';
 
-const mode = 'prod';
+const mode = 'dev';
+
 
 export {
     //sendImpToThirdParty,

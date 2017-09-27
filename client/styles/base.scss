@@ -9,7 +9,10 @@ html,body {
 }
 body{
   &.indexpage-style {
-    @include oColorsFor("page" "body" );
+    @include oColorsFor("page" "body");
+  }
+  &.tablepage-style {
+    @include oColorsFor("page" "body");
   }
   &.showpage-style {
     background-color:#FFF;
