@@ -63,7 +63,7 @@ const adPatternsPC = {
     id:'05',
     description:'首页右侧栏顶部的端带状广告。',
     position:{
-      Top1: {
+      Num1: {
         id:'01',
         description:'首页右侧栏顶部Ribbon位.'
       }
@@ -73,15 +73,15 @@ const adPatternsPC = {
     id:'06',
     description:'首页右侧栏的文字链广告。',
     position:{
-      Top1: {
+      Num1: {
         id:'01',
         description:'页面右侧栏从上至下第1个TextLink位。'
       },
-      Top2: {
+      Num2: {
         id:'02',
         description:'页面右侧栏从上至下第2个TextLink位。'
       },
-      Top3: {
+      Num3: {
         id:'03',
         description:'页面右侧栏从上至下第3个TextLink位。'
       }
