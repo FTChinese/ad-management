@@ -23,15 +23,15 @@ const adPatternsPC = {
     id:'03',
     description:'页面中部穿插的长带状广告（页面导航栏下方的长带状广告除外，其叫做LeaderBoard，见上）。此处的页面包括首页、频道页、文章页。从上到下顺序出现。',
     position:{
-      Top1:{
+      Num1:{
         id:'01',
         description:'页面从上至下第1个Banner位。'
       },
-      Top2:{
+      Num2:{
         id:'02',
         description:'页面从上至下第2个Banner位。'
       },
-      Top3:{
+      Num3:{
         id:'03',
         description:'页面从上至下第3个Banner位。'
       }
@@ -113,11 +113,11 @@ const adPatternsPC = {
     id:'09',
     description:'文章页中嵌入的、随着阅读位置的改变而出现的广告',
     position:{
-      The1x1: {
+      Num1: {
         id:'01',
         description:'1x1的Inread广告。'
       },
-      The590x400: {
+      Num2: {
         id:'02',
         description:'590x400的Inread广告。'
       }
@@ -144,11 +144,11 @@ const adPatternsPhone = {
     id:'03',
     description:'手机端页面顶部、底部的带状广告。',
     position:{
-      Top:{
+      Num1:{
         id:'01',
         description:'手机端页面顶部的带状广告。'
       },
-      Bottom: {
+      Num2: {
         id:'02',
         description:'手机端页面底部的带状广告。'
       }
