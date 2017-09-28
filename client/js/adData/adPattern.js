@@ -1,4 +1,4 @@
-const adPatternsPC = {
+var adPatternsPC = {
   FullScreen: {
     id:'01',
     description:'进入网站后时首先看到的大块全屏广告。',
@@ -125,7 +125,7 @@ const adPatternsPC = {
   }
 };
 
-const adPatternsPhone = {
+var adPatternsPhone = {
   FullScreen: {
     id:'01',
     description:'进入手机App时看到的全屏广告。',
@@ -184,7 +184,7 @@ const adPatternsPhone = {
   }
 };
 
-const adPatternsPad = {
+var adPatternsPad = {
   FullScreen: {
     id:'01',
     description:'进入pad端App时看到的大块全屏广告。',
