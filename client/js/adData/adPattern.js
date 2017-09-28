@@ -115,11 +115,11 @@ const adPatternsPC = {
     position:{
       Num1: {
         id:'01',
-        description:'1x1的Inread广告。'
+        description:'文章页中的第1个Inread位。'
       },
       Num2: {
         id:'02',
-        description:'590x400的Inread广告。'
+        description:'文章页中的第2个Inread位。'
       }
     }
   }
