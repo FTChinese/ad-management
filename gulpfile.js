@@ -532,12 +532,14 @@ gulp.task('build:pages',() => {
 gulp.task('build:copysource', () => {
   const complexpagesDir = 'dist/complex_pages';
   const templatesDir = 'dist/templates';
-
+  const aDir = 'dist';
   const complexpagesStream = gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
   const templatesStream = gulp.src('templates/forShow/**.html')
     .pipe(gulp.dest(templatesDir));
-  return merge(complexpagesStream,templatesStream);
+  const aStream = gulp.src('marketing/a.html')
+    .pipe(gulp.dest(aDir));
+  return merge(complexpagesStream,templatesStream,aStream);
 });
 
 /**
@@ -556,6 +558,7 @@ gulp.task('publish', gulp.series('del','template:forShow','html','style','script
     .pipe(gulp.dest(complexpagesDir));
   const templatesStream = gulp.src('dist/templates/**.html')
     .pipe(gulp.dest(templatesDir));
+  
   return merge(pagesStream, complexpagesStream, templatesStream);
 }));
 /****** For Publish the Show Online: Start ********/
