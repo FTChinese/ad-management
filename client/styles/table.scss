@@ -39,3 +39,25 @@
 .table-rowstripes {
   @include tableRowStripes;
 }
+
+section {
+  width: 100%;
+  display: block;
+}
+
+
+  .popwin {
+    position:fixed;
+    top:0;
+    left:50%;
+    margin-left:-250px;
+    display:none;
+
+    width:500px;
+    height:300px; 
+    background-color:#aaaaaa;
+    overflow-x: scroll;
+    iframe{
+      background: #555555;
+    }
+  }

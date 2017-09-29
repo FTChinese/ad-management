@@ -473,7 +473,7 @@ gulp.task('del', (done) => {
 gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
-      baseDir: ['.tmp','templates/forShow'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
+      baseDir: ['.tmp','templates/forShow','marketing'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
       //directory:true,
       routes: {
         '/bower_components':'bower_components',

@@ -30,7 +30,11 @@
       新广告位数据表
     </h2>
   </header>
+  
   <section>
+    {# 引入弹窗div,该弹窗展示广告iframe #}
+    {% include "./adtable-partials/popwin.html" %}
+
     <div class = "table-section">
       <table class="table-rowstripes" id="pc"></table>
     </div>

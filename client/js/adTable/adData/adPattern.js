@@ -1,4 +1,4 @@
-var adPatternsPC = {
+const adPatternsPC = {
   FullScreen: {
     id:'01',
     description:'进入网站后时首先看到的大块全屏广告。',
@@ -12,6 +12,9 @@ var adPatternsPC = {
   Leaderboard: {
     id:'02',
     description:'页面上部导航栏下方的长带状广告。此处的页面包括首页、频道页、文章页。',
+    container: 'banner',
+    width: '969',
+    height: '90',
     position:{
       Num1: {
         id:'01',
@@ -22,6 +25,9 @@ var adPatternsPC = {
   Banner: {
     id:'03',
     description:'页面中部穿插的长带状广告（页面导航栏下方的长带状广告除外，其叫做LeaderBoard，见上）。此处的页面包括首页、频道页、文章页。从上到下顺序出现。',
+    container: 'banner',
+    width: '969',
+    height: '90',
     position:{
       Num1:{
         id:'01',
@@ -40,6 +46,9 @@ var adPatternsPC = {
   MPU: {
     id:'04',
     description:'页面中的块状广告。此处的页面包含首页、频道页、文章页。可能出现的位置包括两种：右侧侧边栏从上至下排列；页面正文由上至下穿插',
+    width: '300',
+    height: '250',
+    container: 'mpu',
     position:{
       Right1: {
         id:'11',
@@ -62,6 +71,8 @@ var adPatternsPC = {
   Ribbon: {
     id:'05',
     description:'首页右侧栏顶部的端带状广告。',
+    width: '100%',
+    height: '90',
     position:{
       Num1: {
         id:'01',
@@ -125,7 +136,7 @@ var adPatternsPC = {
   }
 };
 
-var adPatternsPhone = {
+const adPatternsPhone = {
   FullScreen: {
     id:'01',
     description:'进入手机App时看到的全屏广告。',
@@ -143,6 +154,7 @@ var adPatternsPhone = {
   Banner: {
     id:'03',
     description:'手机端页面顶部、底部的带状广告。',
+    container: 'banner',
     position:{
       Num1:{
         id:'01',
@@ -157,6 +169,9 @@ var adPatternsPhone = {
   MPU: {
     id:'04',
     description:'页面中的块状广告。由上至下穿插。',
+    width: '300',
+    height: '250',
+    container: 'mpu',
     position:{
       Middle1:{
         id:'01',
@@ -184,7 +199,7 @@ var adPatternsPhone = {
   }
 };
 
-var adPatternsPad = {
+const adPatternsPad = {
   FullScreen: {
     id:'01',
     description:'进入pad端App时看到的大块全屏广告。',
@@ -202,6 +217,9 @@ var adPatternsPad = {
   MPU: {
     id:'04',
     description:'页面右上角的块状广告。此处的页面包含首页、频道页、文章页。',
+    width: '300',
+    height: '250',
+    container: 'mpu',
     position:{
       Right1: {
         id:'11',
@@ -215,8 +233,6 @@ var adPatternsPad = {
   }
 };
 
-console.log(adPatternsPC.FullScreen.id);
-console.log(adPatternsPhone.FullScreen.id);
-console.log(adPatternsPad.FullScreen.id);
+
 
 export  {adPatternsPC, adPatternsPhone, adPatternsPad};

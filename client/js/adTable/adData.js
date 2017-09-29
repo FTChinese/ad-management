@@ -9,10 +9,7 @@ class adTable {
      */
 
     if(!(table instanceof HTMLElement)) {
-      console.log("here");
-      console.log(table);
       this.table = document.getElementById(table);
-      console.log(this.table);
     } else {
       this.table = table;
     }
@@ -52,36 +49,34 @@ class adTable {
       this.addTbodyTrs(this.tbodyElem, this.channelArr, this.patternArr);
     } 
 
-    console.log(this.table);
     this.table.appendChild(this.captionElem);
     this.table.appendChild(this.theadElem);
     this.table.appendChild(this.tbodyElem);
- 
   }
-  /*
-  addBaseElem() {
-    const theadElem = document.createElement("thead");
-    const tbodyElem = document.createElement("tbody");
-    this.table.append(theadElem);
-    this.table.append(tbodyElem);
-  }
-  */
+
   buildPatternArr(patternObj) {
     const itemArr = [];
    
     for (const patternKey in patternObj) {
       const onePatternObj = patternObj[patternKey];
+      
       if (onePatternObj.position && onePatternObj.id && onePatternObj.id !== "") {
-        const onePatternId = onePatternObj.id
-        const onePatternPositionObj = onePatternObj.position;
+        const onePatternId = onePatternObj.id;
+        const onePatternWidth = onePatternObj.width?onePatternObj.width:'100%';
+        const onePatternHeight = onePatternObj.height?onePatternObj.height:'50';
+        const onePatternContainer = onePatternObj.container?onePatternObj.container:'';
 
+        const onePatternPositionObj = onePatternObj.position;
         for (const positionKey in onePatternPositionObj) {
           const onePositionObj = onePatternPositionObj[positionKey];
 
           if(onePositionObj.id && onePositionObj.id !== "") {
             const oneItem = {
               name:`${patternKey}-${positionKey}`,
-              id:`${onePatternId}${onePositionObj.id}`
+              id:`${onePatternId}${onePositionObj.id}`,
+              width:onePatternWidth,
+              height:onePatternHeight,
+              container:onePatternContainer
             };
             itemArr.push(oneItem);
           }
@@ -185,8 +180,14 @@ class adTable {
       
         for(const patternItem of patternArr) {
           const tdElem = document.createElement("td");
+          
           if(patternItem.id) {
-            tdElem.innerHTML = `${this.deviceId}${channelId}${patternItem.id}`;
+            const codeId = `${this.deviceId}${channelId}${patternItem.id}`;
+            tdElem.innerHTML = codeId;
+            tdElem.setAttribute("data-patternInfo-width", patternItem.width);
+            tdElem.setAttribute("data-patternInfo-height", patternItem.height);
+            tdElem.setAttribute("data-patternInfo-container", patternItem.container);
+            //tdElem.addEventListener('click', this.popWinOfIframe(event), false);
           }
           trElem.appendChild(tdElem); 
         }
@@ -197,6 +198,8 @@ class adTable {
     }
   
   }
+
+ 
   static init() {
     new adTable("pc","PC");
     new adTable("iPhoneApp","iPhoneApp");
