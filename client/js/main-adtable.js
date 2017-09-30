@@ -1,5 +1,5 @@
-import adTable from './adTable/adData.js';
-import popWin from './adTable/popWin.js';
+import AdTable from './adTable/adTable.js';
+import AddPopWin from './adTable/addPopWin.js';
 
-adTable.init();
-popWin();
+AdTable.init();
+AddPopWin.init();

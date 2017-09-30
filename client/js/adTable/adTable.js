@@ -1,7 +1,7 @@
 import adDevices from "./adData/adDevice.js";
 
 
-class adTable {
+class AdTable {
   constructor(table, device) {
     /**
      * @param table: type String, the id of the table element
@@ -201,14 +201,14 @@ class adTable {
 
  
   static init() {
-    new adTable("pc","PC");
-    new adTable("iPhoneApp","iPhoneApp");
-    new adTable("iPhoneWeb","iPhoneWeb");
-    new adTable("androidApp","AndroidApp");
-    new adTable("androidWeb","AndroidWeb");
-    new adTable("padApp","PadApp");
-    new adTable("padWeb","PadWeb");
+    new AdTable("pc","PC");
+    new AdTable("iPhoneApp","iPhoneApp");
+    new AdTable("iPhoneWeb","iPhoneWeb");
+    new AdTable("androidApp","AndroidApp");
+    new AdTable("androidWeb","AndroidWeb");
+    new AdTable("padApp","PadApp");
+    new AdTable("padWeb","PadWeb");
   }
 }
 
-export default adTable;
+export default AdTable;
