@@ -19,3 +19,4 @@ var inreadAd = {
     
     
 };
+var Imp = inreadAd.impression;

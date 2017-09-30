@@ -35,11 +35,6 @@ var parentFrameDom;
 var parentLink;
 var imageServiceBase = 'https://www.ft.com/__origami/service/image/v2/images/raw/';
 
-if (HouseAd === 'Y') {
-    isHouseAd = true;
-} else {
-    isHouseAd = false;
-}
 if (Imp !== '') {
     var gaServerTracker = new Image();
     gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();

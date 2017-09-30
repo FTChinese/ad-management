@@ -12,7 +12,7 @@
     if(adid.length !== 12) {
       return;
     } 
-    const iframeSrc = 'a.html?v=20161009143608' + '#adid='+ adid + '&pid=' + adid;
+    const iframeSrc = 'marketing/a.html?v=20161009143608' + '#adid='+ adid + '&pid=' + adid;
     const iframeWidth = e.target.getAttribute("data-patternInfo-width");
     const iframeHeight = e.target.getAttribute("data-patternInfo-height");
     

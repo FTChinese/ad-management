@@ -440,17 +440,18 @@ gulp.task('style',() => {
  */
 
 gulp.task('copysource', () => {
-  const complexpagesDir = '.tmp/complex_pages'; //NOTE:这些h5不能直接用线上绝对路径，因为那样的话www.ftchinese.com会导致iframe引入的h5和父页面不同源；也不能直接使用本地complex_pages，在serve任务里多设置一个服务器basedir，那样的话引入的h5不能下推父页面元素————原因待查？？？
-  
-  //const templatesDir = '.tmp/templates';
-
-  return gulp.src('complex_pages/**.html')
+  const complexpagesDir = '.tmp/complex_pages'; //
+  const templatesDir = '.tmp/templates';
+  const aDir = '.tmp/marketing';
+  const complexpagesStream = gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
   
-  //const templatesStream = gulp.src('templates/forShow/**.html')
-    //.pipe(gulp.dest(templatesDir));
+  const templatesStream = gulp.src('templates/forShow/**.html')
+    .pipe(gulp.dest(templatesDir));
  
-  return merge(complexpagesStream,templatesStream);
+  const aStream = gulp.src('marketing/a.html')
+    .pipe(gulp.dest(aDir));
+  return merge(complexpagesStream,templatesStream,aStream);
 });
 
 /**
@@ -473,7 +474,7 @@ gulp.task('del', (done) => {
 gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
-      baseDir: ['.tmp','templates/forShow','marketing'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
+      baseDir: ['.tmp'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
       //directory:true,
       routes: {
         '/bower_components':'bower_components',
@@ -532,13 +533,15 @@ gulp.task('build:pages',() => {
 gulp.task('build:copysource', () => {
   const complexpagesDir = 'dist/complex_pages';
   const templatesDir = 'dist/templates';
-  const aDir = 'dist';
+  const aDir = 'dist/marketing';
+
   const complexpagesStream = gulp.src('complex_pages/**.html')
     .pipe(gulp.dest(complexpagesDir));
   const templatesStream = gulp.src('templates/forShow/**.html')
     .pipe(gulp.dest(templatesDir));
   const aStream = gulp.src('marketing/a.html')
     .pipe(gulp.dest(aDir));
+
   return merge(complexpagesStream,templatesStream,aStream);
 });
 
@@ -551,6 +554,7 @@ gulp.task('publish', gulp.series('del','template:forShow','html','style','script
   const pagesDir = '../www3app/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;
+  const aDir = `${pagesDir}/marketing`;
 
   const pagesStream = gulp.src('dist/**.html')
     .pipe(gulp.dest(pagesDir));
@@ -558,16 +562,16 @@ gulp.task('publish', gulp.series('del','template:forShow','html','style','script
     .pipe(gulp.dest(complexpagesDir));
   const templatesStream = gulp.src('dist/templates/**.html')
     .pipe(gulp.dest(templatesDir));
-  
+  const aStream = gulp.src('marketing/a.html')
+    .pipe(gulp.dest(aDir));
   return merge(pagesStream, complexpagesStream, templatesStream);
 }));
 /****** For Publish the Show Online: Start ********/
 
-
+/* 手动复制吧
 gulp.task('copyAdData', () => {
   const destDir = 'client/js/adData';
   return gulp.src(['../NEXT/app/scripts/adDevice.js','../NEXT/app/scripts/adChannel.js','../NEXT/app/scripts/adPattern.js'])
   .pipe(gulp.dest(destDir));
 });
-
-
+*/
