@@ -484,7 +484,7 @@ gulp.task('serve',gulp.series('del','template:forShow','copysource','html','styl
     port:8080
   });
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
-  gulp.watch('client/js/**/*.js',gulp.parallel('script','scriptForAdtable'));
+  gulp.watch('client/js/**/**/*.js',gulp.parallel('script','scriptForAdtable'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
  // gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
