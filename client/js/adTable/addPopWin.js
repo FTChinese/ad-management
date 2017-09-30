@@ -58,7 +58,7 @@ class AddPopWin {
     } else if(e.type === "keydown" && this.didSelectTd) {
       //MARK:处理keydown事件
       const didSelectIndexCell = this.didSelectTd.cellIndex;//横向tr中的第几个单元格，从0开始
-      const didSelectTr = this.didSelectTd.parentElement;//纵向第几个tr，从0开始
+      const didSelectTr = this.didSelectTd.parentNode;//纵向第几个tr，从0开始 //NOTE:此处parentElement、parentNode都可以
       const didSelectIndexRow = didSelectTr.rowIndex;
       console.log(didSelectIndexCell);
       console.log(didSelectIndexRow);
