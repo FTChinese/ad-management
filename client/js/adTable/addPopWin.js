@@ -138,6 +138,7 @@ class AddPopWin {
     this.popWinIframe.setAttribute("width",iframeWidth);
     this.popWinIframe.setAttribute("height",iframeHeight);
     this.popWinElem.style.display = "block";
+    this.popWinIframe.contentWindow.location.reload(true);
 
   }
 
