@@ -17,7 +17,7 @@ class AddPopWin {
     }
 
     //this.didSelectTd = this.rootElem.querySelector(".selected");
-    this.popWinIframe = this.popWinElem.querySelector("iframe");
+    //this.popWinIframe = this.popWinElem.querySelector("iframe");
     this.popWinMark = this.popWinElem.querySelector(".mark");
 
     this.updateRelatedTds.bind(this);
@@ -120,6 +120,10 @@ class AddPopWin {
 
 
   popWin() {
+    const iframeElemHere = document.getElementById("popIframe");
+    if(iframeElemHere instanceof HTMLElement) {
+      this.popWinElem.removeChild(iframeElemHere);
+    }
     this.popWinElem.style.display = "none";
     if(!this.willSelectTd) {
       return;
@@ -133,13 +137,20 @@ class AddPopWin {
     const iframeSrc = 'marketing/a.html?v=20161009143608' + '#adid='+ adid + '&pid=' + adid;
     const iframeWidth = this.willSelectTd.getAttribute("data-patternInfo-width");
     const iframeHeight = this.willSelectTd.getAttribute("data-patternInfo-height");
-    
-    this.popWinIframe.setAttribute("src", iframeSrc);
-    this.popWinIframe.setAttribute("width",iframeWidth);
-    this.popWinIframe.setAttribute("height",iframeHeight);
-    this.popWinElem.style.display = "block";
-    this.popWinIframe.contentWindow.location.reload(true);
+    //const iframeElem = '<iframe id="popIframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"><\/iframe>';
 
+    const iframeElem = document.createElement("iframe");
+    iframeElem.setAttribute("id", "popIframe");
+    iframeElem.setAttribute("src", iframeSrc);
+    iframeElem.setAttribute("width",iframeWidth);
+    iframeElem.setAttribute("height",iframeHeight);
+    this.popWinElem.appendChild(iframeElem);
+    this.popWinElem.style.display = "block";
+   // this.popWinIframe.location.reload();
+    //this.popWinIframe.src = this.popWinIframe.src;
+
+    ///MARK:貌似只有这样动态处理iframe才能让它自动刷新
+   
   }
 
   static init() {
