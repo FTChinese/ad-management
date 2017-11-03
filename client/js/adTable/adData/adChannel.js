@@ -485,6 +485,16 @@ const adChannelsPC = {
       }
     }
   },
+  TestPage :{
+    id:'88',
+    title:'测试',
+    sub:{
+      Home: {
+        id:'88',
+        title:'测试'
+      }
+    }
+  }
 };
 
 const adChannelsMobile = {
@@ -686,6 +696,16 @@ const adChannelsMobile = {
       Brics2017: {
         id:'64',
         title:'金砖五国峰会'
+      }
+    }
+  },
+  TestPage :{ // MARK：此频道正式NEXT里面没有
+    id:'88',
+    title:'测试',
+    sub:{
+      Home: {
+        id:'88',
+        title:'测试'
       }
     }
   }
