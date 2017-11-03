@@ -485,13 +485,21 @@ const adChannelsPC = {
       }
     }
   },
-  TestPage :{
+  TestPage :{ // MARK：此频道正式NEXT里面没有
     id:'88',
     title:'测试',
     sub:{
-      Home: {
+      Beijing: {
+        id:'00',
+        title:'北京'
+      },
+      Shanghai: {
+        id:'44',
+        title:'上海'
+      },
+      Oversea:{
         id:'88',
-        title:'测试'
+        title:'海外'
       }
     }
   }
