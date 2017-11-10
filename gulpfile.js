@@ -15,9 +15,6 @@ const pump = require('pump');
 process.env.MYENV = 'show';
 var cache;
 
-/*****定义两个全局变量，用于存储渲染模板使用的数据*****/
-var dataForProd;//存储用于渲染生产模式模板的数据对象
-var dataForShow;//存储用于渲染展示模式模板的数据对象
 
 
 /**********Nunjucks渲染环境配置：start*********/
@@ -48,73 +45,12 @@ function renderForView(template, context) {
   });
 }
 
-const envForTemplate = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(['templates/dev'],{
-    watch:false,//MARK:如果为true，则会导致html任务挂在那儿
-    noCache:true
-  }),
-  {
-    autoescape:false
-  }
-);
 
-function renderForTemplate(template, context) {
-  return new Promise(function(resolve, reject) {
-      envForTemplate.render(template,context,function(err,res) {
-        if(err) {
-          reject(err);
-        } else {
-          resolve(res);
-        }
-      });
-  });
-}
 /**********Nunjucks渲染环境配置：End*********/
 
 
-/******* For templates: Start *********/
-/**
- * 任务'dataForProd':
- * @purpose:生成展示模式模板所需Object数据。
- * @description:将templates/data/forShow下的相关js文件内容读取整合至全局变量dataForShow
- */
-gulp.task('dataForShow', async () => {
-  const jsSourcePath = 'templates/data/forShow/';
-  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/func_sendImpToThirdParty.js`,'utf8');
-  const ccVideo = await fs.readAsync(`${jsSourcePath}var_ccVideo.js`,'utf8');
-  const fullWidthTopBanner = await fs.readAsync(`${jsSourcePath}var_fullWidthTopBanner.js`,'utf8');
-  const html5Ad = await fs.readAsync(`${jsSourcePath}var_html5Ad.js`,'utf8');
-  const imgAd = await fs.readAsync(`${jsSourcePath}var_imgAd.js`,'utf8');
-  const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
-  const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
-  const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
-  const pushDownVideo = await fs.readAsync(`${jsSourcePath}var_pushDownVideo.js`,'utf8');
-  const pushDownPic = await fs.readAsync(`${jsSourcePath}var_pushDownPic.js`,'utf8');
-  dataForShow = {
-     defineSendImpfunc,
-     defineVar:{
-       ccVideo,
-       fullWidthTopBanner,
-       html5Ad,
-       imgAd,
-       inReadAd,
-       mobileFullScreenImage,
-       mobileInfoFlow,
-       pushDownVideo,
-       pushDownPic
-     }
-   }
-   //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
-});
+/******* Prepare files by copying from NEXT *********/
 
-/**
- * 任务'forShow'：
- *  @Purpose:标记模板用于展示模式。主要就是设置process对象的属性为'show'。
- */
-gulp.task('forShow',(done) => {
-  Promise.resolve(process.env.MYENV = 'show');
-  done();
-});
 
 /**
  * 任务'compressFunc'：
@@ -125,158 +61,11 @@ gulp.task('compressFunc', (done) => {
   pump([
     gulp.src('../NEXT/app/scripts/ad-third-party-impression.js'),
     $.uglify(),
-    gulp.dest('templates/data/forProd/compressedFunc')
+    gulp.dest('templates/func/compressedFunc')
   ],done);
 });
 
-/**
- * 任务'dataForProd':
- * @purpose:生成生产环境模板所需Object数据。
- * @description:将templates/data/forProd下的相关js文件内容读取整合至全局变量dataForProd
- */
-gulp.task('dataForProd', async () => {
-  const jsSourcePath = 'templates/data/forProd/';
-  const defineSendImpfunc = await fs.readAsync(`${jsSourcePath}compressedFunc/ad-third-party-impression.js`,'utf8');
-  const ccVideo = await fs.readAsync(`${jsSourcePath}var_ccVideo.js`,'utf8');
-  const fullWidthTopBanner = await fs.readAsync(`${jsSourcePath}var_fullWidthTopBanner.js`,'utf8');
-  const html5Ad = await fs.readAsync(`${jsSourcePath}var_html5Ad.js`,'utf8');
-  const imgAd = await fs.readAsync(`${jsSourcePath}var_imgAd.js`,'utf8');
-  const inReadAd = await fs.readAsync(`${jsSourcePath}var_inReadAd.js`,'utf8');
-  const mobileFullScreenImage = await fs.readAsync(`${jsSourcePath}var_mobileFullScreenImage.js`,'utf8');
-  const mobileInfoFlow = await fs.readAsync(`${jsSourcePath}var_mobileInfoFlow.js`,'utf8');
-  const pushDownVideo = await fs.readAsync(`${jsSourcePath}var_pushDownVideo.js`,'utf8');
-  const pushDownPic = await fs.readAsync(`${jsSourcePath}var_pushDownPic.js`,'utf8');
-  
-  dataForProd = {
-     defineSendImpfunc,
-     defineVar:{
-       ccVideo,
-       fullWidthTopBanner,
-       html5Ad,
-       imgAd,
-       inReadAd,
-       mobileFullScreenImage,
-       mobileInfoFlow,
-       pushDownVideo,
-       pushDownPic
-     }
-   }
-   //fs.writeAsync('templates/data/forProd/forProd.json',dataForDev);
-});
-
-/**
- * 任务：'forProd'
- *  @Purpose:标记模板用于生产模式。主要就是设置process对象的属性为'prod'。
- */
-gulp.task('forProd',gulp.series(() => {
-
-  return Promise.resolve(process.env.MYENV = 'prod');// Promise.resolve返回一个resovle后的promise对象
-}));
-
-/**
- * 任务'template":
- * @purpose:使用两种模式的数据渲染开发模板以得到两种模式下的广告模板文件。
- * @description:广告模板有两种模式：
- *    （1）当为生产模式时，使用templates/data/forProd.json渲染，生成的文件放在temlates/forProd目录下；
- *     （2）当为展示模式时，使用templates/data/forShow.json渲染，生成的文件放在tempaltes/forShow目录下。
- */
-gulp.task('template', async () => {
- 
-  console.log(process.env.MYENV);
-  let dataForRender;
-  let destDir;
-  if (process.env.MYENV === 'prod') {
-    console.log(process.env.MYENV);
-    //dataForRender = await fs.readAsync('templates/data/forProd.json', 'json');
-    dataForRender = dataForProd;
-    destDir = 'templates/forProd';
-  } else {
-    //dataForRender = await fs.readAsync('templates/data/forShow.json', 'json');
-    dataForRender = dataForShow;
-    destDir = 'templates/forShow';
-  }
-  let templateFileArr = fs.find('templates/dev', {
-    matching:'*.html'
-  });
-  console.log(templateFileArr);
-  templateFileArr = templateFileArr.map((item) => {
-    return path.basename(item);
-  });
-  function renderOneTemplate(oneTemplate) {
-    return new Promise(
-      async function(resolve, reject) {
-        const renderResult = await renderForTemplate(oneTemplate, dataForRender);
-        const baseName = path.basename(oneTemplate, '.html');
-        const renderFile = `${baseName}.html`;
-        const destFile = path.resolve(destDir, renderFile);
-        const result = {
-          renderResult,
-          destFile
-        };
-        resolve(result)
-      }
-    ).then(result => {
-      fs.writeAsync(result.destFile, result.renderResult);
-    }).catch(error => {
-
-    })
-    
-  }
-
-  function renderTemplates(templateFileArr) {
-    return templateFileArr.map((item) => { //返回一个Promise数组
-      return renderOneTemplate(item);
-    });
-  }
-
-  return Promise.all(renderTemplates(templateFileArr))
-    .then(() => {
-      browserSync.reload();
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
-)
-
-/**
- * 任务'del:prodTemplate'：
- * @purpose: 删除已构建的生产模式的广告模板。
- * @description: 删除templates/forProd目录下html文件
- */
-gulp.task('del:prodTemplate', (done) => {
-  
- del(['templates/forProd/*.html']).then( paths => {
-    console.log('Deleted files:\n',paths.join('\n'));
-    done();
-  });
-});
-
-/** 
- * 任务'del:showTemplate'：
- * @purpose: 删除已构建的展示模式的广告模板。
- * @description: 删除templates/forShow目录下html文件
- */
-gulp.task('del:showTemplate', (done) => {
- del(['templates/forShow/*.html']).then( paths => {
-    console.log('Deleted files:\n',paths.join('\n'));
-    done();
-  });
-});
-
-/**
- * 任务'template:forProd':
- * @purpose: 构建生产模式的广告模板。
- * @description: 依次执行任务'del:prodTemplate','forProd','template'
- */
-gulp.task('template:forProd', gulp.series('del:prodTemplate','compressFunc','dataForProd','forProd','template'));
-
-/**任务'template:forShow':
- * @purpose: 构建展示模式的广告模板。
- * @description: 依次执行任务'del:showTemplate','forShow','template'
- */
-gulp.task('template:forShow', gulp.series('del:showTemplate','dataForShow','forShow','template'));
-/***** For templates: End ********/
+/***** For templates func: End ********/
 
 
 /***** For Show At Local: start ******/
@@ -440,18 +229,15 @@ gulp.task('style',() => {
  */
 
 gulp.task('copysource', () => {
-  const complexpagesDir = '.tmp/complex_pages'; //
   const templatesDir = '.tmp/templates';
-  const aDir = '.tmp/marketing';
-  const complexpagesStream = gulp.src('complex_pages/**.html')
-    .pipe(gulp.dest(complexpagesDir));
+  const mDir = '.tmp/m';
   
-  const templatesStream = gulp.src('templates/forShow/**.html')
+  const templatesStream = gulp.src('templates/forShow/*.html')
     .pipe(gulp.dest(templatesDir));
- 
-  const aStream = gulp.src('marketing/a.html')
-    .pipe(gulp.dest(aDir));
-  return merge(complexpagesStream,templatesStream,aStream);
+  const mStream = gulp.src('m/**/*')
+    .pipe(gulp.dest(mDir));
+
+  return merge(templatesStream, mStream);
 });
 
 /**
@@ -469,9 +255,9 @@ gulp.task('del', (done) => {
 /**
  * 任务 'serve'：
  * @purpose:开启本地服务器，用浏览器打开广告展示页面
- * @description:依次执行任务'template:forShow','copysource','html','style','script'，服务器开启及代码更新后自动刷新
+ * @description:依次执行任务'copysource','html','style','script'，服务器开启及代码更新后自动刷新
  */
-gulp.task('serve',gulp.series('del','template:forShow','copysource','html','style','script','scriptForAdtable',function() {
+gulp.task('serve',gulp.series('del','copysource','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
@@ -486,6 +272,7 @@ gulp.task('serve',gulp.series('del','template:forShow','copysource','html','styl
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/**/*.js',gulp.parallel('script','scriptForAdtable'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
+  gulp.watch('m/marketing/*.html', gulp.parallel('copysource'))
  // gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
 }));
 
@@ -550,7 +337,7 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del','template:forShow','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
+gulp.task('publish', gulp.series('del','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
   const pagesDir = '../www3app/ad-management';
   const complexpagesDir = `${pagesDir}/complex_pages`;
   const templatesDir = `${pagesDir}/templates`;
