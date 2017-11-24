@@ -45,18 +45,13 @@ img {
 
 
 <script>
+var parentIframe;
 
-function removeAd() {
-    //alert ('removeAd');
-    window.parent.sendEvent('Ad Impression: Error', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
-}
 
-function loaded() {
-    //alert ('loaded');
-    if (window.isHouseAd === true) {
-        window.parent.sendEvent('Ad Impression: House Ad', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
-    }
-}
+
+
+
+
 
 var k=window.location.href;
 var c = k.replace(/^.*adid=([0-9A-Za-z\-]+).*$/,"$1");
@@ -66,11 +61,23 @@ if (/^[0-9]{4}0001$/.test(c)) {
 } else {
     d='';
 }
-var slotStr = window.parent.slotStr || '';
-var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
-parentId = 'ad-'+parentId;
+var adChannelId;
+var adPositionId;
 
-//console.log("parentId:" + parentId);
+
+var parentId = k.replace(/^.*pid=([0-9A-Za-z\-]+).*$/,"$1");
+if (/^[0-9]{12}$/.test(c)) {
+    adChannelId = c.substring(0,8);
+    adPositionId = c.substring(8,12);
+    parentId = 'ad-'+parentId;
+} else {
+    adChannelId = c.substring(0,4);
+    adPositionId = c.substring(4,8);
+}
+
+var slotStr = window.parent.slotStr || '';
+
+
 
 var adP = '';
 try {
@@ -79,61 +86,39 @@ try {
 
 }
 
-
-
-if (1>1 && /^20550004$/.test(c)) {
-    var viewable = {
-      id: 'ad-ibm-200122323',
-      minimum: 0.6,
-      time: 1000
-    };
-} else if (1>32 && /^20220121$/.test(c)) {
-
-
-} else {
-document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + adP + '&_fallback=0" charset="gbk" onerror="removeAd()" onload="loaded()"></scr'+'ipt>');
+var randNumber = parseInt(Math.random() * 10000000000, 10).toString();
+var adpatternCode = c.substr(-4,4);
+if (c === '20220101' || c === '20220102' || c === '20230101' || c === '20230102' || adpatternCode === '0301' || adpatternCode === '0351') {
+    parent.window.gRand = randNumber;
 }
+var trString = '&tr=' + c + '_' + randNumber;
 
-// var forceBG = 'black';
 
-// record the ad impression
-try {
-    window.parent.sendEvent('Ad Impression', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
-} catch (ignore) {
+document.write ('<scr'+'ipt src="http://dualstack.adsame-1421766300.ap-southeast-1.elb.amazonaws.com/s?z=ft&c=' + c + slotStr + trString + adP + '&_fallback=0" charset="gbk" ></scr'+'ipt>');
 
-}
 
-if (/^1[347]000003$/.test(c) || /^1[347]000012$/.test(c) || c === '10000004') {
-    setTimeout(function(){
-        location.reload();
-    }, 1000 * 60 * 5);
-}
 
 </script>
 
-
 </div></div>
-<div id="ad-bottom"></div>
+<div id="ad-bottom"></div><!-- 用于定位广告的高度-->
 
 <script type="text/javascript">
 function findTop(obj) {
-var curtop = 0;
-if (obj.offsetParent) {
-  do {
-    curtop += obj.offsetTop;
-  } while ((obj = obj.offsetParent));
-  return curtop;
-}
+    var curtop = 0;
+    if (obj.offsetParent) {
+    do {
+        curtop += obj.offsetTop;
+    } while ((obj = obj.offsetParent));
+    return curtop;
+    }
 }
 
 var adContainerHeight;
-var parentIframe;
 var adBottom = document.getElementById('ad-bottom');
 var adHeight = findTop(adBottom);
 var adResized = false;
 var adFullWidth = false;
-
-
 var w=0;
 
 if ( window.parent.document.getElementById(parentId)) {
@@ -189,37 +174,28 @@ if ( window.parent.document.getElementById(parentId)) {
                     parentIframe.parentNode.style.height = adHeight + 'px';
                 }
             }
-            window.parent.stickyBottomPrepare();            
+            //window.parent.stickyBottomPrepare();
         } catch (err) {
+            /*
             setTimeout (function(){
-                window.parent.stickyBottomPrepare(); 
+                window.parent.stickyBottomPrepare();
             }, 3000);
+            */
         }
     } else if (adFullWidth === true) {
         try {
-            window.parent.stickyBottomPrepare();
+            //window.parent.stickyBottomPrepare();
         } catch (ignore) {
+            /*
             setTimeout (function(){
-                window.parent.stickyBottomPrepare(); 
+                window.parent.stickyBottomPrepare();
             }, 3000);
+            */
         }
     }
 
-    // if there's need track viewability
-    if (typeof viewable === 'object') {
-        setTimeout(function() {
-            if (typeof window.parent.viewablesInit === 'function') {
-                viewable.top = findTop (parentIframe.parentNode);
-                viewable.height = parentIframe.parentNode.offsetHeight;
-                viewable.viewed = false;
-                window.parent.viewables.push(viewable);
-                window.parent.viewablesInit();
-                window.parent.trackViewables();
-                //console.log (window.parent.viewables);
-            }
-        }, 1000);
-    }
     
+
 }
 
 if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stickyHeight === 'number' && stickyHeight > 0) {
@@ -234,7 +210,7 @@ if (window.parent && parentId !== '' && /^banner/.test(parentId) && typeof stick
         window.parent.stickyAdsPrepare();
         window.parent.stickyBottomPrepare();
     } catch (ignore) {
-        
+
     }
 }
 //in a iframe of h5 template
@@ -247,7 +223,7 @@ if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== ''
         if (document.querySelector('.ad a')) {
             adUrl = document.querySelector('.ad a').href || '';
         }
-        
+
         if (adUrl !== '') {
             if (parentContainer.getElementsByTagName('a').length===0) {
                 overlayLink = document.createElement("a");
@@ -268,15 +244,16 @@ if (window.parent && typeof window.parent.mpuAds === 'object' && parentId !== ''
     }
 }
 
-if (document.querySelector('.ad').innerHTML.indexOf('N5840.139612.1071020274421/B20208468.203238953;dc_trk_aid=403040961') > 0) {
-    parent.window.gCanReplaceInstoryWithAd = true;
-    parent.window.gReplacedInstroyWithAd = false;
-}
-
 if (parentIframe && window.hideAdSign && window.hideAdSign !== '') {
     var adClassName = parentIframe.parentNode.className;
     parentIframe.parentNode.className = adClassName + ' hide-sign';
 }
+
+
+
+
+
+
 </script>
 
 

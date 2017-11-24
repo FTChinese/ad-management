@@ -1,8 +1,8 @@
 class AddPopWin {
   constructor(rootElem,popWinElem){
     /**
-    * @param rootElem:TYPE Document | HTMLElement |String——ID of an elem
-    * @param popWinElem: Type HTMLElement | String——ID of an elem
+    * @param rootElem:TYPE Document | HTMLElement |String——ID of an elem, Here is the Document
+    * @param popWinElem: Type HTMLElement | String——ID of an elem, the popWin Element or it's id. Here is the div whose id is "popWin"
     */
     if(rootElem instanceof HTMLElement || rootElem instanceof Document) {
       this.rootElem = rootElem;
@@ -16,19 +16,17 @@ class AddPopWin {
       this.popWinElem = popWinElem;
     }
 
-    //this.didSelectTd = this.rootElem.querySelector(".selected");
-    //this.popWinIframe = this.popWinElem.querySelector("iframe");
-    this.popWinMark = this.popWinElem.querySelector(".mark");
-
+    this.popWinMark = this.popWinElem.querySelector(".mark");//MARK:装载ad号的p元素
+    this.iframePart = this.popWinElem.querySelector(".iframePart")
     this.updateRelatedTds.bind(this);
     this.popWin.bind(this);
     
-    document.addEventListener("click", (event) => {
+    this.rootElem.addEventListener("click", (event) => { //MARK:将td上的click事件委托给rootElem(即document)来监听
       this.updateRelatedTds(event);
       this.popWin();
     },false);
 
-    document.addEventListener("keydown",(event) => {
+    this.rootElem.addEventListener("keydown",(event) => { //MAKR:将td上的keydown事件委托给rootElem(即document)类监听
       this.updateRelatedTds(event);
       this.popWin();
     }, false);
@@ -120,32 +118,56 @@ class AddPopWin {
 
 
   popWin() {
-    const iframeElemHere = document.getElementById("popIframe");
-    if(iframeElemHere instanceof HTMLElement) {
+    //MAKR：如果id为"popIframe"的iframe元素已经存在，则移除它，并将整个popWin Element隐藏。
+    /*
+    const iframeElemHere = this.popWinElem.querySelector("iframe");
+    if(iframeElemHere instanceof HTMLElement) { 
       this.popWinElem.removeChild(iframeElemHere);
     }
+    */
+    this.iframePart.innerHTML = "";
     this.popWinElem.style.display = "none";
+
+    //MARK:如果此时没有即将被选中的td(即this.willSelectTd为null),则直接return 
     if(!this.willSelectTd) {
       return;
     }
 
+    //MARK: 获取ad的12位adid号，即为即将选中的td的innerHTML,并将其做为popWin的p class="mark"元素的内容
     const adid = this.willSelectTd.innerHTML;
     if(adid.length !== 12) {
       return;
     } 
     this.popWinMark.innerHTML = adid;
-    const iframeSrc = 'marketing/a.html?v=20161009143608' + '#adid='+ adid + '&pid=' + adid;
+
+
+    const iframeSrc = 'm/marketing/a.html?v=20161009143608' + '#adid='+ adid + '&pid=' + adid;
     const iframeWidth = this.willSelectTd.getAttribute("data-patternInfo-width");
     const iframeHeight = this.willSelectTd.getAttribute("data-patternInfo-height");
+    const containerType = this.willSelectTd.getAttribute("data-patternInfo-container");
     //const iframeElem = '<iframe id="popIframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"><\/iframe>';
 
+    /*
     const iframeElem = document.createElement("iframe");
-    iframeElem.setAttribute("id", "popIframe");
+    iframeElem.setAttribute("id", "ad-"+adid);
     iframeElem.setAttribute("src", iframeSrc);
     iframeElem.setAttribute("width",iframeWidth);
     iframeElem.setAttribute("height",iframeHeight);
-    this.popWinElem.appendChild(iframeElem);
+    iframeElem.setAttribute("class","popIframe");
+    */
+    //this.popWinElem.appendChild(iframeElem);
+    var iframeHTML = '<iframe class="banner-iframe" id="ad-' + adid + '" width="'+ iframeWidth +'" height="'+ iframeHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="'+ iframeSrc +'" data-src="'+ iframeSrc +'"></iframe>';
+    if (containerType === 'banner') {
+      iframeHTML = '<div class="bn-ph"><div class="banner-container"><div class="banner-inner"><div class="banner-content">' + iframeHTML + '</div></div></div></div>';
+    } else if (containerType === 'mpu') {
+      iframeHTML = '<div class="mpu-container">' + iframeHTML + '</div>';
+    } else if (containerType === 'mpuInStroy') {
+      iframeHTML = '<div class="mpu-container-instory">' + iframeHTML + '</div>';
+    }
+
+    this.iframePart.innerHTML = iframeHTML;
     this.popWinElem.style.display = "block";
+    this.popWinElem.style.height = "300px";
    // this.popWinIframe.location.reload();
     //this.popWinIframe.src = this.popWinIframe.src;
 

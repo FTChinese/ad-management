@@ -1,5 +1,5 @@
 {
-  "pageTitle":"Template Show:Push Down Pic",
+  "pageTitle":"Template Show:Push Down For Pic",
   "pageStyle":"showpage-style",
   "viewport":"user-scalable=yes",
 
@@ -10,7 +10,7 @@
   "postText":"获得更加效果，请使用PC端查看",
 
   "templateHeadline":"TEMPLATE: Push Down",
-  "description":"A pull down template with a banner img and a video",
+  "description":"A pull down template with a banner section and a big section. The banner section is a image, and the big section could be an image and a video",
   "suitedEnds":"PC Web",
   "otherNotes":"There are some other words........."
 }

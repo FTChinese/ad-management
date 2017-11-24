@@ -272,8 +272,8 @@ gulp.task('serve',gulp.series('del','copysource','html','style','script','script
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/**/*.js',gulp.parallel('script','scriptForAdtable'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
-  gulp.watch('m/marketing/*.html', gulp.parallel('copysource'))
- // gulp.watch(['views/templates/*.html','complex_pages/*.html'],gulp.parallel('copysource'));
+  gulp.watch(['m/marketing/*.html','templates/forShow/*.html'], gulp.parallel('copysource'))
+
 }));
 
 /***** For Show at Local: End ******/
@@ -318,18 +318,15 @@ gulp.task('build:pages',() => {
  */
 
 gulp.task('build:copysource', () => {
-  const complexpagesDir = 'dist/complex_pages';
   const templatesDir = 'dist/templates';
-  const aDir = 'dist/marketing';
-
-  const complexpagesStream = gulp.src('complex_pages/**.html')
-    .pipe(gulp.dest(complexpagesDir));
-  const templatesStream = gulp.src('templates/forShow/**.html')
+  const mDir = 'dist/m';
+  
+  const templatesStream = gulp.src('templates/forShow/*.html')
     .pipe(gulp.dest(templatesDir));
-  const aStream = gulp.src('marketing/a.html')
-    .pipe(gulp.dest(aDir));
+  const mStream = gulp.src('m/**/*')
+    .pipe(gulp.dest(mDir));
 
-  return merge(complexpagesStream,templatesStream,aStream);
+  return merge(templatesStream, mStream);
 });
 
 /**
@@ -338,20 +335,9 @@ gulp.task('build:copysource', () => {
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
 gulp.task('publish', gulp.series('del','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
-  const pagesDir = '../www3app/ad-management';
-  const complexpagesDir = `${pagesDir}/complex_pages`;
-  const templatesDir = `${pagesDir}/templates`;
-  const aDir = `${pagesDir}/marketing`;
-
-  const pagesStream = gulp.src('dist/**.html')
-    .pipe(gulp.dest(pagesDir));
-  const complexpagesStream = gulp.src('dist/complex_pages/**.html')
-    .pipe(gulp.dest(complexpagesDir));
-  const templatesStream = gulp.src('dist/templates/**.html')
-    .pipe(gulp.dest(templatesDir));
-  const aStream = gulp.src('marketing/a.html')
-    .pipe(gulp.dest(aDir));
-  return merge(pagesStream, complexpagesStream, templatesStream);
+  const dest = '../www3app/ad-management';
+  return gulp.src('dist/**/**/*')
+    .pipe(gulp.dest(dest));
 }));
 /****** For Publish the Show Online: Start ********/
 

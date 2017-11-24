@@ -1,3 +1,4 @@
+<!-- forShow下的pushdownForPic.html和pushdownForVideo.html都对应forProd下的pushdown.html模板,只不过一个设置sourceUrl，一个不设置sourceUrl-->
 <script>
     if(!parentId) {
       var parentId = "ad-100010000201";
@@ -7,14 +8,13 @@
     var imgWidth = '969';
     var imgHeight = '90';
     var videoPoster = 'https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201711/20171107pushdown40008.jpg';
-    var bigHeight = '500';
     var sourceUrl = '';
     var sourceType = 'video/mp4';
     if (sourceUrl !== '') {
-        var complexPagePath = window.parent.location.origin + '/m/marketing/pushdownVideo.html';
+        var complexPagePath = '/m/marketing/pushdownVideo.html';
     } else {
         var bigPic = videoPoster;
-        var complexPagePath = window.parent.location.origin + '/m/marketing/pushdownPic1.html';
+        var complexPagePath = '/m/marketing/pushdownPic.html';
     }
     
     var innerFrameId = parentId + 'Inner';

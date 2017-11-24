@@ -1,0 +1,23 @@
+<!-- forShow下的pushdownForPic.html和pushdownForVideo.html都对应forProd下的pushdown.html模板,只不过一个设置sourceUrl，一个不设置sourceUrl-->
+<script>
+  if(!parentId) {
+    var parentId = "ad-100010000201";
+  }
+  var detailPage = 'https://www.hennessy.com/zh-cn/hennessyparadisimperial/';
+  var bannerImg = 'http://i.ftimg.net/picture/2/000071402_piclink.jpg';
+  var imgWidth = '969';
+  var imgHeight = '90';
+  var videoPoster = 'http://i.ftimg.net/picture/3/000071403_piclink.jpg';
+  var sourceUrl = 'http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4';
+  var sourceType = 'video/mp4';
+  if (sourceUrl !== '') {
+      var complexPagePath = '/m/marketing/pushdownVideo.html';//TODO:publish时替换成/app/ad-management/m/marketing/pushdownVideo.html
+  } else {
+      var bigPic = videoPoster;
+      var complexPagePath = '/m/marketing/pushdownPic.html';
+  }
+  
+  var innerFrameId = parentId + 'Inner';
+
+  document.write('<iframe class="banner-iframe"  id="' + innerFrameId + '" width="' + imgWidth + '" height="' + imgHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
+</script>
