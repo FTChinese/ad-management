@@ -12,6 +12,7 @@ const minifyEs6 = require('uglify-es').minify;
 const del = require('del');
 const merge = require('merge-stream');
 const pump = require('pump');
+//const replace = require('gulp-replace-string');
 process.env.MYENV = 'show';
 var cache;
 
@@ -245,19 +246,32 @@ gulp.task('copysource', () => {
  * @purpose:删除展示页面本地预览及发布相关文件目录及内容
  * @description：删除.tmp、dist、deploy目录，用以重新生成这些目录的内容
  */
-gulp.task('del', (done) => {
- del(['.tmp','dist','deploy']).then( paths => {
+gulp.task('del:tmp', (done) => {
+ del(['.tmp']).then( paths => {
     console.log('Deleted files:\n',paths.join('\n'));
     done();
   });
 });
 
 /**
+ * 任务 'del'：
+ * @purpose:删除展示页面本地预览及发布相关文件目录及内容
+ * @description：删除.tmp、dist、deploy目录，用以重新生成这些目录的内容
+ */
+gulp.task('del:dist', (done) => {
+  del(['dist']).then( paths => {
+     console.log('Deleted files:\n',paths.join('\n'));
+     done();
+   });
+ });
+ 
+
+/**
  * 任务 'serve'：
  * @purpose:开启本地服务器，用浏览器打开广告展示页面
  * @description:依次执行任务'copysource','html','style','script'，服务器开启及代码更新后自动刷新
  */
-gulp.task('serve',gulp.series('del','copysource','html','style','script','scriptForAdtable',function() {
+gulp.task('serve',gulp.series('del:tmp','copysource','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
@@ -322,6 +336,7 @@ gulp.task('build:copysource', () => {
   const mDir = 'dist/m';
   
   const templatesStream = gulp.src('templates/forShow/*.html')
+   //直接用js的替换来替换吧。。
     .pipe(gulp.dest(templatesDir));
   const mStream = gulp.src('m/**/*')
     .pipe(gulp.dest(mDir));
@@ -334,7 +349,7 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
+gulp.task('publish', gulp.series('del:dist','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
   const dest = '../www3app/ad-management';
   return gulp.src('dist/**/**/*')
     .pipe(gulp.dest(dest));

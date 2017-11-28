@@ -11,10 +11,12 @@
   var sourceUrl = 'http://ds-cc.serving-sys.com/BurstingRes/Site-3968/Type-16/3dd3a38b-68ff-4a3d-a842-e076dca5a631.mp4';
   var sourceType = 'video/mp4';
   if (sourceUrl !== '') {
-      var complexPagePath = '/m/marketing/pushdownVideo.html';//TODO:publish时替换成/app/ad-management/m/marketing/pushdownVideo.html
+      var complexPagePath = '/m/marketing/pushdownVideo.html';
+      //var complexPagePath = 'http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownVideo.html';
   } else {
       var bigPic = videoPoster;
       var complexPagePath = '/m/marketing/pushdownPic.html';
+      //var complexPagePath = 'http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownPic.html'
   }
   
   var innerFrameId = parentId + 'Inner';
