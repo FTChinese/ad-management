@@ -1,8 +1,8 @@
 # 如何优雅地实现下推扩展广告
 
-我们常常希望在网站广告中实现下推扩展风格，如[下推图片广告](), [下推视频广告]()。但常常会因为各种限制而达不到想要的效果，甚至会因为在广告代码中随意修改主体网站的DOM结构而发生意想不到的错误。
+有时，我们希望在网站广告中实现下推扩展风格，如[下推图片广告](http://www3.ftchinese.com/app/ad-management/show-pushdownForPic.html), [下推视频广告](http://www3.ftchinese.com/app/ad-management/show-pushdownForVideo.html)。然而在实践中，下推扩展风格的广告常常会因为各种限制而达不到想要的效果，甚至会因为在广告代码中随意修改主体网站的DOM结构而产生意想不到的后果。
 
-本文分享了一种思路可以比较优雅地实现下推扩展广告，希望能够对您有一些帮助。
+本文分享了一种比较优雅地实现下推扩展广告的思路，希望能够对您有一些帮助。其中，<span class="emphasize">**[2. 双iframe结构实现下拉扩展广告的具体考虑](#2)**</span>为重点部分，<span class="emphasize">**[2.3 向两层parent DOM注入动画css](#2.3)**</span>、<span class="emphasize">**[2.4 切换动作中对两层iframe的操作](#2.4)**</span>、<span class="emphasize">**[2.5 切换动作中对外层iframe的祖先元素的操作](#2.5)**</span>极为重要，您可以根据自己的时间安排有选择地阅读。
 
 ## 1. 媒体网站上的广告位实现结构
 想要优雅地实现下推扩展，首先要弄清楚媒体网站上广告位的现有实现结构。
@@ -60,7 +60,7 @@
   document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;"><a href="' + Click + '"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;" /></a></div>');
 ```
 
-另一种广告结构复杂，且外观以动态为主（如h5动画广告），则广告模板需要用document.write写入另外一个iframe来引入实现具体广告逻辑的html文件，例如：
+另一种广告结构复杂，且外观以动态为主（如h5动画广告），则广告模板需要用document.write写入另外一个<span class="emphasize">**同源**</span>iframe来引入实现具体广告逻辑的html文件，例如：
 ```
   document.write('<iframe  width="' + imgWidth + '" height="' + imgHeight + '" src="' + complexPagePath + '"></iframe>');
 ```
@@ -116,8 +116,8 @@
 ```
 该结构是优雅地实现下推扩展广告的基础结构。内层iframe的DOM中，是具体实现下推扩展逻辑的地方。
 
-## 2. 双iframe结构实现下拉扩展广告的具体考虑
-由1.可知，下推扩展广告应该采用双iframe结构。如何在内层iframe中实现具体的下推扩展逻辑是下一步应当考虑的问题。我们假设内层iframe引入的是一个叫做pushdownPic.html的文件。
+## <span id="2">2. 双iframe结构实现下拉扩展广告的具体考虑</span>
+由1.可知，下推扩展广告应该采用双iframe结构。其中内层iframe引入一个<span class="emphasize">**同源**（即客户需将第三方代码提供给媒体，媒体将其上传到自己网站的服务器上）</span>文件，该文件用来实现具体的下推扩展逻辑。我们假设内层iframe引入的是一个叫做pushdownPic.html的文件。
 
 ### 2.1 两个状态 
 下推扩展广告涉及两个状态：下推前的banner状态、下推后的大图状态。
@@ -190,7 +190,7 @@ banner区域：
 
 当pushdownPic.html作为独立的页面时，这样的动作切换逻辑显然是没有问题的。然而，pushdownPic.html是作为双层iframe结构中内层iframe的DOM引入到媒体网站的，由于受到两层iframe及外层iframe的祖先元素的尺寸影响，下推和收缩动画显然还不能达到我们期望的效果。
 
-### 2.3 向两层parent DOM注入动画css
+### <span id="2.3">2.3 向两层parent DOM注入动画css</span> ***重点!***
 由2.2知，目前我们的动画css类只存在于内层iframe DOM中，那么就只有内层iframe DOM(即pushdownPic.html)中的元素可以使用这些动画。为了使得上层DOM中的元素都可以使用，需要向两层parent的DOM中注入css。
 
 所以，pushdownPic.html的js还应包含向parent注入css的方法。Eg:
@@ -218,7 +218,7 @@ banner区域：
 
 ```
 
-### 2.4 切换动作中对两层iframe的操作
+### <span id="2.4">2.4 切换动作中对两层iframe的操作</span> ***重点!***
 对两层parent注入所需动画css之后，就可以在切换时添加对两层iframe的操作。
 
 由于iframe元素的特殊性，其必须设置明确的width和height才能具有理想的尺寸，故切换时对其尺寸的操作和对banner及大图区域的操作一样具体。
@@ -246,7 +246,7 @@ banner区域：
 ```
 （以上代码片中的innerIframe和outerIframe指内外两个iframe元素）
 
-### 2.5 切换动作中对外层iframe的祖先元素的操作
+### <span id="2.5">2.5 切换动作中对外层iframe的祖先元素的操作</span> ***重点!***
 仅仅处理了两层iframe是不够的，因为外层iframe还可能有若干层祖先元素，这些祖先元素的尺寸也会妨碍动画得到我们想要的效果。
 
 幸运的是这些祖先元素（一般是若干层div)不需要像iframe那样设置明确尺寸。如果它们的高度为auto，那么就自动和其后代元素的高度一样了。
@@ -298,4 +298,7 @@ document.write('<iframe src="' + pushdownPic.html + '"></iframe>');
 与之类似思想的还有banner下推拓展为视频的广告形式。完整参考代码地址：
 
 <https://github.com/FTChinese/ad-pushdownVideo>
+
+
+<p class="author">(Author: FTChinese Bonnie)</p>
 

@@ -12,7 +12,8 @@ const minifyEs6 = require('uglify-es').minify;
 const del = require('del');
 const merge = require('merge-stream');
 const pump = require('pump');
-//const replace = require('gulp-replace-string');
+const replace = require('gulp-str-replace');
+const markdown = require('gulp-markdown');
 process.env.MYENV = 'show';
 var cache;
 
@@ -85,6 +86,11 @@ gulp.task('copy:includeTemplate', () => {
 });
 */
 
+gulp.task('mdToHTML',() => {
+  return gulp.src('views/someRead/sourceMD/*.md')
+    .pipe(markdown())
+    .pipe(gulp.dest('views/someRead/targetHTML'));
+})
 /**
  * 任务 'html'：
  * @purpose:Nunjucks渲染展示页面
@@ -104,7 +110,7 @@ gulp.task('html', async function() {
         const dataForRender = await fs.readAsync(item, 'json');
         const baseName = path.basename(item,'.json');
         let renderFile = '';
-        if(baseName === 'index' || baseName === 'adTable') {
+        if(baseName === 'index' || baseName === 'adTable' || baseName === 'read') {
           renderFile = `${baseName}.html`;
         } else {
           renderFile = `show-${baseName}.html`;
@@ -271,7 +277,7 @@ gulp.task('del:dist', (done) => {
  * @purpose:开启本地服务器，用浏览器打开广告展示页面
  * @description:依次执行任务'copysource','html','style','script'，服务器开启及代码更新后自动刷新
  */
-gulp.task('serve',gulp.series('del:tmp','copysource','html','style','script','scriptForAdtable',function() {
+gulp.task('serve',gulp.series('del:tmp','copysource','mdToHTML','html','style','script','scriptForAdtable',function() {
   browserSync.init({
     server:{
       baseDir: ['.tmp'],//增加'complex_pages'目录没用，因为这个目录下的文件是通过iframe引用的文件引用的，故complex_pages直接去掉，改为使用绝对线上路径。
@@ -286,7 +292,8 @@ gulp.task('serve',gulp.series('del:tmp','copysource','html','style','script','sc
   gulp.watch('client/styles/**/*.scss',gulp.parallel('style'));
   gulp.watch('client/js/**/**/*.js',gulp.parallel('script','scriptForAdtable'));
   gulp.watch(['views/*.html','views/**/*.html','data/*.json'],gulp.parallel('html'));
-  gulp.watch(['m/marketing/*.html','templates/forShow/*.html'], gulp.parallel('copysource'))
+  gulp.watch(['views/**/*.md'],gulp.series('mdToHTML','html'));
+  gulp.watch(['m/marketing/*.html','templates/forShow/*.html'], gulp.parallel('copysource'));
 
 }));
 
@@ -330,13 +337,35 @@ gulp.task('build:pages',() => {
  * @purpose:把广告模板等其他资源拷贝到dist目录
  * @description：把本地展示页面用到的其他资源 —— 1. 广告模板用到的复杂页面资源，即complex_pages目录下的html；2.展示模式广告模板，即views/templates下的html —— 拷贝到dist目录下，为发布展示页面到正式服务器环境做准备
  */
-
+gulp.task('build:replace',() => {
+  return gulp.src('templates/forShow/pushdownForPic.html')
+  .pipe(replace({
+    original:{
+      picPath:/\/m\/marketing\/pushdownPic\.html/g,
+      videoPath:/\/m\/marketing\/pushdownVideo.html/g
+    },
+    target:{
+      picPath:"http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownPic.html",
+      videoPath:"http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownVideo.html"
+    }
+  }))
+  .pipe(gulp.dest('replaced'));
+})
 gulp.task('build:copysource', () => {
   const templatesDir = 'dist/templates';
   const mDir = 'dist/m';
-  
+
   const templatesStream = gulp.src('templates/forShow/*.html')
-   //直接用js的替换来替换吧。。
+    .pipe(replace({
+      original:{
+        picPath:/\/m\/marketing\/pushdownPic\.html/g,
+        videoPath:/\/m\/marketing\/pushdownVideo.html/g
+      },
+      target:{
+        picPath:"http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownPic.html",
+        videoPath:"http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownVideo.html"
+      }
+    }))
     .pipe(gulp.dest(templatesDir));
   const mStream = gulp.src('m/**/*')
     .pipe(gulp.dest(mDir));
@@ -349,7 +378,7 @@ gulp.task('build:copysource', () => {
  * @purpose:发布展示页面的完整任务
  * @description：依次执行任务'del','html','style','script','build:pages','build:copysource'，拷贝dist、dist/complex_pages、dist/templates下的html文件到backyard服务器指定目录下（即'../dev_cms/ad-management'目录）
  */
-gulp.task('publish', gulp.series('del:dist','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
+gulp.task('publish', gulp.series('del:dist','mdToHTML','html','style','script','scriptForAdtable','build:pages','build:copysource',()=>{
   const dest = '../www3app/ad-management';
   return gulp.src('dist/**/**/*')
     .pipe(gulp.dest(dest));

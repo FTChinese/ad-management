@@ -1,0 +1,26 @@
+<!-- forShow下的pushdownForPic.html和pushdownForVideo.html都对应forProd下的pushdown.html模板,只不过一个设置sourceUrl，一个不设置sourceUrl-->
+<script>
+    if(!parentId) {
+      var parentId = "ad-100010000201";
+    }
+    var detailPage = 'http://www.bmw.com.cn/zh/all-models/5-series/sedan/2017/campaign.html';
+    var bannerImg = 'https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201711/20171107pushdown969.jpg';
+    var imgWidth = '969';
+    var imgHeight = '90';
+    var videoPoster = 'https://du3rcmbgk4e8q.cloudfront.net/ads/beijing/201711/20171107pushdown40008.jpg';
+    var sourceUrl = '';
+    var sourceType = 'video/mp4';
+    if (sourceUrl !== '') {
+        var complexPagePath = 'http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownVideo.html';
+        //var complexPagePath = 'http://www3.ftchinese.com/app/ad-managementhttp://www3.ftchinese.com/app/ad-management/m/marketing/pushdownVideo.html'
+    } else {
+        var bigPic = videoPoster;
+        var complexPagePath = 'http://www3.ftchinese.com/app/ad-management/m/marketing/pushdownPic.html';
+        //var complexPagePath = 'http://www3.ftchinese.com/app/ad-managementhttp://www3.ftchinese.com/app/ad-management/m/marketing/pushdownPic.html'
+    }
+    
+    var innerFrameId = parentId + 'Inner';
+ 
+    document.write('<iframe class="banner-iframe"  id="' + innerFrameId + '" width="' + imgWidth + '" height="' + imgHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
+  </script>
+  

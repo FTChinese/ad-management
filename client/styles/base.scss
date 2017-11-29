@@ -14,6 +14,13 @@ body{
   &.tablepage-style {
     @include oColorsFor("page" "body");
   }
+  &.readpage-style {
+    @include oColorsFor("page" "body");
+    margin:10px 50px;
+    @include oGridRespondTo($from:"Min",$until:"S") {/*0~740px*/
+      margin:10px 0px;
+   	}
+  }
   &.showpage-style {
     background-color:#FFF;
   }
@@ -38,6 +45,8 @@ a {
   text-decoration: underline;
   @include oColorsFor("link");
 }
+
+
 .section-showdevice {
   position:relative;
   overflow: hidden;
@@ -139,3 +148,38 @@ a {
     }
 }
 
+.readpage-style {
+  pre {
+    background: #333333;
+    color:white;
+    padding:5px 10px;
+    margin:0px 20px;
+    font-size:1.2em;
+    font-weight: 500;
+    overflow-x: scroll;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 1.3em;
+  }
+  h3 {
+    em {
+      color:#990F3D;
+    }
+  }
+  .emphasize {
+    color:#990F3D;
+    a {
+      color:#990F3D;
+    }
+  }
+  p {
+    line-height: 161.8%;
+    font-size:1.1em;
+    padding-bottom:1em;
+  }
+  .author {
+    text-align: right;
+    font-size:1em;
+  }
+}
