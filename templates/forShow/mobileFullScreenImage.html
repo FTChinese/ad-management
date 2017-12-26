@@ -26,6 +26,18 @@ try {
     w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 }
+
+/** 在这个展示墙展示时必不可少:Start **/
+if(mode==='dev') {
+ const deviceWindow = window.parent.document.querySelector(".section-showdevice");
+    console.log(deviceWindow);
+    w = deviceWindow.offsetWidth;
+    h = deviceWindow.offsetHeight;
+}
+console.log(w);
+console.log(h);
+/** 在这个展示墙展示时必不可少:End **/
+
 if (w > h) {
     var newW = w;
     w = h;
