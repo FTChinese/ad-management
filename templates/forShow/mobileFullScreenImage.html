@@ -7,10 +7,9 @@ var AssID = '';
 
 var mode = 'dev';
 
-// MARK:第三方追踪
 if (Imp !== '') {
     var gaServerTracker = new Image();
-    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
+    gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + encodeURIComponent(Imp) + '&' + Math.random();
     if (typeof window.parent.sendImpToThirdParty === 'function') {
     window.parent.sendImpToThirdParty(Imp, AdName, AssID);
     } else {
@@ -27,84 +26,77 @@ try {
     w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 }
-if(mode==='dev') {
-    const deviceWindow = window.parent.document.querySelector(".section-showdevice");
-    console.log(deviceWindow);
-    w = deviceWindow.offsetWidth;
-    h = deviceWindow.offsetHeight;
-}
-console.log(w);
-console.log(h);
-
 if (w > h) {
     var newW = w;
     w = h;
     h = newW;
 }
 
-if (typeof ImgPortrait === 'undefined') {
-    ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
-    ImgPortrait = ImgLandscape;
-} else if (typeof ImgLandscape === 'undefined') {
-    ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
-    ImgLandscape = ImgPortrait;
-} else {
-    ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
-    ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
-}
 
-var url = parent.window.location.href;
-if (typeof(url) != 'undefined') {
-    (function() {
-        var adOpacity = '1';
-        var adImage = ImgLandscape;
-        var adImage2 = ImgPortrait;
-        var adImp = Imp;
+if (ImgPortrait === '') {
+        ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
+        ImgPortrait = ImgLandscape;
+    } else if (ImgLandscape === '') {
+        ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
+        ImgLandscape = ImgPortrait;
+    } else {
+        ImgPortrait = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgPortrait) + '?source=ftchinese&width=' + 828;
+        ImgLandscape = 'https://www.ft.com/__origami/service/image/v2/images/raw/' + encodeURIComponent(ImgLandscape) + '?source=ftchinese&width=' + 828;
+    }
 
-        // MARK: Landscape
-        var adWidth = h;
-        var adHeight = w;
+    var url = parent.window.location.href;
+    if (typeof(url) != 'undefined') {
+        (function() {
+            var adOpacity = '1';
+            var adImage = ImgLandscape;
+            var adImage2 = ImgPortrait;
+            var adImp = Imp;
 
-        // MARK: Portrait
-        var adWidth2 = w;
-        var adHeight2 = h;
+            // MARK: Landscape
+            var adWidth = h;
+            var adHeight = w;
 
-        var closeButtonPosition = '';
-        var adClass1 = (adWidth < 700) ? 'mobile-landscape' : 'wide-screen';
-        var adClass2 = (adWidth < 700) ? 'mobile-portrait' : 'narrow-screen';
-        var adCode = '';
+            // MARK: Portrait
+            var adWidth2 = w;
+            var adHeight2 = h;
 
-        adLink = '[URL]';
-        if (adLink.indexOf('?') > 0 && !adLink.indexOf('?http')) {
-            adLink += '&isad=1';
-        } else {
-            adLink += '?isad=1';
-        }
+            var closeButtonPosition = '';
+            var adClass1 = (adWidth < 768) ? 'mobile-landscape' : 'wide-screen';
+            var adClass2 = (adWidth < 768) ? 'mobile-portrait' : 'narrow-screen';
+            var adCode = '';
 
-        adCode = '<div class=overlayBG style="opacity:' + adOpacity + '"></div><div class=inner><div class=cell><div class="' + adClass1 + '" style="width:' + adWidth + 'px;height:' + adHeight + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="myJsModule.closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth + 'px;height:' + adHeight + 'px;background-image: url(' + adImage + ');background-repeat: no-repeat;background-size:cover;"></div></a></div><div class="' + adClass2 + '" style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="myJsModule.closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;background-image: url(' + adImage2 + ');background-repeat: no-repeat;background-size:cover;"></div></a></div></div>';//wyc QUEST:少了一个闭合的'</div>???
-        var popAd = parent.parent.document.getElementById("pop-ad");
-        var popAdClass = popAd.className;
-        var img = new Image();
-        img.src = adImage;
-        if (popAdClass.indexOf('done') < 0) {
-            img.onload = function() {
-                var img2 = new Image();
-                img2.src = adImage2;
-                img2.onload = function() {
-                    popAd.innerHTML = adCode;
-                    if (popAdClass.indexOf('in-page') < 0) {
-                        popAd.className = 'overlay on done';
-                        setTimeout(function() {
-                                popAd.className = 'overlay done';
-                                popAd.innerHTML = '';
-                            },
-                            5000);
-                    } else {
-                        popAd.className += ' on';
-                    }
+            adLink = '[URL]';
+            if (adLink.indexOf('?') > 0 && !adLink.indexOf('?http')) {
+                adLink += '&isad=1';
+            } else {
+                adLink += '?isad=1';
+            }
+
+            adCode = '<div class=overlayBG style="opacity:' + adOpacity + '"></div><div class=inner><div class=cell><div class="' + adClass1 + '" style="width:' + adWidth + 'px;height:' + adHeight + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth + 'px;height:' + adHeight + 'px;background-image: url(' + adImage + ');background-repeat: no-repeat;background-size:cover;"></div></a></div><div class="' + adClass2 + '" style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;margin:auto;position:relative;"><div class="o-overlay__close" style="top:0;right:0;"><div class="o-overlay__close-icon" onclick="closeOverlay()"></div></div><a href="' + adLink + '" target=_blank><div style="width:' + adWidth2 + 'px;height:' + adHeight2 + 'px;background-image: url(' + adImage2 + ');background-repeat: no-repeat;background-size:cover;"></div></a></div></div>';
+            var popAd = parent.parent.document.getElementById("pop-ad");
+            var popAdClass = popAd.className;
+            var img = new Image();
+            img.src = adImage;
+            if (popAdClass.indexOf('done') < 0) {
+                img.onload = function() {
+                    var img2 = new Image();
+                    img2.src = adImage2;
+                    img2.onload = function() {
+                        popAd.innerHTML = adCode;
+                        if (popAdClass.indexOf('in-page') < 0) {
+                            popAd.className = 'overlay on done';
+                            setTimeout(function() {
+                                    popAd.className = 'overlay done';
+                                    popAd.innerHTML = '';
+                                },
+                                5000);
+                        } else {
+                            popAd.className += ' on';
+                        }
+                    };
                 };
-            };
-        }
-    }());
-}
+            }
+        }());
+    }
+
 </script>
