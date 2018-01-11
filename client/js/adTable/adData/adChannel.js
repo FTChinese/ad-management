@@ -264,6 +264,10 @@ const adChannelsPC = {
       ColorGlass:{
         id:'01',
         title:'有色眼镜'
+      },
+      ViewTop: {
+        id:'02',
+        title:'高端视点'
       }
     }
   },
@@ -603,6 +607,10 @@ const adChannelsMobile = {
       Home:{
         id:'00',
         title:'首页'
+      },
+      ViewTop: {
+        id:'02',
+        title:'高端视点'
       }
     }
   },
