@@ -165,6 +165,16 @@ const adPatternsPC = {
         description:'文章页中的第2个Inread位。'
       }
     }
+  },
+  PaidpostStory: {
+      id:'10',
+      description:'',
+      position:{
+          Num1: {
+          id:'01',
+          description:''
+          },
+      }
   }
 };
 
@@ -244,6 +254,16 @@ const adPatternsPhone = {
         description:'从上至下第2个Information位'
       }
     }
+  },
+  PaidpostStory: {
+      id:'10',
+      description:'',
+      position:{
+          Num1: {
+          id:'01',
+          description:''
+          },
+      }
   }
 };
 
@@ -286,6 +306,16 @@ const adPatternsPad = {
         description:'文章页右侧从上至下第2个MPU位。'
       }
     }
+  },
+  PaidpostStory: {
+      id:'10',
+      description:'',
+      position:{
+          Num1: {
+          id:'01',
+          description:''
+          },
+      }
   }
 };
 

@@ -1,0 +1,66 @@
+<script>
+    var ImgWidth = '[[name=图片宽度,width=250,type=textfield,allowblank=false]]';
+    var ImgHeight = '[[name=图片高度,width=250,type=textfield,allowblank=false]]';
+    var ImgSrc = '[[name=图片链接,width=250,type=textfield,allowblank=false]]';
+    var Click = '[URL]';
+    var Imp = '[[name=第三方监测,width=250,type=textfield,allowblank=true]]';
+    var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
+    var AssID = '[ASSID]';
+    var HouseAd = '[[name=打底广告(Y/N),width=250,type=textfield,allowblank=false,default=N]]';
+    var isHouseAd;
+    if (HouseAd === 'Y') {
+    isHouseAd = true;
+    } else {
+    isHouseAd = false;
+    }
+
+    var ifHideAdSign = '[[name=是否隐藏广告标志(Y/N),type = textfield,allowblank = false,width=250,default=N]]';
+    var hideAdSign = "";
+    if(ifHideAdSign == "Y") {
+      hideAdSign = "yes";
+    } else {
+      hideAdSign = "";
+    }
+    
+    if (Imp !== ''&& !(GetCookie('mpuHasSendImp[ASCID]'))) {
+      sendImpToThirdThirdPartyOnce(Imp, AdName, AssID);
+      SetCookie('mpuHasSendImp[ASCID]', '1', 5);
+    }
+    
+    function sendImpToThirdThirdPartyOnce(r,e,n){if("string"==typeof r){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var t=r,a=!1,i=function(){var r=arguments[0]||"",e=arguments[1]||"",t=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",r,e,t,{nonInteraction:1})}catch(o){var i=new Image;i.src="http://www.ftchinese.com/index.php/ft/hit/"+n+"/2?ec="+r+"&ea="+e+"&el="+encodeURIComponent(t)+"&r="+a}},o=function(){var o,d="IMG"+Math.round(1e12*Math.random()),c=(new Date).getTime(),s=r;try{o=arguments[0]||""}catch(r){o=""}s.indexOf("?")<0&&(s+="?"),s=s.replace("ord=[timestamp]","ord="+c)+"&"+d+"&ftctime="+c,t=s,window.parent.gTrackThirdParyImpression[d]=new Image,window.parent.gTrackThirdParyImpression[d].src=s,window.parent.gTrackThirdParyImpression[d].title=e+" ("+n+")",window.parent.gTrackThirdParyImpression[d].alt=r,window.parent.gTrackThirdParyImpression[d].onload=function(){var r="Success";i(this.title,r,this.alt),delete window.parent.gTrackThirdParyImpression[d],a=!0}};o(),i(e+" ("+n+")","Request",r)}}
+    
+    
+    document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;padding:0px;margin:0px;overflow:hidden;"><a href="' + Click + '" target="_blank"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;" /></a></div>');
+    
+    function GetCookie(name) {
+      var start = document.cookie.indexOf(name + '='),
+          len = start + name.length + 1,
+          end = document.cookie.indexOf(';', len);
+      if ((!start) && (name !== document.cookie.substring(0, name.length))) {
+          return null;
+      }
+      if (start === -1) {
+          return null;
+      }
+      if (end === -1) {
+          end = document.cookie.length;
+      }
+      return decodeURIComponent(document.cookie.substring(len, end));
+    }
+
+    function SetCookie(name, value, sec, path, domain) {
+      var argv = SetCookie.arguments,
+          argc = SetCookie.arguments.length,
+          expires = new Date(),
+          secure = (argc > 5) ? argv[5] : false;
+      path = (argc > 3) ? argv[3] : null;
+      domain = (argc > 4) ? argv[4] : null;
+      if (sec === null || sec === '') {
+          sec = 600 * (24 * 60 * 60 * 1000);
+      } else {
+          sec = 1000 * sec;
+      }
+      expires.setTime(expires.getTime() + sec);
+      document.cookie = name + '=' + escape(value) + ((expires === null) ? '' : ('; expires=' + expires.toGMTString())) + ((path === null) ? '/' : ('; path=' + path)) + ((domain === null) ? '' : ('; domain=' + domain)) + ((secure === true) ? '; secure' : '');
+    }
+    </script>

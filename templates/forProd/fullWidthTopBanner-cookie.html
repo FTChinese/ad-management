@@ -1,4 +1,4 @@
-<script>
+<script>   
     (function() {
     var fullScreenImage = {
         'imageUrl': '[[name=图片链接,width=250,type=textfield,allowblank=true]]',
@@ -30,15 +30,16 @@
         isHouseAd = false;
     }
     
-  
-    if (typeof Imp === 'string' && Imp !== '') {
-        if (typeof window.parent.sendImpToThirdParty === 'function') {
-            window.parent.sendImpToThirdParty(Imp, AdName, AssID);
-        } else {
-            sendImpToThirdParty(Imp, AdName, AssID);
+    if (Imp !== '' && !(GetCookie('topBannerHasSendImp[ASCID]'))) {
+        if (typeof Imp === 'string' && Imp !== '') {
+            if (typeof window.parent.sendImpToThirdParty === 'function') {
+                window.parent.sendImpToThirdParty(Imp, AdName, AssID);
+            } else {
+                sendImpToThirdParty(Imp, AdName, AssID);
+            }
         }
+        SetCookie('topBannerHasSendImp[ASCID]','1',5);
     }
-
     
     function sendImpToThirdParty(t,e,r){if("string"==typeof t){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var n=0,a=t,i=!1,o=function(){var t=arguments[0]||"",e=arguments[1]||"",n=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",t,e,n,{nonInteraction:1})}catch(o){var i=new Image;i.src="http://www.ftchinese.com/index.php/ft/hit/"+r+"/2?ec="+t+"&ea="+e+"&el="+encodeURIComponent(n)+"&r="+a}},c=function(){var d,s="IMG"+Math.round(1e12*Math.random()),p=(new Date).getTime(),h=t;try{d=arguments[0]||""}catch(t){d=""}h.indexOf("?")<0&&(h+="?"),h=h.replace("ord=[timestamp]","ord="+p)+"&"+s+"&ftctime="+p,n>0&&(0===a.indexOf("https")?(h=h.replace("https://ad.doubleclick.net","http://ad.doubleclick.net"),h=h.replace("https://v.admaster.com.cn","http://v.admaster.com.cn")):(h=h.replace("http://ad.doubleclick.net","https://ad.doubleclick.net"),h=h.replace("http://v.admaster.com.cn","https://v.admaster.com.cn"))),a=h,window.parent.gTrackThirdParyImpression[s]=new Image,window.parent.gTrackThirdParyImpression[s].src=h,window.parent.gTrackThirdParyImpression[s].title=e+" ("+r+")",window.parent.gTrackThirdParyImpression[s].alt=t,window.parent.gTrackThirdParyImpression[s].onload=function(){var t="";t=0===n?"Success":""!==d?"Success on Retry"+d:"Success on Retry"+n,o(this.title,t,this.alt),delete window.parent.gTrackThirdParyImpression[s],i=!0},window.parent.gTrackThirdParyImpression[s].onerror=function(){var t="";if(t=0===n?"Fail":""!==d?"Fail on Retry"+d:"Fail on Retry"+n,o(this.title,t,this.alt),o("Fail UA String",r,window.parent.adReachability()),"string"==typeof window.uaString)try{window.parent._hmt.push(["_trackEvent",this.title,"Fail",window.uaString])}catch(t){}++n<=3&&setTimeout(c,100*n*n*n)}};c(),setTimeout(function(){if(i===!1&&0===n){n=2;c(" from Pending"),o(e+" ("+r+")","Request from Pending",t)}},1e4),o(e+" ("+r+")","Request",t)}}
     
@@ -80,4 +81,27 @@
         parentDom.querySelector('.banner-content').style.height = h + 'px';
     }
     })();
+
+ function GetCookie(name){
+  var start = document.cookie.indexOf(name+'='),
+      len = start+name.length+1,
+      end = document.cookie.indexOf(';',len);
+  if ((!start) && (name !== document.cookie.substring(0,name.length))) {return null;}
+  if (start === -1) {return null;}
+  if (end === -1) {end = document.cookie.length; }
+  return decodeURIComponent(document.cookie.substring(len,end));
+}
+
+function SetCookie (name, value , sec , path , domain) {  
+  var argv = SetCookie.arguments,
+      argc = SetCookie.arguments.length,
+      expires = new Date(),
+      secure = (argc > 5) ? argv[5] : false;
+  path = (argc > 3) ? argv[3] : null;
+  domain = (argc > 4) ? argv[4] : null;
+ if(sec === null || sec === '') {sec = 600 * (24 * 60 * 60 * 1000);}
+  else {sec = 1000*sec;}
+  expires.setTime (expires.getTime() + sec);
+  document.cookie = name + '=' + escape (value) +((expires === null) ? '' : ('; expires=' + expires.toGMTString())) +((path === null) ? '/' : ('; path=' + path)) +((domain === null) ? '' : ('; domain=' + domain)) +((secure === true) ? '; secure' : '');  
+}
     </script>

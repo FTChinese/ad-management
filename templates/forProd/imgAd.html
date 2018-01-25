@@ -6,25 +6,24 @@ var Click = '[URL]';
 var Imp = '[[name=第三方监测,width=250,type=textfield,allowblank=true]]';
 var AdName = '[[name=广告命名,width=250,type=textfield,allowblank=true]]';
 var AssID = '[ASSID]';
-var HouseAd = '[[name=打底广告(Y/N),width=250,type=textfield,allowblank=false,default=N]]';
 
-var ifHideAdSign = '[[name=是否隐藏广告标志(Y/N),type = textfield,allowblank = false,width=250,default=N]]';
-var hideAdSign = "";
-if(ifHideAdSign == "Y") {
-  hideAdSign = "yes";
+var HouseAd = '[[name=打底广告(Y/N),width=250,type=textfield,allowblank=false,default=N]]';
+var isHouseAd;
+if (HouseAd === 'Y') {
+  isHouseAd = true;
 } else {
-  hideAdSign = "";
+  isHouseAd = false;
 }
 
-if (HouseAd === 'Y') {
-isHouseAd = true;
+var hide = '[[name=隐藏广告标志(Y/N),width=250,type=textfield,allowblank=false,default=N]]';
+var hideAdSign;
+if (hide === 'Y') {
+    hideAdSign = true;
 } else {
-isHouseAd = false;
+    hideAdSign = false;
 }
 
 if (Imp !== '') {
-var gaServerTracker = new Image();
-gaServerTracker.src = 'http://www.ftchinese.com/index.php/ft/hit/' + AssID + '/2?ec=' + AdName + ' (' + AssID + ')' + '&ea=initiate&el=' + Imp + '&' + Math.random();
 if (typeof window.parent.sendImpToThirdParty === 'function') {
 window.parent.sendImpToThirdParty(Imp, AdName, AssID);
 } else {
