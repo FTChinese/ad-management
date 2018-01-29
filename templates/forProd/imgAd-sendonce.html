@@ -22,9 +22,17 @@
       hideAdSign = "";
     }
     
-    if (Imp !== ''&& !(GetCookie('mpuHasSendImp[ASCID]'))) {
-      sendImpToThirdThirdPartyOnce(Imp, AdName, AssID);
-      SetCookie('mpuHasSendImp[ASCID]', '1', 5);
+    if (Imp !== '') {
+        var parentUrl = window.parent.location.href;
+        if (parentUrl.indexOf('webview=ftcapp')>= 0 && parentUrl.indexOf('norepeat=no')<0 ) {
+            if(!GetCookie('mpuHasSendImp[ASCID]')) {
+                sendImpToThirdThirdPartyOnce(Imp, AdName, AssID);
+                SetCookie('mpuHasSendImp[ASCID]', '1', 30);
+            }
+        } else {
+            sendImpToThirdThirdPartyOnce(Imp, AdName, AssID);
+        }
+    
     }
     
     function sendImpToThirdThirdPartyOnce(r,e,n){if("string"==typeof r){"object"!=typeof window.parent.gTrackThirdParyImpression&&(window.parent.gTrackThirdParyImpression={});var t=r,a=!1,i=function(){var r=arguments[0]||"",e=arguments[1]||"",t=arguments[2]||"",a="G"+Math.round(1e12*Math.random());try{window.parent.ga("send","event",r,e,t,{nonInteraction:1})}catch(o){var i=new Image;i.src="http://www.ftchinese.com/index.php/ft/hit/"+n+"/2?ec="+r+"&ea="+e+"&el="+encodeURIComponent(t)+"&r="+a}},o=function(){var o,d="IMG"+Math.round(1e12*Math.random()),c=(new Date).getTime(),s=r;try{o=arguments[0]||""}catch(r){o=""}s.indexOf("?")<0&&(s+="?"),s=s.replace("ord=[timestamp]","ord="+c)+"&"+d+"&ftctime="+c,t=s,window.parent.gTrackThirdParyImpression[d]=new Image,window.parent.gTrackThirdParyImpression[d].src=s,window.parent.gTrackThirdParyImpression[d].title=e+" ("+n+")",window.parent.gTrackThirdParyImpression[d].alt=r,window.parent.gTrackThirdParyImpression[d].onload=function(){var r="Success";i(this.title,r,this.alt),delete window.parent.gTrackThirdParyImpression[d],a=!0}};o(),i(e+" ("+n+")","Request",r)}}
