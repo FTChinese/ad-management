@@ -193,8 +193,19 @@ for(var i=0; i<listItemCount; i++) {
 
         if (itemContainer.classList.contains("has-image")) {
             itemContainerClass = itemContainerClass += " has-image";
+
+            if(i>= listItemCount-4 ) {
+                var theFigure = itemContainer.querySelector('figure');
+                theFigure.innerHTML = '';
+                theFigure.className = 'loading';
+                
+            }
         }
         itemContainer.className = itemContainerClass;
     }
+}
+
+if (window.parent.loadImages) {
+    window.parent.loadImages();
 }
 </script>

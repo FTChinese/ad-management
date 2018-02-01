@@ -1,5 +1,4 @@
 <script>
-var positionNum = '[[name=位置序号,type=textfield,default=11]]';
 var tag = '[[name=标签,width=250,type=textfield,default=企业公告]]';
 var headline = '[[name=标题,width=250,type=textfield,allowblank=true]]';
 var lead = '[[name=导语,width=250,type=textfield,allowblank=true]]';
@@ -7,6 +6,7 @@ var image = '[[name=配图,width=250,type=textfield,allowblank=true]]';
 var bgColor = '[[name=底色（0~4）,width=250,type=textfield,allowblank=true,default=0]]';
 var Click = '[URL]';
 var Imp = '[[name=第三方监测,type = textfield,allowblank = true,width=250]]';
+var positionNum = '[[name=位置序号(4~16),type=textfield,default=11]]';
 var AdName = 'PaidpostStory';
 var AssID = '[ASSID]';
 
@@ -183,9 +183,17 @@ for(var i=0; i<listItemCount; i++) {
 
         if (itemContainer.classList.contains("has-image")) {
             itemContainerClass = itemContainerClass += " has-image";
+
+            if(i>= listItemCount-4 ) {
+                var theFigure = itemContainer.querySelector('figure');
+                theFigure.innerHTML = '';
+                theFigure.className = 'loading';
+            }
         }
         itemContainer.className = itemContainerClass;
     }
 }
-
+if (window.parent.loadImages) {
+    window.parent.loadImages();
+}
 </script>
