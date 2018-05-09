@@ -1,0 +1,25 @@
+<script>
+  var bgImg = '';
+  var sizeWidth = '300';
+  var sizeHeight = '600';
+  var articleTitle = '为什么中国在朝鲜半岛是“结构性存在”？';
+  var articleUrl = 'http://www.ftchinese.com/story/001077473';
+
+  if (sizeWidth === '300' && sizeHeight === '600') {
+      var complexPagePath = window.parent.location.origin + '/m/marketing/adSubscription.html?';
+  } else if (sizeWidth === '1200' && sizeHeight === '20') {
+    var complexPagePath = window.parent.location.origin + '/m/marketing/adSubscription.html?';
+  }
+  
+  var innerFrameId = parentId + 'Inner';
+  var AdName = '订阅广告1';
+  var ifHideAdSign = 'Y';
+  var hideAdSign = "";
+  if (ifHideAdSign == "Y") {
+      hideAdSign = "yes";
+  } else {
+      hideAdSign = "";
+  }
+
+  document.write('<iframe class="banner-iframe" id="' + innerFrameId + '" width="' + sizeWidth + '" height="' + sizeHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
+</script>
