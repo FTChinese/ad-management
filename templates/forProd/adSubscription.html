@@ -1,25 +1,34 @@
 <script>
-  var bgImg = '[[name=图片链接,width=250,type=textfield,allowblank=false]]';
-  var sizeWidth = '[[name=广告宽度,width=250,type=textfield,allowblank=false,default=969]]';
-  var sizeHeight = '[[name=广告高度,width=250,type=textfield,allowblank=false,default=90]]';
-  var articleTitle = '[[name=文章标题,width=250,type=textfield,allowblank=false]]';
-  var articleUrl = '[[name=视频链接,width=250,type=textfield,allowblank=false]]';
+  var AdName = '[[name=广告名称,type = textfield,allowblank = true,width=250]]';
+  var sizeWidth = '[[name=广告宽度,width=250,type=textfield,allowblank=false,default=300]]';
+  var sizeHeight = '[[name=广告高度,width=250,type=textfield,allowblank=false,default=600]]';
 
-  if (sizeWidth === '300' && sizeHeight === '600') {
-      var complexPagePath = window.parent.location.origin + '/m/marketing/adSubscription.html?';
-  } else if (sizeWidth === '1200' && sizeHeight === '20') {
+  var topTitle = '[[name=顶部标题,width=250,type=textfield,allowblank=false,default=资讯]]';
+
+  var headArticleTitle = '[[name=头条文章标题,width=250,type=textfield,allowblank=false]]';
+  var headArticleUrl = '[[name=头条文章链接,width=250,type=textfield,allowblank=false]]';
+  var headArticleImg = '[[name=头条文章图片,width=250,type=textfield,allowblank=false]]';
+
+  var listArticle1Tag = '[[name=列表文章1标签,width=250,type=textfield,allowblank=false]]';
+  var listArticle1Title = '[[name=列表文章1标题,width=250,type=textfield,allowblank=false]]';
+  var listArticle1Url = '[[name=列表文章1链接,width=250,type=textfield,allowblank=false]]';
+
+  var listArticle2Tag = '[[name=列表文章2标签,width=250,type=textfield,allowblank=false]]';
+  var listArticle2Title = '[[name=列表文章2标题,width=250,type=textfield,allowblank=false]]';
+  var listArticle2Url = '[[name=列表文章2链接,width=250,type=textfield,allowblank=false]]';
+
+
+  var listArticle3Tag = '[[name=列表文章3标签,width=250,type=textfield,allowblank=false]]';
+  var listArticle3Title = '[[name=列表文章3标题,width=250,type=textfield,allowblank=false]]';
+  var listArticle3Url = '[[name=列表文章3链接,width=250,type=textfield,allowblank=false]]';
+
+  if (sizeWidth === 300 && sizeHeight === 600) {
+      var complexPagePath = window.parent.location.origin + '/m/marketing/adSubscription300x600.html?';
+  } else if (sizeWidth === 1200 && sizeHeight === 20) {
     var complexPagePath = window.parent.location.origin + '/m/marketing/adSubscription.html?';
   }
   
   var innerFrameId = parentId + 'Inner';
-  var AdName = '[[name=广告名称,type = textfield,allowblank = true,width=250]]';
-  var ifHideAdSign = '[[name=是否隐藏广告标志(Y/N),type = textfield,allowblank = false,width=250,default=N]]';
-  var hideAdSign = "";
-  if (ifHideAdSign == "Y") {
-      hideAdSign = "yes";
-  } else {
-      hideAdSign = "";
-  }
 
   document.write('<iframe class="banner-iframe" id="' + innerFrameId + '" width="' + sizeWidth + '" height="' + sizeHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
 </script>
