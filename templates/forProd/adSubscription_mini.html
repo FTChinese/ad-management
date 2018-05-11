@@ -1,0 +1,11 @@
+<script>
+    var pageName = '[[name=页面名称,width=250,type=textfield,allowblank=false]]';
+    var sizeWidth = '[[name=广告宽度,width=250,type=textfield,allowblank=false,default=300]]';
+    var sizeHeight = '[[name=广告高度,width=250,type=textfield,allowblank=false,default=600]]';
+    var complexPagePath = window.parent.location.origin + '/m/marketing/' + pageName;
+    var innerFrameId = parentId + 'Inner';
+
+    document.write('<iframe class="banner-iframe" id="' + innerFrameId + '" width="' + sizeWidth + '" height="' + sizeHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
+
+    
+</script>

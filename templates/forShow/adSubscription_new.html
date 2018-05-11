@@ -1,0 +1,18 @@
+<script>
+  var pageName = '';
+  var pageType = 'radio'
+  var sizeWidth = '300';
+  var sizeHeight = '600';
+
+  var complexPagePath;
+  if (sizeWidth === '300' && sizeHeight === '600') {
+    if(pageType === "radio") {
+      complexPagePath = window.parent.location.origin + '/m/marketing/adForRadio.html?';
+    } else {
+      complexPagePath = window.parent.location.origin + '/m/marketing/adForNews.html?';
+    }
+  } 
+  var innerFrameId = parentId + 'Inner';
+
+  document.write('<iframe class="banner-iframe" id="' + innerFrameId + '" width="' + sizeWidth + '" height="' + sizeHeight + '" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="' + complexPagePath + '"></iframe>');
+</script>
