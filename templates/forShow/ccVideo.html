@@ -11,6 +11,9 @@ var AutoPlay = 'N';
 var AssID = '';
 var link = "https://www.siemens.com/cn/zh/home.html";//即[URL]
 
+var rate = 1;
+var timeInterval = 30;
+var times = 5;
 
 if (typeof uaString === 'string') {
     if (/iphone/i.test(uaString)) {
@@ -34,8 +37,36 @@ if (Imp !== '') {
     } else {
         sendImpToThirdParty(Imp, AdName, AssID);
     }
+
+    if (rate > 0 && times > 0) {
+    
+        rate = rate > 1 ? 1 : rate;
+
+        //timeInterval = timeInterval < 30 ? 30 :timeInterval;
+        timeInterval = 3;
+        timeInterval = timeInterval * 1000;
+
+        times = times > 10 ? 10 : times;
+
+        if (Math.random() < rate) {
+            resendImp(timeInterval, times);
+        }
+    }
 }
 
+function resendImp(resendInterval, resendTimes) {
+    var i = 0;
+    var timeoutFunc = function() {
+        setTimeout(function() {
+            sendImpToThirdParty(Imp, AdName, AssID);
+            i++;
+            if (i<resendTimes) {
+                timeoutFunc();
+            }
+        }, resendInterval)
+    }
+    timeoutFunc();
+}
 
 
 
