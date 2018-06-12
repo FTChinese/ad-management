@@ -6,7 +6,7 @@ if(window.parentId && /^ad-[0-9]{12}$/.test(window.parentId)) { //for NEXT
   if (parentIframe) {
     if (parentIframe.parentNode) {
       var adContainerForMpu = parentIframe.parentNode;
-      if (/mpu\-container/.test(adContainer.className)) {
+      if (/mpu\-container/.test(adContainerForMpu.className)) {
         adContainerForMpu.style.display = 'none';
       }
       

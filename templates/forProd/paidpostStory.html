@@ -49,7 +49,7 @@ paidpostStoryElem.style.background = bgColor;
 paidpostStoryElem.innerHTML = templateHTML;
 
 
-var listContainer = window.parent.document.querySelector('.list-container .items');
+var listContainer = window.parent.document.querySelector('.block-container[data-id="block-2"] .list-container .items');
 var itemContainers = listContainer.querySelectorAll('.item-container');
 var oldListItemCount = itemContainers.length;
 
