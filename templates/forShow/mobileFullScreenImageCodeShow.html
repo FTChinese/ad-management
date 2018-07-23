@@ -1,0 +1,116 @@
+<style>
+  #pop-ad .o-overlay__close {
+padding: 10px;
+position:absolute;
+right:-23px;
+top:-25px;
+}
+#pop-ad .o-overlay__close-icon {
+width: 24px;
+height: 24px;
+font-size: 12px;
+line-height: 15px;
+font-family: "ft-icons";
+display: inline-block;
+vertical-align: middle;
+font-weight: 400!important;
+font-style: normal!important;
+text-decoration: inherit;
+text-transform: none;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+border: 1px solid;
+//-webkit-border-radius: 13px;
+border-radius: 50%;
+background-color: #2e6e9e;
+color: #fff;
+border-color: #2e6e9e;
+-webkit-background-clip: padding-box; 
+-moz-background-clip:    padding; 
+background-clip:         padding-box;
+}
+#pop-ad .o-overlay__close-icon:before {
+content: "x";
+font-size: 28px;
+width: 24px;
+height: 32px;
+text-align: center;
+line-height: 32px;
+display: block;
+font-style: normal;
+padding-top: 0;
+margin-top: -6px;
+}
+#pop-ad .cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.overlay_close-btn {
+    position:relative;
+}
+.overlay_close-btn:after{
+    content: "×";
+    font-size: 43px;
+    position:absolute;
+    font-family: 'Arial';
+    font-weight:normal;
+    color:white;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    display:block;
+    margin:auto;
+    text-align: center;
+}
+.mobile-landscape{display:none;}
+@media only screen and (min-width: 450px) {
+    .mobile-landscape {display: block;}
+    .mobile-portrait {display:none;}
+}
+.overlay,.overlayBG {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.overlay {
+    display: none;
+    z-index:99999999999;
+}
+.overlayBG{opacity:0.7;background:#54534d;z-index:6001}
+.overlay.on {display:block;color:#333;background:transparent;position:fixed;}
+.overlay .inner{width: 100%;height: 100%;position: absolute;top: 0;left: 0;background:transparent;z-index:6002;display:table;}
+.pop-ad-code {
+    display:none;
+}
+</style>
+<div id="pop-ad" class="overlay on done">
+  <div class="overlayBG" style="opacity:1">
+  </div>
+  <div class="inner">
+    <div class="cell">
+      <div class="mobile-landscape" style="width:667px;height:375px;margin:auto;position:relative;">
+        <div class="o-overlay__close" style="top:0;right:0;">
+          <div class="o-overlay__close-icon" onclick="closeOverlay()">
+          </div>
+        </div>
+        <a href="[URL]?isad=1" target="_blank">
+          <div style="width:667px;height:375px;background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fcreatives.ftimg.net%2Fads%2Fshanghai%2F201705%2FVW3-828-0509.jpg?source=ftchinese&amp;width=828);background-repeat: no-repeat;background-size:cover;">
+          </div>
+        </a>
+      </div>
+      <div class="mobile-portrait" style="width:375px;height:667px;margin:auto;position:relative;">
+        <div class="o-overlay__close" style="top:0;right:0;">
+          <div class="o-overlay__close-icon" onclick="closeOverlay()">
+          </div>
+        </div>
+        <a href="[URL]?isad=1" target="_blank">
+          <div style="width:375px;height:667px;background-image: url(https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fcreatives.ftimg.net%2Fads%2Fshanghai%2F201705%2FVW3-828-0509.jpg?source=ftchinese&amp;width=828);background-repeat: no-repeat;background-size:cover;">
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

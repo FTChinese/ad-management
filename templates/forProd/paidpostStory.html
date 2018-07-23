@@ -58,8 +58,8 @@ var insertBeforeItem = itemContainers.item(positionNum-1).previousElementSibling
 insertBeforeItem.parentNode.insertBefore(paidpostStoryElem,insertBeforeItem);
 
 
-var paidpostTopElem = document.createElement('div');
-paidpostStoryElem.parentNode.insertBefore(paidpostTopElem, paidpostStoryElem);
+var paidpostStoryTopLineContainer = document.createElement('div');
+paidpostStoryElem.parentNode.insertBefore(paidpostStoryTopLineContainer,paidpostStoryElem);
 
 var listItemCount = oldListItemCount + 1;
 var itemsArray = listContainer.querySelectorAll('.item-container');
