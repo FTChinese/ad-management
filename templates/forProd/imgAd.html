@@ -36,4 +36,10 @@ function sendImpToThirdParty(t,e,n){if("string"==typeof t){"object"!=typeof wind
 
 document.write('<div style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;padding:0px;margin:0px;overflow:hidden;"><a href="' + Click + '" target="_blank"><img src="' + ImgSrc + '" style="width:' + ImgWidth + 'px;height:' + ImgHeight + 'px;border:none;" /></a></div>');
 
+if(window.parent && /^google_ads/.test(window.name)) {
+  var googleAdsIframe = window.parent.document.getElementById(window.name);
+  googleAdsIframe.width = ImgWidth;
+  googleAdsIframe.height = ImgHeight;
+}
+
 </script>
